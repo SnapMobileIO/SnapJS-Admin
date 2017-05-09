@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SelectModule } from 'ng2-select';
 // import { TagInputModule } from 'ng2-tag-input';
-// // import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { ControlErrorsModule } from './shared/control-errors/control-errors.module';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
@@ -58,8 +58,8 @@ import { ConstantsService } from './constants.service';
     FormcontrolTinymceComponent,
     FormControlFileUploadComponent,
     ProgressBarComponent,
-    // FileSelectDirective,
-    // FileDropDirective,
+    FileSelectDirective,
+    FileDropDirective,
     AdminLayoutComponent,
   ],
   providers: [
