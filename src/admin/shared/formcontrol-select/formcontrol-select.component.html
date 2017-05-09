@@ -1,0 +1,14 @@
+<div class="form-group">
+  <label class="col-sm-2 control-label">{{field}}</label>
+  <div class="col-sm-10">
+    <ng-select  [multiple]="multiple"
+                [items]="items"
+                [disabled]="false"
+                [active]="active"
+                (data)="refreshValue($event)"
+                (selected)="selected($event)"
+                (removed)="removed($event)"
+                placeholder="Nothing selected"
+                class="form-control"></ng-select>
+  </div>
+</div>

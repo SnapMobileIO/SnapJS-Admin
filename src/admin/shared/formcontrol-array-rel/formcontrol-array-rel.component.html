@@ -1,0 +1,24 @@
+<div [formGroup]="form">
+
+  <div [formArrayName]="field">
+    <div *ngFor="let item of form.controls[field].controls; let i = index; ">
+      <div>
+        <span>Item {{i + 1}}</span>
+        <span *ngIf="form.controls[field].controls.length > 1" (click)="removeItem(i)">Remove</span>
+      </div>
+      <div *ngFor="let key of schemaKeys" [formGroupName]="i" class="form-group">
+        <label class="col-sm-2 control-label">{{key}}</label>
+        <div class="col-sm-10">
+          <input type="text" [formControlName]="key" class="form-control">
+          <div [hidden]="form.controls[field].controls[i].controls[key].valid" class="text-danger">This is required</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-offset-2 col-sm-10">
+    <a (click)="addItem()">
+      Add another item +
+    </a>
+  </div>
+</div>

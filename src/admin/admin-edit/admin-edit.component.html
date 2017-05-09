@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div *ngIf="!object">
+    <i class="fa fa-spinner fa-spin"></i> Loading...
+  </div>
+
+  <div *ngIf="object">
+    <div class="page-header">
+      <h1>Edit: {{object.name}}</h1>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel">
+          <div class="panel-body">
+            <app-admin-form [object]="object" [schema]="adminService.schema" [submitFunction]="submitFunction"></app-admin-form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

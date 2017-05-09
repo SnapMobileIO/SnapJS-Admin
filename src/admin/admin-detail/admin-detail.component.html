@@ -1,0 +1,5 @@
+<div *ngIf="object">
+  <pre>{{object | json}}</pre>
+  <a [routerLink]="['/admin', adminService.className, object._id, 'edit']">Edit</a>
+  <button (click)="deleteItem(object)">Delete</button>
+</div>

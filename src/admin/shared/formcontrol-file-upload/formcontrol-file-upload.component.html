@@ -1,0 +1,56 @@
+<div [formGroup]="form">
+
+  <!-- Images -->
+  <div *ngIf="!isMultiple">
+    <label>{{field}}:</label>
+
+    <div *ngIf="form.value[field]">
+      <div *ngIf="form.value[field].url">
+        <img *ngIf="isImage(form.value[field].type)" src="{{constants.AWS_S3_BASE_URL}}/{{form.value[field].url}}" style="max-width: 200px; max-height: 200px;">
+        <a *ngIf="!isImage(form.value[field].type)" href="{{constants.AWS_S3_BASE_URL}}/{{form.value[field].url}}" target="_blank">{{form.value[field].name}}</a>
+      </div>
+    </div>
+    <span *ngIf="form.value[field].name" (click)="form.value[field] = {}">Remove</span>
+  </div>
+
+  <!-- Multiple images -->
+  <div *ngIf="isMultiple">
+    <div [formArrayName]="field">
+      <label for="name">{{field}}:</label>
+      <div *ngIf="form.controls[field]">
+        <div *ngFor="let item of form.controls[field].controls; let i = index; ">
+          <div *ngIf="item.controls.url">
+            <img *ngIf="isImage(item.controls.type.value)" src="{{constants.AWS_S3_BASE_URL}}/{{item.controls.url.value}}" style="max-width: 200px; max-height: 200px;">
+            <a *ngIf="!isImage(item.controls.type.value)" href="{{constants.AWS_S3_BASE_URL}}/{{item.controls.url.value}}" target="_blank">{{item.controls.name.value}}</a>
+          </div>
+          <span (click)="removeItem(i, field)">Remove</span>
+          <div [formGroupName]="i"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload form -->
+	<!-- <input type="file" ng2FileSelect [uploader]="uploader" multiple="isMultiple" /> -->
+  <p *ngIf="errorMessage">{{errorMessage}}</p>
+
+  <!-- Display uploaded image and progress -->
+  <div *ngFor="let item of uploader.queue">
+    <div *ngIf="!item.isSuccess">
+      <p>{{item.file.name}}</p>
+
+      <progress-bar [progress]=item.progress></progress-bar>
+      Progress: {{item.progress}}
+
+      <p *ngIf="item.isUploading">Uploading</p>
+      <p *ngIf="item.isSuccess">Uploaded</p>
+      <p *ngIf="item.isError">Error</p>
+    </div>
+  </div>
+
+  <!-- Upload button -->
+  <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+    <span class="glyphicon glyphicon-upload"></span> Upload
+  </button>
+
+</div>

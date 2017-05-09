@@ -1,0 +1,15 @@
+<div class="form-group">
+  <label>{{field}}</label>
+  <div [formGroup]="form">
+    <div [formGroupName]="field">
+      <div *ngFor="let key of schemaKeys">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{key}}</label>
+          <div class="col-sm-10">
+            <input type="text" [formControlName]="key" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
