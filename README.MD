@@ -67,6 +67,8 @@ To lint all `*.ts` files:
 $ npm run lint
 ```
 
+Built using [generator-angular2-library](https://github.com/jvandemo/generator-angular2-library) Yeoman generator.
+
 ## License
 
 MIT © [Brandon Passley](mailto:brandon@snapmobile.io)
