@@ -2,7 +2,7 @@
 
 ## Installation
 
-To install this library, run:
+To install this library, make sure you have access, then run:
 
 ```bash
 $ npm install @snapmobile/snapjs-admin --save
@@ -63,6 +63,13 @@ To lint all `*.ts` files:
 ```bash
 $ npm run lint
 ```
+
+To push to NPM as a private repo (you'll need to get access to publish):
+
+```bash
+$ npm publish dist
+```
+
 
 Built using [generator-angular2-library](https://github.com/jvandemo/generator-angular2-library) Yeoman generator.
 
