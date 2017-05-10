@@ -5,7 +5,7 @@
 To install this library, run:
 
 ```bash
-$ npm install snapjs-admin --save
+$ npm install @snapmobile/snapjs-admin --save
 ```
 
 ## Consuming your library
@@ -13,7 +13,7 @@ $ npm install snapjs-admin --save
 Once you have published your library to npm, you can import your library in any Angular application by running:
 
 ```bash
-$ npm install snapjs-admin
+$ npm install @snapmobile/snapjs-admin
 ```
 
 and then from your Angular `AppModule`:
@@ -21,11 +21,12 @@ and then from your Angular `AppModule`:
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ConstantsService } from './providers/constants.service';
 
 import { AppComponent } from './app.component';
 
 // Import your library
-import { SampleModule } from 'snapjs-admin';
+import { SampleModule } from '@snapmobile/snapjs-admin';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { SampleModule } from 'snapjs-admin';
     BrowserModule,
 
     // Specify your library as an import
-    LibraryModule
+    SnapJSAdminModule.forRoot(ConstantsService),
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -43,15 +44,11 @@ import { SampleModule } from 'snapjs-admin';
 export class AppModule { }
 ```
 
-Once your library is imported, you can use its components, directives and pipes in your Angular application:
+## Config Service
 
-```xml
-<!-- You can now use your library component in app.component.html -->
-<h1>
-  {{title}}
-</h1>
-<sampleComponent></sampleComponent>
-```
+You need to add the admin constants to your `ConstantsService`. Technically this is optional, but it won't get you far. Reference the required properties in the [`ConstantsService` included in the module](https://github.com/SnapMobileIO/SnapJS-Admin/blob/master/src/admin/constants.service.ts).
+
+If you don't already have a ConstantsService in your app, you can copy the one from the admin module. 
 
 ## Development
 
