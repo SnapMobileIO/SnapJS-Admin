@@ -2,16 +2,23 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConstantsService {
-  ROOT_URL: string = '';
-  API_BASE_URL: string = 'http://localhost:3000/api';
-  AWS_S3_BASE_URL: string = 'https://test-aws-lamda-bucket.s3.amazonaws.com';
-  ONESIGNAL_APP_ID: string  = '';
-  GOOGLE_PROJECT_NUMBER: string = '';
-  GOOGLE_ANALYTICS_TRACKING_ID: string = '';
-  FILE_UPLOAD_DEFAULT_ALLOWED_MIME_TYPES: string[] = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'text/plain', 'text/csv',
-                                                      'audio/mpeg', 'video/mp4'];
+
+  /**
+   * Required constants
+   * If you are overwritting these using your own ConstantsService
+   * You must make sure to include all of them because they are all used in some way.
+   */
+  API_BASE_URL = 'http://localhost:3000/api';
+  AWS_S3_BASE_URL = '';
+  FILE_UPLOAD_DEFAULT_ALLOWED_MIME_TYPES: string[] = [
+    'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'text/plain', 'text/csv', 'audio/mpeg', 'video/mp4',
+  ];
   FILE_UPLOAD_DEFAULT_MAX_FILE_SIZE: number = 10000000;
   IMAGE_MIME_TYPES: string[] = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+
+  /**
+   * Example sidebar items
+   */
   SIDEBAR_ITEMS: object[] = [
     {
       title: 'Users',
@@ -24,6 +31,10 @@ export class ConstantsService {
       class: 'Company',
     },
   ];
+
+  /**
+   * Example Schema Overwrites
+   */
   DEFAULT_SCHEMA_OVERWRITES: object = {
     Company: {
       roles: {
@@ -51,7 +62,6 @@ export class ConstantsService {
       },
       avatar: {
         instance: 'Image',
-        // allowedMimeType: ['image/jpeg', 'image/jpg', 'image/png'],
       },
       images: {
         instance: 'ImageArray',
@@ -78,11 +88,4 @@ export class ConstantsService {
     },
   };
 
-  constructor() {
-    /**
-     * Only overwrite dynamic constants here
-     * All other constants should use default values above
-     */
-    this.ROOT_URL = window.location.origin;
-  }
 }

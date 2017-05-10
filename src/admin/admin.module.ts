@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -67,4 +67,17 @@ import { ConstantsService } from './constants.service';
     ConstantsService,
   ],
 })
-export class SnapJSAdminModule { }
+export class SnapJSAdminModule {
+  /**
+   * You can use your own ConstantsService for the admin portal
+   * You should at a minimum, make sure to include all of the properties
+   * in /constants.service.ts
+   * @param  {any}                 constantsService The class to overwrite ConstantsService
+   */
+   static forRoot(constantsService: any): ModuleWithProviders {
+    return {
+      ngModule: SnapJSAdminModule,
+      providers: [{provide: ConstantsService, useClass: constantsService }]
+    };
+  }
+}
