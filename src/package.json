@@ -1,6 +1,6 @@
 {
-  "name": "snapjs-admin",
-  "version": "0.1.0",
+  "name": "@snapmobile/snapjs-admin",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/SnapMobileIO/SnapJS-Admin"

@@ -1,6 +1,6 @@
 {
-  "name": "snapjs-admin",
-  "version": "0.1.0",
+  "name": "@snapmobile/snapjs-admin",
+  "version": "0.1.1",
   "scripts": {
     "build": "gulp build",
     "build:watch": "gulp",
@@ -13,12 +13,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/SnapMobileIO/SnapJS-Admin"
+    "url": "git+https://github.com/SnapMobileIO/SnapJS-Admin.git"
   },
-  "author": {
-    "name": "Brandon Passley",
-    "email": "brandon@snapmobile.io"
-  },
+  "author": "Brandon Passley <brandon@snapmobile.io>",
   "keywords": [
     "angular"
   ],
@@ -72,5 +69,8 @@
     "ng2-select": "^1.2.0",
     "ng2-tag-input": "^1.2.6",
     "ng2-toastr": "^4.0.1"
-  }
+  },
+  "description": "## Installation",
+  "homepage": "https://github.com/SnapMobileIO/SnapJS-Admin#readme",
+  "main": "dist/index.js"
 }
