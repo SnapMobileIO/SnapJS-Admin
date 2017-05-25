@@ -10,4 +10,18 @@ export class FormcontrolInputComponent {
   @Input() form: FormGroup;
   @Input() field: string;
   @Input() inputType: string = 'input';
+
+  /**
+   * Update the form value for a boolean instance
+   * @param {any} formControlValue the form control value - should be a boolean or blank string
+   */
+  updateFormValue(formControlValue: any) {
+  	if (this.inputType === 'checkbox') {
+			formControlValue = !formControlValue
+
+			this.form.patchValue({
+			  [this.field]: formControlValue,
+			});
+  	}
+	}
 }
