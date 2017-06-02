@@ -55,6 +55,22 @@ export class AdminListComponent implements OnInit {
     }
   }
 
+  deleteMultiple(objectIds: string[]) {
+    if (window.confirm('Are you sure?')) {
+      this.adminService.deleteMultiple(objectIds)
+        .then((response) => {
+          this.selectedItems = [];
+          this.findAll();
+          this.toastr.success('Successfully deleted');
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      this.toggleAllSelection();
+    }
+  }
+
   toggleAllSelection() {
     this.selectAll = !this.selectAll;
     this.selectedItems = this.objects.map((object) => {
