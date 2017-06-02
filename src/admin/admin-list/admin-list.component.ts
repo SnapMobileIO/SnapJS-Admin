@@ -67,10 +67,24 @@ export class AdminListComponent implements OnInit {
           console.error(err);
         });
     } else {
-      this.toggleAllSelection();
+      this.clearSelections();
     }
   }
 
+  /**
+   * Clear out all selected items
+   */
+  clearSelections() {
+    this.selectAll = false;
+    this.selectedItems = [];
+    this.objects.forEach((object) => {
+      object.Selected = false;
+    });
+  }
+
+  /**
+   * Toggle the selectAll property and mark each object as selected/deselected
+   */
   toggleAllSelection() {
     this.selectAll = !this.selectAll;
     this.selectedItems = this.objects.map((object) => {
@@ -80,4 +94,14 @@ export class AdminListComponent implements OnInit {
 
     if (!this.selectAll) { this.selectedItems = []; };
   }
+
+  /**
+   * Toggle an individual items selected property
+   * @param {string} objectId The selected item's id
+   */
+  toggleSelection(objectId: string) {
+    let index = this.selectedItems.indexOf(objectId);
+    index >= 0 ? this.selectedItems.splice(index, 1) : this.selectedItems.push(objectId);
+    this.selectAll = this.selectedItems.length === this.objects.length;
+  };
 }

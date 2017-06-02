@@ -30,7 +30,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let object of objects">
-                <td><input type="checkbox" [(ngModel)]="object.Selected"></td>
+                <td><input type="checkbox" [(ngModel)]="object.Selected" (click)="toggleSelection(object._id)"></td>
 
                 <td *ngFor="let schemaKey of adminService.schemaKeys">
                   {{object[schemaKey]}}
