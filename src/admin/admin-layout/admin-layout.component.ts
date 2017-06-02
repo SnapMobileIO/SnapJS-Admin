@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ConstantsService } from '../constants.service';
 
 @Component({
@@ -13,4 +13,14 @@ export class AdminLayoutComponent {
     public constants: ConstantsService,
   ) { }
 
+  /**
+   * Checks if the user is logged in
+   */
+  isLoggedIn() {
+    if (localStorage.getItem('token')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
