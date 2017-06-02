@@ -39,7 +39,7 @@
                   <a [routerLink]="['/admin', adminService.className, object._id]" class="btn btn-default btn-sm">View</a>
                 </td>
                 <td>
-                  <button class="btn btn-default btn-sm">Delete</button>
+                  <button (click)="deleteItem(object)" class="btn btn-default btn-sm">Delete</button>
                 </td>
                 <td>
                   <a [routerLink]="['/admin', adminService.className, object._id, 'edit']" class="btn btn-default btn-sm">Edit</a>
