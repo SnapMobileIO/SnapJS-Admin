@@ -10,6 +10,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class AdminListComponent implements OnInit {
   objects: any;
+  selectAll: boolean;
+  selectedItems: any[] = [];
 
   constructor(
     private router: Router,
@@ -32,6 +34,8 @@ export class AdminListComponent implements OnInit {
   }
 
   findAll(): void {
+    this.selectAll = false;
+    this.selectedItems = [];
     this.adminService.query()
       .then((response) => {
         this.objects = response.items;
@@ -49,5 +53,15 @@ export class AdminListComponent implements OnInit {
           console.error(err);
         });
     }
+  }
+
+  toggleAllSelection() {
+    this.selectAll = !this.selectAll;
+    this.selectedItems = this.objects.map((object) => {
+      object.Selected = this.selectAll;
+      return object._id;
+    });
+
+    if (!this.selectAll) { this.selectedItems = []; };
   }
 }

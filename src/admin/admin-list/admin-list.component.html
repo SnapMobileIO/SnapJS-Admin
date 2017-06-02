@@ -14,7 +14,7 @@
             <thead>
               <tr>
                 <th class="wordwrap-none">
-                  <input type="checkbox">
+                  <input [(ngModel)]="selectAll" (click)="toggleAllSelection()" type="checkbox">
                 </th>
                 <th *ngFor="let key of adminService.schemaKeys" class="wordwrap-none text-muted">
                   <a *ngIf="adminService.schema[key]" href="#">
@@ -29,7 +29,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let object of objects">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" [(ngModel)]="object.Selected"></td>
 
                 <td *ngFor="let schemaKey of adminService.schemaKeys">
                   {{object[schemaKey]}}
