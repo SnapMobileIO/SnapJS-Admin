@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { AdminService } from '../admin.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-admin-list',
@@ -14,7 +15,11 @@ export class AdminListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public adminService: AdminService,
-  ) { }
+    private toastr: ToastsManager,
+    private vRef: ViewContainerRef,
+  ) {
+    this.toastr.setRootViewContainerRef(vRef);
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -31,5 +36,18 @@ export class AdminListComponent implements OnInit {
       .then((response) => {
         this.objects = response.items;
       });
+  }
+
+  deleteItem(object: any) {
+    if (window.confirm('Are you sure you want to delete')) {
+      this.adminService.delete(object)
+        .then(() => {
+          this.findAll();
+          this.toastr.success('Successfully deleted.', 'Success!');
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }
 }
