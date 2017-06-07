@@ -16,12 +16,12 @@ export class FormcontrolInputComponent {
    * @param {any} formControlValue the form control value - should be a boolean or blank string
    */
   updateFormValue(formControlValue: any) {
-  	if (this.inputType === 'checkbox') {
-			formControlValue = !formControlValue
+    if (this.inputType === 'checkbox') {
+      formControlValue = !formControlValue
 
-			this.form.patchValue({
-			  [this.field]: formControlValue,
-			});
-  	}
-	}
+      this.form.patchValue({
+        [this.field]: formControlValue,
+      });
+    }
+  }
 }
