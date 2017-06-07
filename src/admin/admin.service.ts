@@ -88,6 +88,16 @@ export class AdminService {
       });
   }
 
+  deleteMultiple(objectIds: string[]) {
+    const queryUrl = `${this.constants.API_BASE_URL}/admin/${this.className}/deleteMultiple`;
+
+    return this.http.post(queryUrl, { ids: objectIds })
+      .toPromise()
+      .then((response) => {
+        return response.json();
+      });
+  }
+
   search(className: string, search: string, field: string = 'name', params: any = { limit: 10 }): Promise<any> {
     let queryUrl = `${this.constants.API_BASE_URL}/admin/${className}`;
 
@@ -106,4 +116,5 @@ export class AdminService {
       .toPromise()
       .then((response) => response.json());
   }
+
 }

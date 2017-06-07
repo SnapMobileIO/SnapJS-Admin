@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { AdminService } from '../admin.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-admin-list',
@@ -9,12 +10,18 @@ import { AdminService } from '../admin.service';
 })
 export class AdminListComponent implements OnInit {
   objects: any;
+  selectAll: boolean;
+  selectedItems: any[] = [];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     public adminService: AdminService,
-  ) { }
+    private toastr: ToastsManager,
+    private vRef: ViewContainerRef,
+  ) {
+    this.toastr.setRootViewContainerRef(vRef);
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -27,9 +34,74 @@ export class AdminListComponent implements OnInit {
   }
 
   findAll(): void {
+    this.selectAll = false;
+    this.selectedItems = [];
     this.adminService.query()
       .then((response) => {
         this.objects = response.items;
       });
   }
+
+  deleteItem(object: any) {
+    if (window.confirm('Are you sure you want to delete')) {
+      this.adminService.delete(object)
+        .then(() => {
+          this.findAll();
+          this.toastr.success('Successfully deleted.', 'Success!');
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }
+
+  deleteMultiple(objectIds: string[]) {
+    if (window.confirm('Are you sure?')) {
+      this.adminService.deleteMultiple(objectIds)
+        .then((response) => {
+          this.selectedItems = [];
+          this.findAll();
+          this.toastr.success('Successfully deleted');
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      this.clearSelections();
+    }
+  }
+
+  /**
+   * Clear out all selected items
+   */
+  clearSelections() {
+    this.selectAll = false;
+    this.selectedItems = [];
+    this.objects.forEach((object) => {
+      object.Selected = false;
+    });
+  }
+
+  /**
+   * Toggle the selectAll property and mark each object as selected/deselected
+   */
+  toggleAllSelection() {
+    this.selectAll = !this.selectAll;
+    this.selectedItems = this.objects.map((object) => {
+      object.Selected = this.selectAll;
+      return object._id;
+    });
+
+    if (!this.selectAll) { this.selectedItems = []; };
+  }
+
+  /**
+   * Toggle an individual items selected property
+   * @param {string} objectId The selected item's id
+   */
+  toggleSelection(objectId: string) {
+    let index = this.selectedItems.indexOf(objectId);
+    index >= 0 ? this.selectedItems.splice(index, 1) : this.selectedItems.push(objectId);
+    this.selectAll = this.selectedItems.length === this.objects.length;
+  };
 }

@@ -10,11 +10,12 @@
     <div class="col-lg-12">
       <div class="panel">
         <div class="panel-body table-responsive">
+          <button *ngIf="selectedItems.length" class="btn btn-danger" (click)="deleteMultiple(selectedItems)">Delete ({{selectedItems.length}}) Items</button>
           <table class="table table-hover">
             <thead>
               <tr>
                 <th class="wordwrap-none">
-                  <input type="checkbox">
+                  <input [(ngModel)]="selectAll" (click)="toggleAllSelection()" type="checkbox">
                 </th>
                 <th *ngFor="let key of adminService.schemaKeys" class="wordwrap-none text-muted">
                   <a *ngIf="adminService.schema[key]" href="#">
@@ -29,7 +30,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let object of objects">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" [(ngModel)]="object.Selected" (click)="toggleSelection(object._id)"></td>
 
                 <td *ngFor="let schemaKey of adminService.schemaKeys">
                   {{object[schemaKey]}}
@@ -39,7 +40,7 @@
                   <a [routerLink]="['/admin', adminService.className, object._id]" class="btn btn-default btn-sm">View</a>
                 </td>
                 <td>
-                  <button class="btn btn-default btn-sm">Delete</button>
+                  <button (click)="deleteItem(object)" class="btn btn-default btn-sm">Delete</button>
                 </td>
                 <td>
                   <a [routerLink]="['/admin', adminService.className, object._id, 'edit']" class="btn btn-default btn-sm">Edit</a>
