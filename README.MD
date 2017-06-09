@@ -64,7 +64,8 @@ To lint all `*.ts` files:
 $ npm run lint
 ```
 
-To push to NPM as a private repo (you'll need to get access to publish):
+To push to NPM as a private repo (you'll need to get access to publish)
+update the package.json version number in both the root and dist folder. Then run:
 
 ```bash
 $ npm publish dist
