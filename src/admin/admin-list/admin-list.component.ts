@@ -10,6 +10,9 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class AdminListComponent implements OnInit {
   objects: any;
+  totalObjects: Number;
+  itemsPerPage = 2;
+  currentPage = 1;
   selectAll: boolean;
   selectedItems: any[] = [];
 
@@ -38,8 +41,13 @@ export class AdminListComponent implements OnInit {
     this.selectedItems = [];
     this.adminService.query()
       .then((response) => {
+        this.totalObjects = response.itemCount;
         this.objects = response.items;
       });
+  }
+
+  pageChanged() {
+    console.log('******************* page changed')
   }
 
   deleteItem(object: any) {
@@ -104,4 +112,5 @@ export class AdminListComponent implements OnInit {
     index >= 0 ? this.selectedItems.splice(index, 1) : this.selectedItems.push(objectId);
     this.selectAll = this.selectedItems.length === this.objects.length;
   };
+
 }
