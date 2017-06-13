@@ -7,7 +7,7 @@ import { ConstantsService } from '../constants.service';
   styleUrls: ['./admin-layout.component.scss'],
 })
 export class AdminLayoutComponent {
-  isCollapsed: boolean = false;
+  isCollapsed = false;
 
   constructor(
     public constants: ConstantsService,
