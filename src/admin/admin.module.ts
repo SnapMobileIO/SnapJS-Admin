@@ -9,6 +9,7 @@ import { SelectModule } from 'ng2-select';
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { ControlErrorsModule } from './shared/control-errors/control-errors.module';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import { AdminListComponent } from './admin-list/admin-list.component';
@@ -42,6 +43,7 @@ import { ConstantsService } from './constants.service';
     AdminRoutingModule,
     ControlErrorsModule,
     ToastModule.forRoot(),
+    NgbModule.forRoot(),
   ],
   declarations: [
     AdminListComponent,
