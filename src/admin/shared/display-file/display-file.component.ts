@@ -8,7 +8,7 @@ import { ConstantsService } from '../../constants.service';
 })
 export class DisplayFileComponent {
   @Input() field: string;
-  @Input() url: string;
+  @Input() files: any[];
 
   constructor(
     private constants: ConstantsService,

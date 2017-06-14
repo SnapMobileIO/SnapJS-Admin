@@ -12,7 +12,15 @@
 				      <div *ngSwitchCase="'Image'">
 				        <app-display-file
 				          [field]="key"
-				          [url]="object[key].styles.thumb_square || object[key].url">
+				          [files]="[object[key]]">
+				        </app-display-file>
+				      </div>
+
+				      <!-- Multiple Images -->
+				      <div *ngSwitchCase="'ImageArray'">
+				        <app-display-file
+				          [field]="key"
+				          [files]="object[key]">
 				        </app-display-file>
 				      </div>
 
