@@ -7,11 +7,20 @@
 
         	<ul class="list-group">
         		<li class="list-group-item" *ngFor="let key of adminService.schemaKeys" [ngSwitch]="adminService.schema[key].instance">
-					    
+
+        			<!-- Image -->
+				      <div *ngSwitchCase="'Image'">
+				        <app-display-file
+				          [field]="key"
+				          [url]="object[key].styles.thumb_square || object[key].url">
+				        </app-display-file>
+				      </div>
+
 					    <!-- Default type -->
 				      <div *ngSwitchDefault>
-				        <app-display-text [field]="key" [value]="object[key]"></app-display-text>
+				        <app-display-text *ngIf="adminService.schema[key].instance !== 'hidden'" [field]="key" [value]="object[key]"></app-display-text>
 				      </div>
+
         		</li>
         		
         	</ul>
