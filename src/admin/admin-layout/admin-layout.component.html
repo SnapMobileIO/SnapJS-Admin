@@ -28,12 +28,10 @@
 
             <!-- Single button -->
             <li class="dropdown" uib-dropdown>
-              <a id="single-button" type="button" class="dropdown-toggle" uib-dropdown-toggle>
-                <span>Not Logged In <span class="caret"></span></span>
+              <a id="single-button" type="button">
+                <span *ngIf="!isLoggedIn()" [routerLink]="['/auth/login']">Login</span>
+                <span *ngIf="isLoggedIn()" [routerLink]="['/auth/logout']">Logout</span>
               </a>
-              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem"><a ui-sref="logout">Logout</a></li>
-              </ul>
             </li>
 
           </ul>

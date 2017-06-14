@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http } from '@angular/http';
 import { URLSearchParams } from '@angular/http';
 import * as _ from 'lodash';
 import 'rxjs/add/operator/toPromise';
@@ -32,7 +32,7 @@ export class AdminService {
   }
 
   query(params: {} = {}): Promise<any> {
-    let queryUrl = `${this.constants.API_BASE_URL}/admin/${this.className}`;
+    let queryUrl = `${this.constants.API_BASE_URL}/admin/${this.className}?`;
 
     const serializedParams = new URLSearchParams();
     for (const key in params) {

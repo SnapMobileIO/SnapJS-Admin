@@ -10,6 +10,10 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class AdminListComponent implements OnInit {
   objects: any;
+  totalObjects: Number;
+  params: any = { skip: 0, sort: '-createdAt' };
+  itemsPerPage = 20;
+  currentPage = 1;
   selectAll: boolean;
   selectedItems: any[] = [];
 
@@ -33,13 +37,26 @@ export class AdminListComponent implements OnInit {
     });
   }
 
-  findAll(): void {
+  findAll(params?: any): void {
     this.selectAll = false;
     this.selectedItems = [];
-    this.adminService.query()
+    this.params = params || { limit: this.itemsPerPage, skip: this.params.skip, sort: this.params.sort };
+
+    this.adminService.query(this.params)
       .then((response) => {
+        this.totalObjects = response.itemCount;
         this.objects = response.items;
       });
+  }
+
+  /**
+   * Handles pagination of items
+   */
+  pageChanged() {
+    this.params.skip = this.itemsPerPage * (this.currentPage - 1);
+    this.findAll(this.params);
+    this.selectAll = false;
+    this.selectedItems = [];
   }
 
   deleteItem(object: any) {
@@ -104,4 +121,5 @@ export class AdminListComponent implements OnInit {
     index >= 0 ? this.selectedItems.splice(index, 1) : this.selectedItems.push(objectId);
     this.selectAll = this.selectedItems.length === this.objects.length;
   };
+
 }
