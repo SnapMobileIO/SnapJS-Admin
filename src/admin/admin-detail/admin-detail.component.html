@@ -20,9 +20,31 @@
 				      <div *ngSwitchCase="'ImageArray'">
 				        <app-display-file
 				          [field]="key"
+				          [isImage]="true"
 				          [files]="object[key]">
 				        </app-display-file>
 				      </div>
+
+				      <!-- File -->
+				      <div *ngSwitchCase="'Mixed'">
+					      <app-display-file
+					      	*ngIf="object[key].url"
+				          [field]="key"
+					      	[isImage]="false"
+				          [files]="[object[key]]">
+				        </app-display-file>
+				      </div>
+
+				      <!-- Multiple Files -->
+				      <div *ngSwitchCase="'Array'">
+					      <app-display-file
+					      	*ngIf="object[key].length && object[key][0].url"
+				          [field]="key"
+					      	[isImage]="false"
+				          [files]="object[key]">
+				        </app-display-file>
+				      </div>
+
 
 					    <!-- Default type -->
 				      <div *ngSwitchDefault>

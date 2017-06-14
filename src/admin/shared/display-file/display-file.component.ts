@@ -9,6 +9,7 @@ import { ConstantsService } from '../../constants.service';
 export class DisplayFileComponent {
   @Input() field: string;
   @Input() files: any[];
+  @Input() isImage: boolean;
 
   constructor(
     private constants: ConstantsService,
