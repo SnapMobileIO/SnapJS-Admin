@@ -7,11 +7,14 @@
 
         	<ul class="list-group">
         		<li class="list-group-item" *ngFor="let key of adminService.schemaKeys" [ngSwitch]="adminService.schema[key].instance">
+        			<p>Key: {{key}}</p>
+        			<p>Instance: {{adminService.schema[key].instance}}</p>
 
         			<!-- Image -->
 				      <div *ngSwitchCase="'Image'">
 				        <app-display-file
 				          [field]="key"
+				          [isImage]="true"
 				          [files]="[object[key]]">
 				        </app-display-file>
 				      </div>
@@ -38,17 +41,48 @@
 				      <!-- Multiple Files -->
 				      <div *ngSwitchCase="'Array'">
 					      <app-display-file
-					      	*ngIf="object[key].length && object[key][0].url"
+					      	*ngIf="(adminService.schema[key].caster.options && !adminService.schema[key].caster.options.type) &&
+					      		(object[key] && object[key][0].url)"
 				          [field]="key"
 					      	[isImage]="false"
 				          [files]="object[key]">
 				        </app-display-file>
 				      </div>
 
+				      <!-- Select array of strings -->
+				      <div *ngSwitchCase="'Array'">
+				        <app-display-array
+				          *ngIf="adminService.schema[key].caster.options && !adminService.schema[key].caster.options.ref &&
+				          	(object[key] && !object[key][0].url)"
+				          [field]="key"
+				          [value]="object[key]"> 
+				        </app-display-array>
+				      </div>
+
+				      <!-- Single select string -->
+				      <div *ngSwitchCase="'SingleSelect'">
+				        <app-display-text
+				        	*ngIf="adminService.schema[key].instance !== 'hidden'"
+				        	[field]="key"
+				        	[value]="object[key]">
+				        </app-display-text>
+				      </div>
+
+				      <!-- Multi select of strings -->
+				      <div *ngSwitchCase="'MultiSelect'">
+				        <app-display-array
+				          [field]="key"
+				          [value]="object[key]"> 
+				        </app-display-array>
+				      </div>
 
 					    <!-- Default type -->
 				      <div *ngSwitchDefault>
-				        <app-display-text *ngIf="adminService.schema[key].instance !== 'hidden'" [field]="key" [value]="object[key]"></app-display-text>
+				        <app-display-text
+				        	*ngIf="adminService.schema[key].instance !== 'hidden'"
+				        	[field]="key"
+				        	[value]="object[key]">
+				        </app-display-text>
 				      </div>
 
         		</li>

@@ -18,6 +18,7 @@ import { AdminEditComponent } from './admin-edit/admin-edit.component';
 import { AdminFormComponent } from './admin-form/admin-form.component';
 import { AdminNewComponent } from './admin-new/admin-new.component';
 import { DisplayTextComponent } from './shared/display-text/display-text.component';
+import { DisplayArrayComponent } from './shared/display-array/display-array.component';
 import { DisplayFileComponent } from './shared/display-file/display-file.component';
 import { FormcontrolInputComponent } from './shared/formcontrol-input/formcontrol-input.component';
 import { FormcontrolSelectRelComponent } from './shared/formcontrol-select-rel/formcontrol-select-rel.component';
@@ -54,6 +55,7 @@ import { ConstantsService } from './constants.service';
     AdminFormComponent,
     AdminNewComponent,
     DisplayTextComponent,
+    DisplayArrayComponent,
     DisplayFileComponent,
     FormcontrolInputComponent,
     FormcontrolSelectRelComponent,
