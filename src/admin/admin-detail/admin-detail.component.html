@@ -18,6 +18,7 @@
 								      <strong class="text-wordwrap">{{key}}:</strong>
 								    </div>
 									  <app-display-file
+									  	*ngIf="object[key]"
 						          [isImage]="true"
 						          [files]="[object[key]]">
 						        </app-display-file>
@@ -77,7 +78,7 @@
 				      <div *ngSwitchCase="'Array'">
 				        <app-display-array
 				          *ngIf="adminService.schema[key].caster.options && !adminService.schema[key].caster.options.ref &&
-				          	!adminService.isFileType(object, key)"
+				          	!adminService.isFileType(object, key) && object[key]"
 				          [field]="key"
 				          [value]="object[key]"> 
 				        </app-display-array>
@@ -95,6 +96,7 @@
 				      <!-- Multi select of strings -->
 				      <div *ngSwitchCase="'MultiSelect'">
 				        <app-display-array
+				        	*ngIf="object[key]"
 				          [field]="key"
 				          [value]="object[key]"> 
 				        </app-display-array>
