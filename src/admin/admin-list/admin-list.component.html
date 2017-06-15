@@ -32,8 +32,37 @@
               <tr *ngFor="let object of objects">
                 <td><input type="checkbox" [(ngModel)]="object.Selected" (click)="toggleSelection(object._id)"></td>
 
-                <td *ngFor="let schemaKey of adminService.schemaKeys">
-                  {{object[schemaKey]}}
+                <td *ngFor="let schemaKey of adminService.schemaKeys" [ngSwitch]="adminService.schema[schemaKey].instance">
+
+                  <!-- Image -->
+                  <div *ngSwitchCase="'Image'">
+                    <span>
+                      <div class="row">
+                       <app-display-file
+                          *ngIf="object[schemaKey] && object[schemaKey].url"
+                          [isImage]="true"
+                          [files]="[object[schemaKey]]">
+                        </app-display-file>
+                      </div>
+                    </span>
+                  </div>
+
+                  <!-- Multiple Images -->
+                  <div *ngSwitchCase="'ImageArray'">
+                    <span>
+                      <div class="row">
+                         <app-display-file
+                          [isImage]="true"
+                          [files]="object[schemaKey]">
+                        </app-display-file>
+                      </div>
+                    </span>
+                  </div>
+
+                  <!-- Default type -->
+                  <div *ngSwitchDefault>
+                    {{object[schemaKey]}}
+                  </div>
                 </td>
 
                 <td>

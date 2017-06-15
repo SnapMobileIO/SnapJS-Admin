@@ -12,27 +12,38 @@
 
         			<!-- Image -->
 				      <div *ngSwitchCase="'Image'">
-				        <app-display-file
-				          [field]="key"
-				          [isImage]="true"
-				          [files]="[object[key]]">
-				        </app-display-file>
+				        <span>
+								  <div class="row">
+								    <div class="col-sm-1">
+								      <strong class="text-wordwrap">{{key}}:</strong>
+								    </div>
+									   <app-display-file
+						          [isImage]="true"
+						          [files]="[object[key]]">
+						        </app-display-file>
+								  </div>
+								</span>
 				      </div>
 
 				      <!-- Multiple Images -->
 				      <div *ngSwitchCase="'ImageArray'">
-				        <app-display-file
-				          [field]="key"
-				          [isImage]="true"
-				          [files]="object[key]">
-				        </app-display-file>
+				      	<span>
+								  <div class="row">
+								    <div class="col-sm-1">
+								      <strong class="text-wordwrap">{{key}}:</strong>
+								    </div>
+									   <app-display-file
+						          [isImage]="true"
+						          [files]="object[key]">
+						        </app-display-file>
+								  </div>
+								</span>
 				      </div>
 
 				      <!-- File -->
 				      <div *ngSwitchCase="'Mixed'">
 					      <app-display-file
 					      	*ngIf="object[key].url"
-				          [field]="key"
 					      	[isImage]="false"
 				          [files]="[object[key]]">
 				        </app-display-file>
@@ -43,7 +54,6 @@
 				        <app-display-file
 					      	*ngIf="(adminService.schema[key].caster.options && !adminService.schema[key].caster.options.type) &&
 					      		adminService.isFileType(object, key)"
-				          [field]="key"
 					      	[isImage]="false"
 				          [files]="object[key]">
 				        </app-display-file>

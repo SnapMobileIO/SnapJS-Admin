@@ -7,7 +7,6 @@ import { ConstantsService } from '../../constants.service';
   styleUrls: ['./display-file.component.scss'],
 })
 export class DisplayFileComponent {
-  @Input() field: string;
   @Input() files: any[];
   @Input() isImage: boolean;
 
