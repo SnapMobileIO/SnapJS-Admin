@@ -40,9 +40,9 @@
 
 				      <!-- Multiple Files -->
 				      <div *ngSwitchCase="'Array'">
-					      <app-display-file
+				        <app-display-file
 					      	*ngIf="(adminService.schema[key].caster.options && !adminService.schema[key].caster.options.type) &&
-					      		(object[key] && object[key][0].url)"
+					      		adminService.isFileType(object, key)"
 				          [field]="key"
 					      	[isImage]="false"
 				          [files]="object[key]">
@@ -53,7 +53,7 @@
 				      <div *ngSwitchCase="'Array'">
 				        <app-display-array
 				          *ngIf="adminService.schema[key].caster.options && !adminService.schema[key].caster.options.ref &&
-				          	(object[key] && !object[key][0].url)"
+				          	!adminService.isFileType(object, key)"
 				          [field]="key"
 				          [value]="object[key]"> 
 				        </app-display-array>

@@ -117,4 +117,17 @@ export class AdminService {
       .then((response) => response.json());
   }
 
+  /**
+   * Check if an object is an array of file objects
+   * @param {any}    object The object being displayed in detail/list view
+   * @param {string} key    The field on the document
+   */
+  isFileType(object: any, key: string) {
+    if (object[key] && object[key].length && object[key][0].url) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
