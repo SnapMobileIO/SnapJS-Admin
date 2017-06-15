@@ -72,6 +72,20 @@
                     </span>
                   </div>
 
+                  <!-- Multiple Files -->
+                  <div *ngSwitchCase="'Array'">
+                    <span>
+                      <div class="row">
+                        <app-display-file
+                          *ngIf="(adminService.schema[schemaKey].caster.options && !adminService.schema[schemaKey].caster.options.type) &&
+                            adminService.isFileType(object, schemaKey)"
+                          [isImage]="false"
+                          [files]="object[schemaKey]">
+                        </app-display-file>
+                      </div>
+                    </span>
+                  </div>
+
                   <!-- Default type -->
                   <div *ngSwitchDefault>
                     {{object[schemaKey]}}

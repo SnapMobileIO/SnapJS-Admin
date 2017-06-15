@@ -58,12 +58,19 @@
 
 				      <!-- Multiple Files -->
 				      <div *ngSwitchCase="'Array'">
-				        <app-display-file
-					      	*ngIf="(adminService.schema[key].caster.options && !adminService.schema[key].caster.options.type) &&
-					      		adminService.isFileType(object, key)"
-					      	[isImage]="false"
-				          [files]="object[key]">
-				        </app-display-file>
+				        <span>
+								  <div class="row">
+								    <div class="col-sm-1">
+								      <strong class="text-wordwrap">{{key}}:</strong>
+								    </div>
+									  <app-display-file
+							      	*ngIf="(adminService.schema[key].caster.options && !adminService.schema[key].caster.options.type) &&
+							      		adminService.isFileType(object, key)"
+							      	[isImage]="false"
+						          [files]="object[key]">
+						        </app-display-file>
+								  </div>
+								</span>
 				      </div>
 
 				      <!-- Select array of strings -->
