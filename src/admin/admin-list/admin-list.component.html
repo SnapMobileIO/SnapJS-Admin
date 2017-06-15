@@ -103,7 +103,6 @@
 
                   <!-- Single relationship -->
                   <div *ngSwitchCase="'ObjectID'">
-                    <pre>{{object | json}}</pre>
                     <app-display-single-rel 
                       *ngIf="adminService.schema[schemaKey].options &&
                               adminService.schema[schemaKey].options.ref &&

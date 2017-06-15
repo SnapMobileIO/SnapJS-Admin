@@ -102,6 +102,28 @@
 				        </app-display-array>
 				      </div>
 
+				      <!-- Single relationship -->
+              <div *ngSwitchCase="'ObjectID'">
+                <app-display-single-rel 
+                  *ngIf="adminService.schema[key].options &&
+                          adminService.schema[key].options.ref &&
+                          key !== '_id'"
+                  [value]="object[key]"
+                  [field]="key"
+                  [searchClass]="adminService.schema[key].options.ref"
+                  [searchField]="adminService.schema[key].searchField"> 
+                </app-display-single-rel>
+              </div>
+
+              <!-- Object Id -->
+              <div *ngSwitchCase="'ObjectID'">
+                <app-display-text
+				        	*ngIf="key === '_id'"
+				        	[field]="key"
+				        	[value]="object[key]">
+				        </app-display-text>
+              </div>
+
 					    <!-- Default type -->
 				      <div *ngSwitchDefault>
 				        <app-display-text

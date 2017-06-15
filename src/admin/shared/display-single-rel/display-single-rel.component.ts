@@ -9,4 +9,5 @@ export class DisplaySingleRelComponent {
   @Input() field: string;
   @Input() searchField: string;
   @Input() searchClass: string;
+  @Input() value: any;
 }
