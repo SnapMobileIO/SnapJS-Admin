@@ -3,12 +3,8 @@
     <div class="col-lg-12">
       <div class="panel">
         <div class="panel-body table-responsive">
-        	<pre>{{object | json}}</pre>
-
         	<ul class="list-group">
         		<li class="list-group-item" *ngFor="let key of adminService.schemaKeys" [ngSwitch]="adminService.schema[key].instance">
-        			<p>Key: {{key}}</p>
-        			<p>Instance: {{adminService.schema[key].instance}}</p>
 
         			<!-- Image -->
 				      <div *ngSwitchCase="'Image'">
@@ -138,6 +134,12 @@
 				        </app-display-text>
               </div>
 
+              <!-- Wysiwyg editor -->
+              <div *ngSwitchCase="'Wysiwyg'">
+                <div [innerHTML]="object[key]">
+                </div>
+              </div>
+
 					    <!-- Default type -->
 				      <div *ngSwitchDefault>
 				        <app-display-text
@@ -148,7 +150,6 @@
 				      </div>
 
         		</li>
-        		
         	</ul>
 	        <a [routerLink]="['/admin', adminService.className, object._id, 'edit']">Edit</a>
 	        <button (click)="deleteItem(object)">Delete</button>
