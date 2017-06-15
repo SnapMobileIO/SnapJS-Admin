@@ -60,11 +60,11 @@
                   </div>
 
                   <!-- File -->
-                  <div *ngSwitchCase="'Mixed'">
+                  <div *ngSwitchCase="'File'">
                     <span>
                       <div class="row">
                         <app-display-file
-                          *ngIf="object[schemaKey] && object[schemaKey].url"
+                          *ngIf="object[schemaKey]"
                           [isImage]="false"
                           [files]="[object[schemaKey]]">
                         </app-display-file>
@@ -73,12 +73,10 @@
                   </div>
 
                   <!-- Multiple Files -->
-                  <div *ngSwitchCase="'Array'">
+                  <div *ngSwitchCase="'FileArray'">
                     <span>
                       <div class="row">
                         <app-display-file
-                          *ngIf="(adminService.schema[schemaKey].caster.options && !adminService.schema[schemaKey].caster.options.type) &&
-                            adminService.isFileType(object, schemaKey)"
                           [isImage]="false"
                           [files]="object[schemaKey]">
                         </app-display-file>
@@ -89,7 +87,7 @@
                   <!-- Select array of strings -->
                   <div *ngSwitchCase="'Array'">
                     <app-display-array
-                      *ngIf="!adminService.isFileType(object, schemaKey) && object[schemaKey]"
+                      *ngIf="object[schemaKey]"
                       [value]="object[schemaKey]"> 
                     </app-display-array>
                   </div>

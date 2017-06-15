@@ -42,7 +42,7 @@
 				      </div>
 
 				      <!-- File -->
-				      <div *ngSwitchCase="'Mixed'">
+				      <div *ngSwitchCase="'File'">
 				      	<span>
 								  <div class="row">
 								    <div class="col-sm-1">
@@ -58,10 +58,8 @@
 				      </div>
 
 				      <!-- Multiple Files -->
-				      <div *ngSwitchCase="'Array'">
-				        <span *ngIf="(adminService.schema[key].caster.options &&
-				        						!adminService.schema[key].caster.options.type) &&
-							      				adminService.isFileType(object, key)">
+				      <div *ngSwitchCase="'FileArray'">
+				        <span>
 								  <div class="row">
 								    <div class="col-sm-1">
 								      <strong class="text-wordwrap">{{key}}:</strong>
@@ -77,8 +75,7 @@
 				      <!-- Select array of strings -->
 				      <div *ngSwitchCase="'Array'">
 				        <app-display-array
-				          *ngIf="adminService.schema[key].caster.options && !adminService.schema[key].caster.options.ref &&
-				          	!adminService.isFileType(object, key) && object[key]"
+				          *ngIf="adminService.schema[key].caster.options && !adminService.schema[key].caster.options.ref && object[key]"
 				          [field]="key"
 				          [value]="object[key]"> 
 				        </app-display-array>
