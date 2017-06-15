@@ -106,8 +106,8 @@
                               adminService.schema[schemaKey].options.ref &&
                               schemaKey !== '_id'"
                       [value]="object[schemaKey]"
-                      [searchClass]="adminService.schema[schemaKey].options.ref"
-                      [searchField]="adminService.schema[schemaKey].searchField"> 
+                      [className]="adminService.schema[schemaKey].options.ref"
+                      [displayKey]="adminService.schema[schemaKey].displayKey || adminService.schema[schemaKey].searchField">
                     </app-display-single-rel>
                   </div>
 
@@ -115,8 +115,8 @@
                   <div *ngSwitchCase="'Array'">
                     <app-display-array-rel 
                       *ngIf="adminService.schema[schemaKey].caster.options && adminService.schema[schemaKey].caster.options.ref"
-                      [searchClass]="adminService.schema[schemaKey].caster.options.ref"
-                      [searchField]="adminService.schema[schemaKey].searchField"
+                      [className]="adminService.schema[schemaKey].caster.options.ref"
+                      [displayKey]="adminService.schema[schemaKey].displayKey || adminService.schema[schemaKey].searchField"
                       [value]="object[schemaKey]">
                     </app-display-array-rel>
                   </div>

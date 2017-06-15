@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class DisplayArrayRelComponent {
   @Input() field: string;
-  @Input() searchField: string;
-  @Input() searchClass: string;
+  @Input() displayKey: string;
+  @Input() className: string;
   @Input() value: any;
 }
