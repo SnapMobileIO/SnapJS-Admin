@@ -17,7 +17,7 @@
 								    <div class="col-sm-1">
 								      <strong class="text-wordwrap">{{key}}:</strong>
 								    </div>
-									   <app-display-file
+									  <app-display-file
 						          [isImage]="true"
 						          [files]="[object[key]]">
 						        </app-display-file>
@@ -32,7 +32,7 @@
 								    <div class="col-sm-1">
 								      <strong class="text-wordwrap">{{key}}:</strong>
 								    </div>
-									   <app-display-file
+									  <app-display-file
 						          [isImage]="true"
 						          [files]="object[key]">
 						        </app-display-file>
@@ -42,11 +42,18 @@
 
 				      <!-- File -->
 				      <div *ngSwitchCase="'Mixed'">
-					      <app-display-file
-					      	*ngIf="object[key].url"
-					      	[isImage]="false"
-				          [files]="[object[key]]">
-				        </app-display-file>
+				      	<span>
+								  <div class="row">
+								    <div class="col-sm-1">
+								      <strong class="text-wordwrap">{{key}}:</strong>
+								    </div>
+									  <app-display-file
+							      	*ngIf="object[key].url"
+							      	[isImage]="false"
+						          [files]="[object[key]]">
+						        </app-display-file>
+								  </div>
+								</span>
 				      </div>
 
 				      <!-- Multiple Files -->

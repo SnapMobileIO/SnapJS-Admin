@@ -38,7 +38,7 @@
                   <div *ngSwitchCase="'Image'">
                     <span>
                       <div class="row">
-                       <app-display-file
+                        <app-display-file
                           *ngIf="object[schemaKey] && object[schemaKey].url"
                           [isImage]="true"
                           [files]="[object[schemaKey]]">
@@ -51,9 +51,22 @@
                   <div *ngSwitchCase="'ImageArray'">
                     <span>
                       <div class="row">
-                         <app-display-file
+                        <app-display-file
                           [isImage]="true"
                           [files]="object[schemaKey]">
+                        </app-display-file>
+                      </div>
+                    </span>
+                  </div>
+
+                  <!-- File -->
+                  <div *ngSwitchCase="'Mixed'">
+                    <span>
+                      <div class="row">
+                        <app-display-file
+                          *ngIf="object[schemaKey] && object[schemaKey].url"
+                          [isImage]="false"
+                          [files]="[object[schemaKey]]">
                         </app-display-file>
                       </div>
                     </span>
