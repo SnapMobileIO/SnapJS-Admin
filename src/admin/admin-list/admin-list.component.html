@@ -86,6 +86,21 @@
                     </span>
                   </div>
 
+                  <!-- Select array of strings -->
+                  <div *ngSwitchCase="'Array'">
+                    <app-display-array
+                      *ngIf="!adminService.isFileType(object, schemaKey) && object[schemaKey]"
+                      [value]="object[schemaKey]"> 
+                    </app-display-array>
+                  </div>
+
+                  <!-- Multi select of strings -->
+                  <div *ngSwitchCase="'MultiSelect'">
+                    <app-display-array
+                      [value]="object[schemaKey]"> 
+                    </app-display-array>
+                  </div>
+
                   <!-- Default type -->
                   <div *ngSwitchDefault>
                     {{object[schemaKey]}}
