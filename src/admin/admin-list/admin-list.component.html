@@ -87,7 +87,7 @@
                   <!-- Select array of strings -->
                   <div *ngSwitchCase="'Array'">
                     <app-display-array
-                      *ngIf="object[schemaKey]"
+                      *ngIf="adminService.schema[schemaKey].caster.options && !adminService.schema[schemaKey].caster.options.ref && object[schemaKey]"
                       [value]="object[schemaKey]"> 
                     </app-display-array>
                   </div>
@@ -109,6 +109,16 @@
                       [searchClass]="adminService.schema[schemaKey].options.ref"
                       [searchField]="adminService.schema[schemaKey].searchField"> 
                     </app-display-single-rel>
+                  </div>
+
+                  <!-- Select array of relationships -->
+                  <div *ngSwitchCase="'Array'">
+                    <app-display-array-rel 
+                      *ngIf="adminService.schema[schemaKey].caster.options && adminService.schema[schemaKey].caster.options.ref"
+                      [searchClass]="adminService.schema[schemaKey].caster.options.ref"
+                      [searchField]="adminService.schema[schemaKey].searchField"
+                      [value]="object[schemaKey]">
+                    </app-display-array-rel>
                   </div>
 
                   <!-- Object Id -->

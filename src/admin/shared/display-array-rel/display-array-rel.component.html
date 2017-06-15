@@ -1,4 +1,4 @@
-<span><strong *ngIf="field">{{field}}: </strong>
+<span><span *ngIf="field"><strong>{{field}}: </strong></span>
 	<span *ngFor="let object of value; let i = index" [attr.data-index]="i">
 		<a [routerLink]="['/admin', searchClass, object._id]">{{object[searchField]}}</a><span *ngIf="i !== value.length - 1">, </span>
 	</span>
