@@ -1,16 +1,34 @@
-<div class="col-sm-11" *ngIf="isImage">
+<!-- <div class="col-sm-11" *ngIf="isImage()">
   <div *ngFor="let file of files" class="array-img">
     <img *ngIf="file.styles" src="{{constants.AWS_S3_BASE_URL}}/{{file.styles.thumb_square}}" style="width: 100%">
     <img *ngIf="!file.styles" src="{{constants.AWS_S3_BASE_URL}}/{{file.url}}" style="width: 100%">
   </div>
 </div>
 
-<div class="col-sm-11" *ngIf="!isImage">
+<div class="col-sm-11" *ngIf="!isImage()">
   <div *ngFor="let file of files">
     <span *ngIf="file.name && file.url" class="text-wordwrap"><strong>Name:</strong> <a href="{{constants.AWS_S3_BASE_URL}}/{{file.url}}" target="_blank">{{file.name}}</a></span>
     <br>
     <span *ngIf="file.type" class="text-wordwrap"><strong>Type:</strong> {{file.type}}</span>
     <br>
     <span *ngIf="file.size" class="text-wordwrap"><strong>size: </strong> {{file.size}}</span>
+  </div>
+</div>
+ -->
+
+<div class="col-sm-11">
+  <div *ngFor="let file of files">
+    <div *ngIf="isImage(file.type)" class="array-img">
+      <img *ngIf="file.styles" src="{{constants.AWS_S3_BASE_URL}}/{{file.styles.thumb_square}}" style="width: 100%">
+      <img *ngIf="!file.styles" src="{{constants.AWS_S3_BASE_URL}}/{{file.url}}" style="width: 100%">
+    </div>
+
+    <div *ngIf="!isImage(file.type)">
+      <span *ngIf="file.name && file.url" class="text-wordwrap"><strong>Name:</strong> <a href="{{constants.AWS_S3_BASE_URL}}/{{file.url}}" target="_blank">{{file.name}}</a></span>
+      <br>
+      <span *ngIf="file.type" class="text-wordwrap"><strong>Type:</strong> {{file.type}}</span>
+      <br>
+      <span *ngIf="file.size" class="text-wordwrap"><strong>size: </strong> {{file.size}}</span>
+    </div>
   </div>
 </div>

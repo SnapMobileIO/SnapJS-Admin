@@ -12,7 +12,6 @@
 				    </div>
 					  <app-display-file
 					  	*ngIf="object[key]"
-		          [isImage]="true"
 		          [files]="[object[key]]">
 		        </app-display-file>
 				  </div>
@@ -28,7 +27,6 @@
 				    </div>
 					  <app-display-file
 					  	*ngIf="object[key]"
-		          [isImage]="true"
 		          [files]="object[key]">
 		        </app-display-file>
 				  </div>
@@ -44,7 +42,6 @@
 				    </div>
 					  <app-display-file
 			      	*ngIf="object[key]"
-			      	[isImage]="false"
 		          [files]="[object[key]]">
 		        </app-display-file>
 				  </div>
@@ -59,7 +56,6 @@
 				      <strong class="text-wordwrap">{{key}}:</strong>
 				    </div>
 					  <app-display-file
-			      	[isImage]="false"
 		          [files]="object[key]">
 		        </app-display-file>
 				  </div>

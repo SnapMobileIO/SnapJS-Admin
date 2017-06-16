@@ -8,9 +8,12 @@ import { ConstantsService } from '../../constants.service';
 })
 export class DisplayFileComponent {
   @Input() files: any[];
-  @Input() isImage: boolean;
 
   constructor(
     private constants: ConstantsService,
   ) {}
+
+  isImage(mimeType: string) {
+    return this.constants.IMAGE_MIME_TYPES.indexOf(mimeType) >= 0;
+  }
 }
