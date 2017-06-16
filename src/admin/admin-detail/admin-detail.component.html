@@ -137,8 +137,10 @@
 
 	              <!-- Wysiwyg editor -->
 	              <div *ngSwitchCase="'Wysiwyg'">
-	                <div [innerHTML]="object[key]">
-	                </div>
+	              	<span>
+	              		<strong>{{key}}:</strong>
+					      		<div [innerHTML]="object[key]"></div>
+					      	</span>
 	              </div>
 
 						    <!-- Default type -->
