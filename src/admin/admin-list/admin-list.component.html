@@ -20,7 +20,7 @@
                 <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
                   <th class="wordwrap-none text-muted" *ngIf="adminService.schema[key].instance !== 'Hidden' && adminService.schema[key].instance !== 'Wysiwyg'">
                     <a *ngIf="adminService.schema[key]" href="#">
-                      {{adminService.schema[key].path}}
+                      {{key}}
                       <i class="fa fa-caret-down"></i>
                     </a>
                   </th>
@@ -131,10 +131,19 @@
 
                     <!-- Array of embedded schemas or custom objects -->
                     <div *ngSwitchCase="'Array'">
-                      <div class="row" *ngIf="adminService.schema[schemaKey].caster._id" class="embedded-array">
-                        <app-display-array-embedded [value]="object[schemaKey]" [key]="schemaKey">
-                        </app-display-array-embedded>
+                      <div class="truncate">
+                        <i class="text-muted" *ngIf="adminService.schema[schemaKey].caster._id">Embedded</i>
                       </div>
+                    </div>
+
+                    <!-- Single embedded document -->
+                    <div *ngSwitchCase="'Embedded'">
+                      <div class="truncate"><i class="text-muted">Embedded</i></div>
+                    </div>
+
+                    <!-- Single custom object -->
+                    <div *ngSwitchCase="'CustomObject'">
+                      <div class="truncate"><i class="text-muted">Embedded</i></div>
                     </div>
 
                     <!-- Default type -->

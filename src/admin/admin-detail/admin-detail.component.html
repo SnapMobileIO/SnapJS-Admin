@@ -149,7 +149,10 @@
 						        <div class="col-sm-2">
 						          <label>{{key}}: </label>
 						        </div>
-						        <app-display-array-embedded [value]="[object[key]]" [key]="key">
+						        <app-display-array-embedded
+						        	*ngIf="object[key]"
+						        	[value]="[object[key]]"
+						        	[key]="key">
 						        </app-display-array-embedded>
 						      </div>
 					      </div>
@@ -160,7 +163,10 @@
 						        <div class="col-sm-2">
 						          <label>{{key}}: </label>
 						        </div>
-						        <app-display-array-embedded [value]="[object[key]]" [key]="key">
+						        <app-display-array-embedded
+						        	*ngIf="object[key]"
+						        	[value]="[object[key]]"
+						        	[key]="key">
 						        </app-display-array-embedded>
 						      </div>
 					      </div>
