@@ -85,6 +85,7 @@ export class FormControlFileUploadComponent implements OnInit {
   }
 
   addItem(item: any = {}) {
+    debugger
     const control = <FormArray>this.form.controls[this.field];
     control.push(this.initItem(item));
   }

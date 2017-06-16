@@ -86,8 +86,32 @@
         </app-formcontrol-file-upload>
       </div>
 
+      <!-- File -->
+      <div *ngSwitchCase="'File'">
+        <app-formcontrol-file-upload
+          [isMultiple]="false"
+          [field]="schemaKey"
+          [object]="object"
+          [allowedMimeType]="schema[schemaKey].allowedMimeType"
+          [maxFileSize]="schema[schemaKey].maxFileSize"
+          [form]="form">
+        </app-formcontrol-file-upload>
+      </div>
+
       <!-- Multiple images -->
       <div *ngSwitchCase="'ImageArray'">
+        <app-formcontrol-file-upload
+          [isMultiple]="true"
+          [field]="schemaKey"
+          [object]="object"
+          [allowedMimeType]="schema[schemaKey].allowedMimeType"
+          [maxFileSize]="schema[schemaKey].maxFileSize"
+          [form]="form">
+        </app-formcontrol-file-upload>
+      </div>
+
+      <!-- Multiple files -->
+      <div *ngSwitchCase="'FileArray'">
         <app-formcontrol-file-upload
           [isMultiple]="true"
           [field]="schemaKey"
