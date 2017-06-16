@@ -129,6 +129,14 @@
                       <p *ngIf="schemaKey === '_id'">{{object[schemaKey]}}</p>
                     </div>
 
+                    <!-- Array of embedded schemas or custom objects -->
+                    <div *ngSwitchCase="'Array'">
+                      <div class="row" *ngIf="adminService.schema[schemaKey].caster._id" class="embedded-array">
+                        <app-display-array-embedded [value]="object[schemaKey]" [key]="schemaKey">
+                        </app-display-array-embedded>
+                      </div>
+                    </div>
+
                     <!-- Default type -->
                     <div *ngSwitchDefault>
                       {{object[schemaKey]}}
