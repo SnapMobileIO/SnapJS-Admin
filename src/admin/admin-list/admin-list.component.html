@@ -18,7 +18,9 @@
                   <input [(ngModel)]="selectAll" (click)="toggleAllSelection()" type="checkbox">
                 </th>
                 <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
-                  <th class="wordwrap-none text-muted" *ngIf="adminService.schema[key].instance !== 'Hidden' && adminService.schema[key].instance !== 'Wysiwyg'">
+                  <th class="wordwrap-none text-muted"
+                    *ngIf="adminService.schema[key].instance !== 'Hidden' && adminService.schema[key].instance !== 'Wysiwyg' &&
+                    adminService.schema[key].instance !== 'Remove'">
                     <a *ngIf="adminService.schema[key]" href="#">
                       {{key}}
                       <i class="fa fa-caret-down"></i>
@@ -35,7 +37,10 @@
                 <td><input type="checkbox" [(ngModel)]="object.Selected" (click)="toggleSelection(object._id)"></td>
 
                 <ng-template ngFor let-schemaKey [ngForOf]="adminService.schemaKeys">
-                  <td *ngIf="adminService.schema[schemaKey].instance !== 'Hidden' && adminService.schema[schemaKey].instance !== 'Wysiwyg'" [ngSwitch]="adminService.schema[schemaKey].instance">
+                  <td
+                    *ngIf="adminService.schema[schemaKey].instance !== 'Hidden' && adminService.schema[schemaKey].instance !== 'Wysiwyg' && 
+                    adminService.schema[schemaKey].instance !== 'Remove'"
+                    [ngSwitch]="adminService.schema[schemaKey].instance">
 
                     <!-- Image -->
                     <div *ngSwitchCase="'Image'">

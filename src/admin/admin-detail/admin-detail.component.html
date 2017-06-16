@@ -5,7 +5,10 @@
         <div class="panel-body table-responsive">
         	<ul class="list-group">
 					  <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
-					    <li class="list-group-item" *ngIf="adminService.schema[key].instance !== 'Hidden'" [ngSwitch]="adminService.schema[key].instance">
+					    <li class="list-group-item"
+					    	*ngIf="adminService.schema[key].instance !== 'Hidden' && 
+					    		adminService.schema[key].instance !== 'Remove'"
+					    		[ngSwitch]="adminService.schema[key].instance">
 
 						    <!-- Image -->
 						    <div *ngSwitchCase="'Image'">
