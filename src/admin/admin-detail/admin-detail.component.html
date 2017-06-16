@@ -143,9 +143,26 @@
 					      	</span>
 	              </div>
 
-	              <!-- Single embedded document or custom object -->
+	              <!-- Single embedded document -->
 					      <div *ngSwitchCase="'Embedded'">
-					        <pre>{{object[key] | json}}</pre>
+					        <div class="row">
+						        <div class="col-sm-2">
+						          <label>{{key}}: </label>
+						        </div>
+						        <app-display-array-embedded [value]="[object[key]]" [key]="key">
+						        </app-display-array-embedded>
+						      </div>
+					      </div>
+
+					      <!-- Single custom object -->
+					      <div *ngSwitchCase="'CustomObject'">
+					        <div class="row">
+						        <div class="col-sm-2">
+						          <label>{{key}}: </label>
+						        </div>
+						        <app-display-array-embedded [value]="[object[key]]" [key]="key">
+						        </app-display-array-embedded>
+						      </div>
 					      </div>
 
 					      <!-- Array of embedded schemas or custom objects -->

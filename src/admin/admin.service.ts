@@ -24,8 +24,8 @@ export class AdminService {
       .then((response) => {
         // Set schema and merge any overwrites
         this.schema = response.json();
-        this.schemaKeys = Object.keys(this.schema);
         this.schema = _.merge(this.schema, this.constants.DEFAULT_SCHEMA_OVERWRITES[this.className]);
+        this.schemaKeys = Object.keys(this.schema);
 
         return this.schema;
       });
