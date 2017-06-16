@@ -143,6 +143,22 @@
 					      	</span>
 	              </div>
 
+	              <!-- Single embedded document or custom object -->
+					      <div *ngSwitchCase="'Embedded'">
+					        <pre>{{object[key] | json}}</pre>
+					      </div>
+
+					      <!-- Array of embedded schemas or custom objects -->
+					      <div *ngSwitchCase="'Array'">
+						      <div class="row" *ngIf="adminService.schema[key].caster._id">
+						        <div class="col-sm-2">
+						          <label>{{key}}: </label>
+						        </div>
+						        <app-display-array-embedded [value]="object[key]" [key]="key">
+						        </app-display-array-embedded>
+						      </div>
+					      </div>
+
 						    <!-- Default type -->
 					      <div *ngSwitchDefault>
 					        <app-display-text

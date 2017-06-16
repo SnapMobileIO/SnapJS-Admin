@@ -117,4 +117,12 @@ export class AdminService {
       .then((response) => response.json());
   }
 
+  /**
+   * Utility function to get keys from an object
+   * @param {any} object any object
+   */
+  getKeys(object: any) {
+    return Object.keys(object);
+  }
+
 }
