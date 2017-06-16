@@ -1,96 +1,96 @@
-	<ul class="list-group">
+  <ul class="list-group">
 
-	  <ng-template ngFor let-key [ngForOf]="adminService.getKeys(object)">
-	    <li class="list-group-item" *ngIf="schema[key].instance !== 'Hidden'" [ngSwitch]="schema[key].instance">
+    <ng-template ngFor let-key [ngForOf]="adminService.getKeys(object)">
+      <li class="list-group-item" *ngIf="schema[key].instance !== 'Hidden'" [ngSwitch]="schema[key].instance">
 
-	    <!-- Image -->
-	    <div *ngSwitchCase="'Image'">
+      <!-- Image -->
+      <div *ngSwitchCase="'Image'">
         <span>
-				  <div class="row">
-				    <div class="col-sm-1">
-				      <strong class="text-wordwrap">{{key}}:</strong>
-				    </div>
-					  <app-display-file
-					  	*ngIf="object[key]"
-		          [files]="[object[key]]">
-		        </app-display-file>
-				  </div>
-				</span>
+          <div class="row">
+            <div class="col-sm-1">
+              <strong class="text-wordwrap">{{key}}:</strong>
+            </div>
+            <app-display-file
+              *ngIf="object[key]"
+              [files]="[object[key]]">
+            </app-display-file>
+          </div>
+        </span>
       </div>
 
       <!-- Multiple Images -->
       <div *ngSwitchCase="'ImageArray'">
-      	<span>
-				  <div class="row">
-				    <div class="col-sm-1">
-				      <strong class="text-wordwrap">{{key}}:</strong>
-				    </div>
-					  <app-display-file
-					  	*ngIf="object[key]"
-		          [files]="object[key]">
-		        </app-display-file>
-				  </div>
-				</span>
+        <span>
+          <div class="row">
+            <div class="col-sm-1">
+              <strong class="text-wordwrap">{{key}}:</strong>
+            </div>
+            <app-display-file
+              *ngIf="object[key]"
+              [files]="object[key]">
+            </app-display-file>
+          </div>
+        </span>
       </div>
 
       <!-- File -->
       <div *ngSwitchCase="'File'">
-      	<span>
-				  <div class="row">
-				    <div class="col-sm-1">
-				      <strong class="text-wordwrap">{{key}}:</strong>
-				    </div>
-					  <app-display-file
-			      	*ngIf="object[key]"
-		          [files]="[object[key]]">
-		        </app-display-file>
-				  </div>
-				</span>
+        <span>
+          <div class="row">
+            <div class="col-sm-1">
+              <strong class="text-wordwrap">{{key}}:</strong>
+            </div>
+            <app-display-file
+              *ngIf="object[key]"
+              [files]="[object[key]]">
+            </app-display-file>
+          </div>
+        </span>
       </div>
 
       <!-- Multiple Files -->
       <div *ngSwitchCase="'FileArray'">
         <span>
-				  <div class="row">
-				    <div class="col-sm-1">
-				      <strong class="text-wordwrap">{{key}}:</strong>
-				    </div>
-					  <app-display-file
-		          [files]="object[key]">
-		        </app-display-file>
-				  </div>
-				</span>
+          <div class="row">
+            <div class="col-sm-1">
+              <strong class="text-wordwrap">{{key}}:</strong>
+            </div>
+            <app-display-file
+              [files]="object[key]">
+            </app-display-file>
+          </div>
+        </span>
       </div>
 
       <!-- Select array of strings -->
       <div *ngSwitchCase="'Array'">
-      	<span 
-      		*ngIf="schema[key].caster.options && !schema[key].caster.options.ref">
-      		<strong>{{key}}: </strong>
-	        <app-display-array
-	          [field]="key"
-	          [value]="object[key]"> 
-	        </app-display-array>
-      	</span>
+        <span 
+          *ngIf="schema[key].caster.options && !schema[key].caster.options.ref">
+          <strong>{{key}}: </strong>
+          <app-display-array
+            [field]="key"
+            [value]="object[key]"> 
+          </app-display-array>
+        </span>
       </div>
 
       <!-- Single string -->
       <div *ngSwitchCase="'SingleSelect'">
         <app-display-text
-        	*ngIf="schema[key].instance !== 'hidden'"
-        	[field]="key"
-        	[value]="object[key]">
+          *ngIf="schema[key].instance !== 'hidden'"
+          [field]="key"
+          [value]="object[key]">
         </app-display-text>
       </div>
 
       <!-- Multi select of strings -->
       <div *ngSwitchCase="'MultiSelect'">
-      	<span>
-      		<strong>{{key}}: </strong>
-	        <app-display-array
-	          [field]="key"
-	          [value]="object[key]">
-	        </app-display-array>
+        <span>
+          <strong>{{key}}: </strong>
+          <app-display-array
+            [field]="key"
+            [value]="object[key]">
+          </app-display-array>
        </span>
       </div>
 
@@ -121,18 +121,18 @@
       <!-- Object Id -->
       <div *ngSwitchCase="'ObjectID'">
         <app-display-text
-        	*ngIf="key === '_id'"
-        	[field]="key"
-        	[value]="object[key]">
+          *ngIf="key === '_id'"
+          [field]="key"
+          [value]="object[key]">
         </app-display-text>
       </div>
 
       <!-- Wysiwyg editor -->
       <div *ngSwitchCase="'Wysiwyg'">
-      	<span>
-      		<strong>{{key}}:</strong>
-      		<div [innerHTML]="object[key]"></div>
-      	</span>
+        <span>
+          <strong>{{key}}:</strong>
+          <div [innerHTML]="object[key]"></div>
+        </span>
       </div>
 
       <!-- Single embedded document or custom object -->
@@ -142,34 +142,34 @@
 
       <!-- Array of embedded schemas or custom objects -->
       <div *ngSwitchCase="'Array'">
-	      <div class="row" *ngIf="schema[key].caster._id">
-	        <div class="col-sm-2">
-	          <label>{{key}}: </label>
-	        </div>
-	        <div class="col-sm-10">
-	          <div *ngFor="let dataObject of object[key]; let i = index" class="row custom-object">
-	          	<div class="row">
-	          		<div *ngFor="let customObject of [schema[key].schema.paths]">
-	          			<div class="col-sm-12">
-	          				<app-schema-show
-	          				[schema]="customObject"
-	          				[object]="object[key][i]">
-	          				</app-schema-show>
-	          			</div>
-	          		</div>
-	          	</div>
-	          </div>
-	        </div>
-	      </div>
+        <div class="row" *ngIf="schema[key].caster._id">
+          <div class="col-sm-2">
+            <label>{{key}}: </label>
+          </div>
+          <div class="col-sm-10">
+            <div *ngFor="let dataObject of object[key]; let i = index" class="row custom-object">
+              <div class="row">
+                <div *ngFor="let customObject of [schema[key].schema.paths]">
+                  <div class="col-sm-12">
+                    <app-schema-show
+                    [schema]="customObject"
+                    [object]="object[key][i]">
+                    </app-schema-show>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
 
-	    <!-- Default type -->
+      <!-- Default type -->
       <div *ngSwitchDefault>
         <app-display-text
-        	*ngIf="schema[key].instance !== 'hidden'"
-        	[field]="key"
-        	[value]="object[key]">
+          *ngIf="schema[key].instance !== 'hidden'"
+          [field]="key"
+          [value]="object[key]">
         </app-display-text>
       </div>
     </li>
