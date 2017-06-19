@@ -17,6 +17,13 @@ import { AdminDetailComponent } from './admin-detail/admin-detail.component';
 import { AdminEditComponent } from './admin-edit/admin-edit.component';
 import { AdminFormComponent } from './admin-form/admin-form.component';
 import { AdminNewComponent } from './admin-new/admin-new.component';
+import { SchemaShowComponent } from './shared/schema-show/schema-show.component';
+import { DisplayArrayRelComponent } from './shared/display-array-rel/display-array-rel.component';
+import { DisplayArrayEmbeddedComponent } from './shared/display-array-embedded/display-array-embedded.component';
+import { DisplaySingleRelComponent } from './shared/display-single-rel/display-single-rel.component';
+import { DisplayTextComponent } from './shared/display-text/display-text.component';
+import { DisplayArrayComponent } from './shared/display-array/display-array.component';
+import { DisplayFileComponent } from './shared/display-file/display-file.component';
 import { FormcontrolInputComponent } from './shared/formcontrol-input/formcontrol-input.component';
 import { FormcontrolSelectRelComponent } from './shared/formcontrol-select-rel/formcontrol-select-rel.component';
 import { FormcontrolSelectComponent } from './shared/formcontrol-select/formcontrol-select.component';
@@ -51,6 +58,13 @@ import { ConstantsService } from './constants.service';
     AdminEditComponent,
     AdminFormComponent,
     AdminNewComponent,
+    SchemaShowComponent,
+    DisplayArrayEmbeddedComponent,
+    DisplayArrayRelComponent,
+    DisplaySingleRelComponent,
+    DisplayTextComponent,
+    DisplayArrayComponent,
+    DisplayFileComponent,
     FormcontrolInputComponent,
     FormcontrolSelectRelComponent,
     FormcontrolSelectComponent,

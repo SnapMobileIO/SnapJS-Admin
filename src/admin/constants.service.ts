@@ -67,6 +67,12 @@ export class ConstantsService {
         instance: 'ImageArray',
         allowedMimeType: ['image/jpeg', 'image/jpg', 'image/png'],
       },
+      file: {
+        instance: 'File',
+      },
+      files: {
+        instance: 'FileArray',
+      },
       _createdBy: {
         searchField: 'firstName',
       },

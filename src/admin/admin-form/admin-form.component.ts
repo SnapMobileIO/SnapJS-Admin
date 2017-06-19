@@ -39,7 +39,7 @@ export class AdminFormComponent implements OnInit {
       if (this.schema[key].instance === 'Array' && this.schema[key].schema) {
         this.form.registerControl(key, this.formBuilder.array([]));
 
-      } else if (this.schema[key].instance === 'ImageArray') {
+      } else if (this.schema[key].instance === 'ImageArray' || this.schema[key].instance === 'FileArray') {
         this.form.registerControl(key, this.formBuilder.array([]));
 
       } else if (this.schema[key].instance === 'Embedded') {

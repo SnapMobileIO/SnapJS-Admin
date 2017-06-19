@@ -1,8 +1,8 @@
-<div [formGroup]="form">
+<div [formGroup]="form" class="row">
 
   <!-- Images -->
   <div *ngIf="!isMultiple">
-    <label>{{field}}:</label>
+    <label class="col-sm-2 control-label">{{field}}:</label>
 
     <div *ngIf="form.value[field]">
       <div *ngIf="form.value[field].url">
@@ -10,20 +10,25 @@
         <a *ngIf="!isImage(form.value[field].type)" href="{{constants.AWS_S3_BASE_URL}}/{{form.value[field].url}}" target="_blank">{{form.value[field].name}}</a>
       </div>
     </div>
-    <span *ngIf="form.value[field].name" (click)="form.value[field] = {}">Remove</span>
+
+    <div class="col-sm-offset-2 col-sm-10">
+      <span *ngIf="form.value[field].name" (click)="form.value[field] = {}">Remove</span>
+    </div>
   </div>
 
   <!-- Multiple images -->
   <div *ngIf="isMultiple">
     <div [formArrayName]="field">
-      <label for="name">{{field}}:</label>
-      <div *ngIf="form.controls[field]">
+      <label for="name" class="col-sm-2 control-label">{{field}}:</label>
+      <div *ngIf="form.controls[field]" class="col-sm-10">
         <div *ngFor="let item of form.controls[field].controls; let i = index; ">
           <div *ngIf="item.controls.url">
             <img *ngIf="isImage(item.controls.type.value)" src="{{constants.AWS_S3_BASE_URL}}/{{item.controls.url.value}}" style="max-width: 200px; max-height: 200px;">
             <a *ngIf="!isImage(item.controls.type.value)" href="{{constants.AWS_S3_BASE_URL}}/{{item.controls.url.value}}" target="_blank">{{item.controls.name.value}}</a>
+
+            <!-- Remove -->
+            <p (click)="removeItem(i, field)">Remove</p>
           </div>
-          <span (click)="removeItem(i, field)">Remove</span>
           <div [formGroupName]="i"></div>
         </div>
       </div>
@@ -31,16 +36,18 @@
   </div>
 
   <!-- Upload form -->
-	<input type="file" ng2FileSelect [uploader]="uploader" multiple="isMultiple" />
-  <p *ngIf="errorMessage">{{errorMessage}}</p>
+  <div class="col-sm-offset-2 col-sm-10">
+	 <input type="file" ng2FileSelect [uploader]="uploader" multiple="isMultiple" />
+    <p *ngIf="errorMessage">{{errorMessage}}</p>
+  </div>
 
   <!-- Display uploaded image and progress -->
-  <div *ngFor="let item of uploader.queue">
+  <div *ngFor="let item of uploader.queue" class="col-sm-offset-2 col-sm-10">
     <div *ngIf="!item.isSuccess">
       <p>{{item.file.name}}</p>
 
       <progress-bar [progress]=item.progress></progress-bar>
-      Progress: {{item.progress}}
+      Progress: {{item.progress}}%
 
       <p *ngIf="item.isUploading">Uploading</p>
       <p *ngIf="item.isSuccess">Uploaded</p>
@@ -49,8 +56,10 @@
   </div>
 
   <!-- Upload button -->
-  <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-    <span class="glyphicon glyphicon-upload"></span> Upload
-  </button>
+  <div class="col-sm-offset-2 col-sm-10">
+    <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+      <span class="glyphicon glyphicon-upload"></span> Upload
+    </button>
+  </div>
 
 </div>
