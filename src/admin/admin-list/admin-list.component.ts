@@ -16,6 +16,7 @@ export class AdminListComponent implements OnInit {
   currentPage = 1;
   selectAll: boolean;
   selectedItems: any[] = [];
+  toggle: any = {};
 
   constructor(
     private router: Router,
@@ -121,5 +122,17 @@ export class AdminListComponent implements OnInit {
     index >= 0 ? this.selectedItems.splice(index, 1) : this.selectedItems.push(objectId);
     this.selectAll = this.selectedItems.length === this.objects.length;
   };
+
+  /**
+   * Updates and reruns findAll() to sort objects based on key and asc / desc
+   * The toggle state is tracked so that the UI can be udpated
+   * @param  {String} key The key to sort by
+   */
+  updateSort(key: string) {
+    let isDesc = !!this.params.sort.lastIndexOf('-', 0);
+    this.params.sort = isDesc ? `-${key}` : key;
+    this.toggle[key] = !isDesc;
+    this.findAll(this.params);
+  }
 
 }
