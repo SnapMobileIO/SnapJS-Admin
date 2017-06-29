@@ -16,6 +16,7 @@ export class AdminListComponent implements OnInit {
   currentPage = 1;
   selectAll: boolean;
   selectedItems: any[] = [];
+  toggle: any = {};
 
   constructor(
     private router: Router,
@@ -121,5 +122,34 @@ export class AdminListComponent implements OnInit {
     index >= 0 ? this.selectedItems.splice(index, 1) : this.selectedItems.push(objectId);
     this.selectAll = this.selectedItems.length === this.objects.length;
   };
+
+  /**
+   * Updates and reruns findAll() to sort objects based on key and asc / desc
+   * The toggle state is tracked so that the UI can be udpated
+   * @param  {String} key The key to sort by
+   */
+  updateSort(key: string) {
+    let isDesc = !!this.params.sort.lastIndexOf('-', 0);
+    this.params.sort = isDesc ? `-${key}` : key;
+    this.toggle[key] = !isDesc;
+    this.findAll(this.params);
+  }
+
+  /**
+   * Direct user to URL that exports data to a CSV file
+   */
+  exportToCsv() {
+    const token = localStorage.getItem('token');
+    let exportUrl = `http://localhost:3000/api/admin/${this.adminService.className}?export=true&access_token=${token}&`;
+
+    // Remove limit and skip from the params for a csv export
+    let exportParams = this.params;
+    delete exportParams.skip;
+    delete exportParams.limit;
+
+    // Serialize params
+    exportUrl += this.adminService.serializeParams(this.params).toString();
+    window.open(exportUrl);
+  }
 
 }

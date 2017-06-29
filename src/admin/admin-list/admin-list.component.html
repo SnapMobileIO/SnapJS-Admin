@@ -3,6 +3,7 @@
     <h1>{{adminService.className}}</h1>
     <div class="actions">
       <a [routerLink]="['/admin', adminService.className, 'new']" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
+      <a (click)="exportToCsv()" class="btn btn-default"><i class="fa fa-file-o" aria-hidden="true"></i> Export to CSV</a>
     </div>
   </div>
 
@@ -21,9 +22,9 @@
                   <th class="wordwrap-none text-muted"
                     *ngIf="adminService.schema[key].instance !== 'Hidden' && adminService.schema[key].instance !== 'Wysiwyg' &&
                     adminService.schema[key].instance !== 'Remove'">
-                    <a *ngIf="adminService.schema[key]" href="#">
+                    <a *ngIf="adminService.schema[key]" (click)="updateSort(key)">
                       {{key}}
-                      <i class="fa fa-caret-down"></i>
+                      <i [ngClass]="toggle[key] ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
                     </a>
                   </th>
                 </ng-template>
