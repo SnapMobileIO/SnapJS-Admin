@@ -3,6 +3,7 @@
     <h1>{{adminService.className}}</h1>
     <div class="actions">
       <a [routerLink]="['/admin', adminService.className, 'new']" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
+      <a (click)="exportToCsv()" class="btn btn-default"><i class="fa fa-file-o" aria-hidden="true"></i> Export to CSV</a>
     </div>
   </div>
 
