@@ -34,14 +34,7 @@ export class AdminService {
   query(params: {} = {}): Promise<any> {
     let queryUrl = `${this.constants.API_BASE_URL}/admin/${this.className}?`;
 
-    const serializedParams = new URLSearchParams();
-    for (const key in params) {
-      if (params.hasOwnProperty(key)) {
-        serializedParams.set(key, params[key]);
-      }
-    }
-
-    queryUrl += serializedParams.toString();
+    queryUrl += this.serializeParams(params).toString();
 
     return this.http.get(queryUrl)
       .toPromise()
@@ -101,14 +94,7 @@ export class AdminService {
   search(className: string, search: string, field: string = 'name', params: any = { limit: 10 }): Promise<any> {
     let queryUrl = `${this.constants.API_BASE_URL}/admin/${className}`;
 
-    const serializedParams = new URLSearchParams();
-    for (const key in params) {
-      if (params.hasOwnProperty(key)) {
-        serializedParams.set(key, params[key]);
-      }
-    }
-
-    queryUrl += `?${serializedParams.toString()}`;
+    queryUrl += `?${this.serializeParams(params).toString()}`;
 
     queryUrl += `&filters[0][field]=${field}&filters[0][operator]=like&filters[0][value]=${search}`;
 
@@ -123,6 +109,21 @@ export class AdminService {
    */
   getKeys(object: any) {
     return Object.keys(object);
+  }
+
+  /**
+   * Utility function to serialize params
+   * @param {any} object params object
+   */
+  serializeParams(params: any) {
+    const serializedParams = new URLSearchParams();
+    for (const key in params) {
+      if (params.hasOwnProperty(key)) {
+        serializedParams.set(key, params[key]);
+      }
+    }
+
+    return serializedParams;
   }
 
 }
