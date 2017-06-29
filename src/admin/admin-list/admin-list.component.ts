@@ -17,6 +17,8 @@ export class AdminListComponent implements OnInit {
   selectAll: boolean;
   selectedItems: any[] = [];
   toggle: any = {};
+  filters: any[] = [{ field: '', operator: '', value: '' }];
+  filterFunction: Function;
 
   constructor(
     private router: Router,
@@ -36,6 +38,9 @@ export class AdminListComponent implements OnInit {
           this.findAll();
         });
     });
+
+    // Bind 'this' since the submit function is a callback
+    this.filterFunction = this.findAll.bind(this);
   }
 
   findAll(params?: any): void {

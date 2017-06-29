@@ -4,6 +4,11 @@
     <div class="actions">
       <a [routerLink]="['/admin', adminService.className, 'new']" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
       <a (click)="exportToCsv()" class="btn btn-default"><i class="fa fa-file-o" aria-hidden="true"></i> Export to CSV</a>
+      <a (click)="filterToggle = !filterToggle" class="btn btn-default">
+        <i class="fa fa-filter"></i>
+        <span *ngIf="!filterToggle"> Hide Filter</span>
+        <span *ngIf="filterToggle"> Show Filter</span>
+      </a>
     </div>
   </div>
 
@@ -11,6 +16,15 @@
     <div class="col-lg-12">
       <div class="panel">
         <div class="panel-body table-responsive">
+          <app-filter
+            *ngIf="adminService.schema && filterToggle"
+            [filters]="filters"
+            [schema]="adminService.schema"
+            [findAll]="filterFunction"
+            [itemsPerPage]="itemsPerPage"
+            [skip]="params.skip"
+            [sort]="params.sort">
+          </app-filter>
           <button *ngIf="selectedItems.length" class="btn btn-danger" (click)="deleteMultiple(selectedItems)">Delete ({{selectedItems.length}}) Items</button>
           <table class="table table-hover">
             <thead>
