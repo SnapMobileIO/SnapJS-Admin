@@ -142,6 +142,11 @@ export class AdminListComponent implements OnInit {
     const token = localStorage.getItem('token');
     let exportUrl = `http://localhost:3000/api/admin/${this.adminService.className}?export=true&access_token=${token}&`;
 
+    // Remove limit and skip from the params for a csv export
+    let exportParams = this.params;
+    delete exportParams.skip;
+    delete exportParams.limit;
+
     // Serialize params
     exportUrl += this.adminService.serializeParams(this.params).toString();
     window.open(exportUrl);
