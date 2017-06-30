@@ -34,8 +34,8 @@
                 </th>
                 <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
                   <th class="wordwrap-none text-muted"
-                    *ngIf="adminService.schema[key].instance !== 'Hidden' && adminService.schema[key].instance !== 'Wysiwyg' &&
-                    adminService.schema[key].instance !== 'Remove'">
+                    *ngIf="adminService.schema[key].instanceOverride !== 'Hidden' && adminService.schema[key].instanceOverride !== 'Wysiwyg' &&
+                    adminService.schema[key].instanceOverride !== 'Remove'">
                     <a *ngIf="adminService.schema[key]" (click)="updateSort(key)">
                       {{adminService.schema[key].displayName || key}}
                       <i [ngClass]="toggle[key] ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
@@ -53,9 +53,9 @@
 
                 <ng-template ngFor let-schemaKey [ngForOf]="adminService.schemaKeys">
                   <td
-                    *ngIf="adminService.schema[schemaKey].instance !== 'Hidden' && adminService.schema[schemaKey].instance !== 'Wysiwyg' && 
-                    adminService.schema[schemaKey].instance !== 'Remove'"
-                    [ngSwitch]="adminService.schema[schemaKey].instance">
+                    *ngIf="adminService.schema[schemaKey].instanceOverride !== 'Hidden' && adminService.schema[schemaKey].instanceOverride !== 'Wysiwyg' && 
+                    adminService.schema[schemaKey].instanceOverride !== 'Remove'"
+                    [ngSwitch]="adminService.schema[schemaKey].instanceOverride">
 
                     <!-- Image -->
                     <div *ngSwitchCase="'Image'">
