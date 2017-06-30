@@ -2,7 +2,8 @@
 	<div *ngFor="let filter of filters">
     <div class="row">
 
-    	<p>Filter Field: {{filter.field}}</p>
+    	<p *ngIf="filter.field">Filter Field: {{filter.field}}</p>
+    	<p *ngIf="filter.operator">Filter Operator: {{filter.operator}}</p>
 
       <div class="col-md-4 form-group">
         <label for="fieldSelect">Field: </label><br>
@@ -12,23 +13,24 @@
 		      	<!-- If this is a relationship, use the displayKey -->
 			      <option
 			      	*ngIf="schema[key].instance !== 'Hidden'"
-			      	[value]="schema[key]">
+			      	[value]="key">
 			      	{{schema[key].displayName || key}}
 			      </option>
 			    </ng-template>
 	      </select>
       </div>
 
-      <!-- <div class="col-md-4 form-group">
+      <div class="col-md-4 form-group" *ngIf="filter.field">
         <label for="operatorSelect">Operator: </label><br>
-        <select class="form-control" name="operatorSelect" [()]="filter.operator" required>
-          <option value="">---Please select---</option>
-          <option
-          	*ngFor="operator in filterCtrl.Filter.operators[filterCtrl.schema[filter.field].instance || 'String']">
-          	{{operator}}
-         	</option>
+        <select class="form-control" name="operatorSelect" [(ngModel)]="filter.operator" required>
+        	<option value="">---Please select---</option>
+		      <option
+		      	*ngFor="let operator of filterService.operators[schema[filter.field].instance] || filterService.operators.String"
+		      	[value]="operator">
+		      	{{operator}}
+		      </option>
         </select>
-      </div> -->
+      </div>
 <!-- 
       <div class="col-md-4 form-group" *ngIf="filter.field && schema[filter.field].instance != 'Boolean' && schema[filter.field].instance != 'Date'">
         <label for="valueSelect">Value: </label><br>

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { AdminService } from '../../admin.service';
+import { FilterService } from './filter.service';
 
 @Component({
   selector: 'app-filter',
@@ -18,7 +19,8 @@ export class FilterComponent {
   form: FormGroup = new FormGroup({});
 
   constructor(
-    public adminService: AdminService
+    public adminService: AdminService,
+    public filterService: FilterService
   ) {}
 
   addFilters() {
