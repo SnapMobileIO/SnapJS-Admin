@@ -28,7 +28,7 @@ export class AdminFormComponent implements OnInit {
     // Remove hidden keys
     let i = this.schemaKeys.length;
     while (i--) {
-      if (this.schema[this.schemaKeys[i]].instance === 'Remove') {
+      if (this.schema[this.schemaKeys[i]].instanceOverride === 'Remove') {
         delete this.schema[this.schemaKeys[i]];
         this.schemaKeys.splice(i, 1);
       }
@@ -36,13 +36,14 @@ export class AdminFormComponent implements OnInit {
 
     // Build Form
     this.schemaKeys.forEach((key) => {
-      if (this.schema[key].instance === 'Array' && this.schema[key].schema) {
+      if ((this.schema[key].instanceOverride === 'Array' || this.schema[key].instance === 'Array') && this.schema[key].schema) {
         this.form.registerControl(key, this.formBuilder.array([]));
 
-      } else if (this.schema[key].instance === 'ImageArray' || this.schema[key].instance === 'FileArray') {
+      } else if ((this.schema[key].instanceOverride === 'ImageArray' || this.schema[key].instance === 'ImageArray')
+                  || (this.schema[key].instanceOverride === 'FileArray' || this.schema[key].instance === 'FileArray')) {
         this.form.registerControl(key, this.formBuilder.array([]));
 
-      } else if (this.schema[key].instance === 'Embedded') {
+      } else if (this.schema[key].instanceOverride === 'Embedded' || this.schema[key].instance === 'Embedded') {
         this.form.registerControl(key, new FormGroup({}));
         const formGroup = <FormGroup>this.form.controls[key];
         const schemaPaths = Object.keys(this.schema[key].schema.paths);
@@ -66,7 +67,7 @@ export class AdminFormComponent implements OnInit {
         }
 
         // Set the field to disabled if overwritten in config
-        let disabled = this.schema[key].instance === 'Disabled' ? true : false;
+        let disabled = this.schema[key].instanceOverride === 'Disabled' ? true : false;
 
         // this.form.registerControl(key, new FormControl({value, disabled}, [Validators.required]));
         this.form.registerControl(key, new FormControl({value, disabled}, []));
