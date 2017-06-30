@@ -37,7 +37,7 @@
                     *ngIf="adminService.schema[key].instance !== 'Hidden' && adminService.schema[key].instance !== 'Wysiwyg' &&
                     adminService.schema[key].instance !== 'Remove'">
                     <a *ngIf="adminService.schema[key]" (click)="updateSort(key)">
-                      {{key}}
+                      {{adminService.schema[key].displayName || key}}
                       <i [ngClass]="toggle[key] ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
                     </a>
                   </th>
