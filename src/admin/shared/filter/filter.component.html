@@ -9,7 +9,7 @@
 		      <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
 		      	<!-- If this is a relationship, use the displayKey -->
 			      <option
-			      	*ngIf="schema[key].instance !== 'Hidden'"
+			      	*ngIf="schema[key].instanceOverride !== 'Hidden' || schema[key].instanceOverride !== 'Remove'"
 			      	[value]="key">
 			      	{{schema[key].displayName || key}}
 			      </option>
