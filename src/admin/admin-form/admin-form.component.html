@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="form" (ngSubmit)="submit()" class="form-horizontal">
   <div *ngFor="let schemaKey of schemaKeys">
-    <div [ngSwitch]="schema[schemaKey].instance">
+    <div [ngSwitch]="schema[schemaKey].instanceOverride || schema[schemaKey].instance">
 
       <app-formcontrol-input *ngSwitchCase="'Boolean'" [form]="form" [field]="schema[schemaKey].displayName || schemaKey" [inputType]="'checkbox'"></app-formcontrol-input>
       <app-formcontrol-input *ngSwitchCase="'Number'" [form]="form" [field]="schema[schemaKey].displayName || schemaKey" [inputType]="'number'"></app-formcontrol-input>
