@@ -55,7 +55,7 @@
                   <td
                     *ngIf="adminService.schema[schemaKey].instanceOverride !== 'Hidden' && adminService.schema[schemaKey].instanceOverride !== 'Wysiwyg' && 
                     adminService.schema[schemaKey].instanceOverride !== 'Remove'"
-                    [ngSwitch]="adminService.schema[schemaKey].instanceOverride">
+                    [ngSwitch]="adminService.schema[schemaKey].instanceOverride || adminService.schema[schemaKey].instance">
 
                     <!-- Image -->
                     <div *ngSwitchCase="'Image'">
