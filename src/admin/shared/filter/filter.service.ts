@@ -27,7 +27,6 @@ export class FilterService {
       query[`filters[${index}][value]`] = filter.value;
     });
 
-    console.log('***** query', query)
     return query;
   }
 
