@@ -1,7 +1,7 @@
   <ul class="list-group">
 
     <ng-template ngFor let-key [ngForOf]="adminService.getKeys(object)">
-      <li class="list-group-item" *ngIf="schema[key].instance !== 'Hidden'" [ngSwitch]="schema[key].instance">
+      <li class="list-group-item" *ngIf="schema[key].instanceOverride !== 'Hidden'" [ngSwitch]="schema[key].instanceOverride || schema[key].instance">
 
       <!-- Image -->
       <div *ngSwitchCase="'Image'">
@@ -77,7 +77,7 @@
       <!-- Single string -->
       <div *ngSwitchCase="'SingleSelect'">
         <app-display-text
-          *ngIf="schema[key].instance !== 'hidden'"
+          *ngIf="schema[key].instanceOverride !== 'Hidden'"
           [field]="key"
           [value]="object[key]">
         </app-display-text>
@@ -167,7 +167,7 @@
       <!-- Default type -->
       <div *ngSwitchDefault>
         <app-display-text
-          *ngIf="schema[key].instance !== 'hidden'"
+          *ngIf="schema[key].instanceOverride !== 'Hidden'"
           [field]="key"
           [value]="object[key]">
         </app-display-text>
