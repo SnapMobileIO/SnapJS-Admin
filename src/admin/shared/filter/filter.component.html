@@ -1,0 +1,50 @@
+<form #form="ngForm" (ngSubmit)="submit()">
+	<div *ngFor="let filter of filters">
+    <div class="row">
+
+    	<p>Filter Field: {{filter.field}}</p>
+
+      <div class="col-md-4 form-group">
+        <label for="fieldSelect">Field: </label><br>
+	      <select class="form-control" name="fieldSelect" [(ngModel)]="filter.field" required>
+		      <option value="">---Please select---</option>
+		      <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
+		      	<!-- If this is a relationship, use the displayKey -->
+			      <option
+			      	*ngIf="schema[key].instance !== 'Hidden'"
+			      	[value]="schema[key]">
+			      	{{schema[key].displayName || key}}
+			      </option>
+			    </ng-template>
+	      </select>
+      </div>
+
+      <!-- <div class="col-md-4 form-group">
+        <label for="operatorSelect">Operator: </label><br>
+        <select class="form-control" name="operatorSelect" [()]="filter.operator" required>
+          <option value="">---Please select---</option>
+          <option
+          	*ngFor="operator in filterCtrl.Filter.operators[filterCtrl.schema[filter.field].instance || 'String']">
+          	{{operator}}
+         	</option>
+        </select>
+      </div> -->
+<!-- 
+      <div class="col-md-4 form-group" *ngIf="filter.field && schema[filter.field].instance != 'Boolean' && schema[filter.field].instance != 'Date'">
+        <label for="valueSelect">Value: </label><br>
+      </div>
+      <div class="col-md-2 form-group" *ngIf="filter.field && schema[filter.field].instance == 'Date'">
+        <label for="valueSelect">Date: </label><br>
+      </div>
+      <div class="col-md-2 form-group" *ngIf="filter.field && schema[filter.field].instance == 'Date'">
+        <label for="valueSelect">Time: </label><br>
+      </div> -->
+
+    </div>
+  </div>
+  <div class="pull-right">
+    <button type="button" class="btn btn-default" [disabled]="!form.valid" (click)="addFilters()"><i class="fa fa-plus"></i></button>
+    <button type="submit" class="btn btn-default" [disabled]="!form.valid" (click)="submit()">Filter</button>
+    <button type="submit" class="btn btn-default" *ngIf="filters.length > 1 || form.valid" (click)="clearFilters()">Clear</button>
+  </div>
+</form>
