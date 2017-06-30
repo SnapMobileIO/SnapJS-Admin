@@ -2,9 +2,6 @@
 	<div *ngFor="let filter of filters">
     <div class="row">
 
-    	<p *ngIf="filter.field">Filter Field: {{filter.field}}</p>
-    	<p *ngIf="filter.operator">Filter Operator: {{filter.operator}}</p>
-
       <div class="col-md-4 form-group">
         <label for="fieldSelect">Field: </label><br>
 	      <select class="form-control" name="fieldSelect" [(ngModel)]="filter.field" required>
@@ -31,16 +28,38 @@
 		      </option>
         </select>
       </div>
-<!-- 
-      <div class="col-md-4 form-group" *ngIf="filter.field && schema[filter.field].instance != 'Boolean' && schema[filter.field].instance != 'Date'">
-        <label for="valueSelect">Value: </label><br>
+
+      <div *ngIf="filter.operator">
+	      <div class="col-md-4 form-group" *ngIf="filter.field && schema[filter.field].instance != 'Boolean' && schema[filter.field].instance != 'Date'">
+	        <label for="valueSelect">Value: </label><br>
+	        <input
+	        	class="form-control"
+	        	name="filterValue"
+	        	[(ngModel)]="filter.value"
+	        	type="search"
+	        	required="string" />
+	      </div>
+	      <div class="col-md-2 form-group" *ngIf="filter.field && schema[filter.field].instance === 'Date'">
+	        <label for="valueSelect">Date: </label><br>
+	        <input
+	        	class="form-control"
+	        	name="filterValue"
+	        	[(ngModel)]="filter.date"
+	        	type="date"
+	        	(change)="combineDateTime(filter)"
+	        	required />
+	      </div>
+	      <div class="col-md-2 form-group" *ngIf="filter.field && schema[filter.field].instance === 'Date'">
+	        <label for="valueSelect">Time: </label><br>
+	        <input
+	        	class="form-control"
+	        	name="filterValue"
+	        	[(ngModel)]="filter.time"
+	        	type="time"
+	        	(change)="combineDateTime(filter)"
+	        	required />
+	      </div>
       </div>
-      <div class="col-md-2 form-group" *ngIf="filter.field && schema[filter.field].instance == 'Date'">
-        <label for="valueSelect">Date: </label><br>
-      </div>
-      <div class="col-md-2 form-group" *ngIf="filter.field && schema[filter.field].instance == 'Date'">
-        <label for="valueSelect">Time: </label><br>
-      </div> -->
 
     </div>
   </div>
