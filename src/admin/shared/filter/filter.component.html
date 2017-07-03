@@ -1,10 +1,10 @@
 <form #form="ngForm">
-	<div *ngFor="let filter of filters">
+	<div *ngFor="let filter of filters; let i = index">
     <div class="row">
 
       <div class="col-md-4 form-group">
         <label for="fieldSelect">Field: </label><br>
-	      <select class="form-control" name="fieldSelect" [(ngModel)]="filter.field" required>
+	      <select class="form-control" name="fieldSelect_{{i}}" [(ngModel)]="filter.field" required>
 		      <option value="">---Please select---</option>
 		      <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
 		      	<!-- If this is a relationship, use the displayKey -->
@@ -19,7 +19,7 @@
 
       <div class="col-md-4 form-group" *ngIf="filter.field">
         <label for="operatorSelect">Operator: </label><br>
-        <select class="form-control" name="operatorSelect" [(ngModel)]="filter.operator" required>
+        <select class="form-control" name="operatorSelect_{{i}}" [(ngModel)]="filter.operator" required>
         	<option value="">---Please select---</option>
 		      <option
 		      	*ngFor="let operator of filterService.operators[schema[filter.field].instance] || filterService.operators.String"
@@ -34,7 +34,7 @@
 	        <label for="valueSelect">Value: </label><br>
 	        <input
 	        	class="form-control"
-	        	name="filterValue"
+	        	name="filterValue_{{i}}"
 	        	[(ngModel)]="filter.value"
 	        	type="search"
 	        	required="string" />
@@ -43,7 +43,7 @@
 	        <label for="valueSelect">Date: </label><br>
 	        <input
 	        	class="form-control"
-	        	name="filterValue"
+	        	name="filterValue_{{i}}"
 	        	[(ngModel)]="filter.date"
 	        	type="date"
 	        	(change)="combineDateTime(filter)"
@@ -53,7 +53,7 @@
 	        <label for="valueSelect">Time: </label><br>
 	        <input
 	        	class="form-control"
-	        	name="filterValue"
+	        	name="filterValue_{{i}}"
 	        	[(ngModel)]="filter.time"
 	        	type="time"
 	        	(change)="combineDateTime(filter)"
