@@ -34,4 +34,9 @@ export class FilterService {
     return { field: field, operator: operator, value: value };
   }
 
+  // Check if the filter field is a relationship by looking for a '.'
+  isRelationship(field: string) {
+    return field.includes('.') ? true : false;
+  }
+
 }

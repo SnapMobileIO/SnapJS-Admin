@@ -1,66 +1,145 @@
 <form #form="ngForm">
-	<div *ngFor="let filter of filters; let i = index">
+  <div *ngFor="let filter of filters; let i = index">
     <div class="row">
 
       <div class="col-md-4 form-group">
         <label for="fieldSelect">Field: </label><br>
-	      <select class="form-control" name="fieldSelect_{{i}}" [(ngModel)]="filter.field" required>
-		      <option value="">---Please select---</option>
-		      <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
-		      	<!-- If this is a relationship, use the displayKey -->
-			      <option
-			      	*ngIf="schema[key].instanceOverride !== 'Hidden' || schema[key].instanceOverride !== 'Remove'"
-			      	[value]="key">
-			      	{{schema[key].displayName || key}}
-			      </option>
-			    </ng-template>
-	      </select>
+        <select
+          class="form-control"
+          name="fieldSelect_{{i}}"
+          [(ngModel)]="filter.field"
+          required>
+          <option value="">---Please select---</option>
+          <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
+            <option
+              *ngIf="(schema[key].instanceOverride !== 'Hidden' || schema[key].instanceOverride !== 'Remove') && !schema[key].displayKey"
+              [value]="key">
+              {{schema[key].displayName || key}}
+            </option>
+            
+            <!-- If this is a relationship, use the displayKey -->
+            <option
+              *ngIf="(schema[key].instanceOverride !== 'Hidden' || schema[key].instanceOverride !== 'Remove') && schema[key].displayKey"
+              [value]="key + '.' + schema[key].displayKey">
+              {{schema[key].displayName || key}}
+            </option>
+          </ng-template>
+        </select>
       </div>
 
       <div class="col-md-4 form-group" *ngIf="filter.field">
         <label for="operatorSelect">Operator: </label><br>
-        <select class="form-control" name="operatorSelect_{{i}}" [(ngModel)]="filter.operator" required>
-        	<option value="">---Please select---</option>
-		      <option
-		      	*ngFor="let operator of filterService.operators[schema[filter.field].instance] || filterService.operators.String"
-		      	[value]="operator">
-		      	{{operator}}
-		      </option>
+        <!-- Select for relationship field -->
+        <select
+          class="form-control"
+          name="operatorSelect_{{i}}"
+          [(ngModel)]="filter.operator"
+          required
+          *ngIf="filterService.isRelationship(filter.field)">
+          <option value="">---Please select---</option>
+          <option
+            *ngFor="let operator of filterService.operators[schema[filter.field.split('.')[0]].instance] || filterService.operators.String"
+            [value]="operator">
+            {{operator}}
+          </option>
+        </select>
+
+        <!-- Select for non relationship field -->
+        <select
+          class="form-control"
+          name="operatorSelect_{{i}}"
+          [(ngModel)]="filter.operator"
+          required
+          *ngIf="!filterService.isRelationship(filter.field)">
+          <option value="">---Please select---</option>
+          <option
+            *ngFor="let operator of filterService.operators[schema[filter.field].instance] || filterService.operators.String"
+            [value]="operator">
+            {{operator}}
+          </option>
         </select>
       </div>
 
-      <div *ngIf="filter.operator">
-	      <div class="col-md-4 form-group" *ngIf="filter.field && schema[filter.field].instance != 'Boolean' && schema[filter.field].instance != 'Date'">
-	        <label for="valueSelect">Value: </label><br>
-	        <input
-	        	class="form-control"
-	        	name="filterValue_{{i}}"
-	        	[(ngModel)]="filter.value"
-	        	type="search"
-	        	required="string" />
-	      </div>
-	      <div class="col-md-2 form-group" *ngIf="filter.field && schema[filter.field].instance === 'Date'">
-	        <label for="valueSelect">Date: </label><br>
-	        <input
-	        	class="form-control"
-	        	name="filterValue_{{i}}"
-	        	[(ngModel)]="filter.date"
-	        	type="date"
-	        	(change)="combineDateTime(filter)"
-	        	required />
-	      </div>
-	      <div class="col-md-2 form-group" *ngIf="filter.field && schema[filter.field].instance === 'Date'">
-	        <label for="valueSelect">Time: </label><br>
-	        <input
-	        	class="form-control"
-	        	name="filterValue_{{i}}"
-	        	[(ngModel)]="filter.time"
-	        	type="time"
-	        	(change)="combineDateTime(filter)"
-	        	required />
-	      </div>
+      <!-- Value field for a relationship -->
+      <div *ngIf="filter.operator && filterService.isRelationship(filter.field)">
+        <div
+          class="col-md-4 form-group"
+          *ngIf="filter.field &&
+                  schema[filter.field.split('.')[0]].instance != 'Boolean' && schema[filter.field.split('.')[0]].instance != 'Date'">
+          <label for="valueSelect">Value: </label><br>
+          <input
+            class="form-control"
+            name="filterValue_{{i}}"
+            [(ngModel)]="filter.value"
+            type="search"
+            required="string" />
+        </div>
+        <div
+          class="col-md-2 form-group"
+          *ngIf="filter.field && schema[filter.field.split('.')[0]].instance === 'Date'">
+          <label for="valueSelect">Date: </label><br>
+          <input
+            class="form-control"
+            name="filterValue_{{i}}"
+            [(ngModel)]="filter.date"
+            type="date"
+            (change)="combineDateTime(filter)"
+            required />
+        </div>
+        <div
+          class="col-md-2 form-group"
+          *ngIf="filter.field && schema[filter.field.split('.')[0]].instance === 'Date'">
+          <label for="valueSelect">Time: </label><br>
+          <input
+            class="form-control"
+            name="filterValue_{{i}}"
+            [(ngModel)]="filter.time"
+            type="time"
+            (change)="combineDateTime(filter)"
+            required />
+        </div>
       </div>
 
+      <!-- Value field for non relationship field -->
+      <div *ngIf="filter.operator && !filterService.isRelationship(filter.field)">
+        <div
+          class="col-md-4 form-group"
+          *ngIf="filter.field &&
+                  schema[filter.field].instance != 'Boolean' &&
+                  schema[filter.field].instance != 'Date'">
+          <label for="valueSelect">Value: </label><br>
+          <input
+            class="form-control"
+            name="filterValue_{{i}}"
+            [(ngModel)]="filter.value"
+            type="search"
+            required="string" />
+        </div>
+        <div
+          class="col-md-2 form-group"
+          *ngIf="filter.field && schema[filter.field].instance === 'Date'">
+          <label for="valueSelect">Date: </label><br>
+          <input
+            class="form-control"
+            name="filterValue_{{i}}"
+            [(ngModel)]="filter.date"
+            type="date"
+            (change)="combineDateTime(filter)"
+            required />
+        </div>
+        <div
+          class="col-md-2 form-group"
+          *ngIf="filter.field && schema[filter.field].instance === 'Date'">
+          <label for="valueSelect">Time: </label><br>
+          <input
+            class="form-control"
+            name="filterValue_{{i}}"
+            [(ngModel)]="filter.time"
+            type="time"
+            (change)="combineDateTime(filter)"
+            required />
+        </div>
+      </div>
     </div>
   </div>
   <div class="pull-right">
