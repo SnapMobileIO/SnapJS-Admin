@@ -12,14 +12,18 @@
           <option value="">---Please select---</option>
           <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
             <option
-              *ngIf="(schema[key].instanceOverride !== 'Hidden' || schema[key].instanceOverride !== 'Remove') && !schema[key].displayKey"
+              *ngIf="(schema[key].instanceOverride !== 'Hidden' ||
+                      schema[key].instanceOverride !== 'Remove') &&
+                      !schema[key].displayKey"
               [value]="key">
               {{schema[key].displayName || key}}
             </option>
             
             <!-- If this is a relationship, use the displayKey -->
             <option
-              *ngIf="(schema[key].instanceOverride !== 'Hidden' || schema[key].instanceOverride !== 'Remove') && schema[key].displayKey"
+              *ngIf="(schema[key].instanceOverride !== 'Hidden' ||
+                      schema[key].instanceOverride !== 'Remove') &&
+                      schema[key].displayKey"
               [value]="key + '.' + schema[key].displayKey">
               {{schema[key].displayName || key}}
             </option>
