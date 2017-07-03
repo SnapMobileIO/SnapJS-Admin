@@ -16,6 +16,7 @@ export class AdminListComponent implements OnInit {
   currentPage = 1;
   selectAll: boolean;
   selectedItems: any[] = [];
+  filterToggle: boolean;
   toggle: any = {};
   filters: any[] = [{ field: '', operator: '', value: '' }];
   filterFunction: Function;
@@ -32,6 +33,9 @@ export class AdminListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
+      // Clear out filter
+      this.resetFilters();
+
       this.adminService.className = params.className;
       this.adminService.loadSchema()
         .then((response) => {
@@ -155,6 +159,14 @@ export class AdminListComponent implements OnInit {
     // Serialize params
     exportUrl += this.adminService.serializeParams(this.params).toString();
     window.open(exportUrl);
+  }
+
+  /**
+   * Clear filter and manage filterToggle
+   */
+  resetFilters() {
+    this.filters = [{ field: '', operator: '', value: '' }];
+    this.filterToggle = false;
   }
 
 }
