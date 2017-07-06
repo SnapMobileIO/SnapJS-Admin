@@ -2,8 +2,11 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AdminService } from '../../admin.service';
 import { FilterService } from './filter.service';
-import * as moment from 'moment';
-const momentFunc = (moment as any).default;
+import * as momentImport from 'moment';
+
+// This is a workaround for an error being thrown when trying to use moment
+// Typically we would just use the imported moment module without this
+const moment = (momentImport as any).default;
 
 @Component({
   selector: 'app-filter',
@@ -63,15 +66,15 @@ export class FilterComponent {
    * Combines date and time values of filer
    */
   combineDateTime(filter) {
-    let date = momentFunc(filter.date).format('YYYY-MM-DD');
-    let time = momentFunc(filter.time).format('kk:mm:ss Z');
+    let date = moment(filter.date).format('YYYY-MM-DD');
+    let time = moment(filter.time).format('kk:mm:ss Z');
 
     // Subtracting 1 hour from time if it's DST because the database time won't account for this
-    if (momentFunc(filter.date).isDST()) {
-      time = momentFunc(filter.time).subtract(60, 'minutes').format('kk:mm:ss Z');
+    if (moment(filter.date).isDST()) {
+      time = moment(filter.time).subtract(60, 'minutes').format('kk:mm:ss Z');
     }
 
-    let dateTime = momentFunc(date + ' ' + time, 'YYYY-MM-DD HH:mm:ss Z').toISOString();
+    let dateTime = moment(date + ' ' + time, 'YYYY-MM-DD HH:mm:ss Z').toISOString();
     filter.value = dateTime;
   }
 }
