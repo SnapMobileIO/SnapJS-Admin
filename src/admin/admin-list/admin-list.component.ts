@@ -2,6 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { AdminService } from '../admin.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ConstantsService } from '../constants.service';
 
 @Component({
   selector: 'app-admin-list',
@@ -27,6 +28,7 @@ export class AdminListComponent implements OnInit {
     public adminService: AdminService,
     private toastr: ToastsManager,
     private vRef: ViewContainerRef,
+    private constants: ConstantsService,
   ) {
     this.toastr.setRootViewContainerRef(vRef);
   }
@@ -149,7 +151,7 @@ export class AdminListComponent implements OnInit {
    */
   exportToCsv() {
     const token = localStorage.getItem('token');
-    let exportUrl = `http://localhost:3000/api/admin/${this.adminService.className}?export=true&access_token=${token}&`;
+    let exportUrl = `${this.constants.API_BASE_URL}/admin/${this.adminService.className}?export=true&access_token=${token}&`;
 
     // Remove limit and skip from the params for a csv export
     let exportParams = this.params;
