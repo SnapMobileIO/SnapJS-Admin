@@ -17,6 +17,8 @@ import { AdminDetailComponent } from './admin-detail/admin-detail.component';
 import { AdminEditComponent } from './admin-edit/admin-edit.component';
 import { AdminFormComponent } from './admin-form/admin-form.component';
 import { AdminNewComponent } from './admin-new/admin-new.component';
+import { FilterComponent } from './shared/filter/filter.component';
+import { FilterService } from './shared/filter/filter.service';
 import { SchemaShowComponent } from './shared/schema-show/schema-show.component';
 import { DisplayArrayRelComponent } from './shared/display-array-rel/display-array-rel.component';
 import { DisplayArrayEmbeddedComponent } from './shared/display-array-embedded/display-array-embedded.component';
@@ -58,6 +60,7 @@ import { ConstantsService } from './constants.service';
     AdminEditComponent,
     AdminFormComponent,
     AdminNewComponent,
+    FilterComponent,
     SchemaShowComponent,
     DisplayArrayEmbeddedComponent,
     DisplayArrayRelComponent,
@@ -81,6 +84,7 @@ import { ConstantsService } from './constants.service';
   providers: [
     AdminService,
     ConstantsService,
+    FilterService,
   ],
 })
 export class SnapJSAdminModule {

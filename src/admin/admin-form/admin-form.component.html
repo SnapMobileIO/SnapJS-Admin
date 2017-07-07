@@ -1,15 +1,15 @@
 <form novalidate [formGroup]="form" (ngSubmit)="submit()" class="form-horizontal">
   <div *ngFor="let schemaKey of schemaKeys">
-    <div [ngSwitch]="schema[schemaKey].instance">
+    <div [ngSwitch]="schema[schemaKey].instanceOverride || schema[schemaKey].instance">
 
-      <app-formcontrol-input *ngSwitchCase="'Boolean'" [form]="form" [field]="schemaKey" [inputType]="'checkbox'"></app-formcontrol-input>
-      <app-formcontrol-input *ngSwitchCase="'Number'" [form]="form" [field]="schemaKey" [inputType]="'number'"></app-formcontrol-input>
-      <app-formcontrol-input *ngSwitchCase="'Date'" [form]="form" [field]="schemaKey" [inputType]="'datetime-local'"></app-formcontrol-input>
-      <app-formcontrol-input *ngSwitchCase="'Hidden'" [form]="form" [field]="schemaKey" [inputType]="'hidden'"></app-formcontrol-input>
-      <app-formcontrol-input *ngSwitchCase="'Disabled'" [form]="form" [field]="schemaKey" [inputType]="'text'"></app-formcontrol-input>
+      <app-formcontrol-input *ngSwitchCase="'Boolean'" [form]="form" [field]="schema[schemaKey].displayName || schemaKey" [inputType]="'checkbox'"></app-formcontrol-input>
+      <app-formcontrol-input *ngSwitchCase="'Number'" [form]="form" [field]="schema[schemaKey].displayName || schemaKey" [inputType]="'number'"></app-formcontrol-input>
+      <app-formcontrol-input *ngSwitchCase="'Date'" [form]="form" [field]="schema[schemaKey].displayName || schemaKey" [inputType]="'datetime-local'"></app-formcontrol-input>
+      <app-formcontrol-input *ngSwitchCase="'Hidden'" [form]="form" [field]="schema[schemaKey].displayName || schemaKey" [inputType]="'hidden'"></app-formcontrol-input>
+      <app-formcontrol-input *ngSwitchCase="'Disabled'" [form]="form" [field]="schema[schemaKey].displayName || schemaKey" [inputType]="'text'"></app-formcontrol-input>
 
-      <app-formcontrol-select *ngSwitchCase="'SingleSelect'" [form]="form" [object]="object" [field]="schemaKey" [multiple]="false" [items]="schema[schemaKey].options"></app-formcontrol-select>
-      <app-formcontrol-select *ngSwitchCase="'MultiSelect'" [form]="form" [object]="object" [field]="schemaKey" [multiple]="true" [items]="schema[schemaKey].options"></app-formcontrol-select>
+      <app-formcontrol-select *ngSwitchCase="'SingleSelect'" [form]="form" [object]="object" [field]="schema[schemaKey].displayName || schemaKey" [multiple]="false" [items]="schema[schemaKey].options"></app-formcontrol-select>
+      <app-formcontrol-select *ngSwitchCase="'MultiSelect'" [form]="form" [object]="object" [field]="schema[schemaKey].displayName || schemaKey" [multiple]="true" [items]="schema[schemaKey].options"></app-formcontrol-select>
 
       <!-- Array of subdocuments -->
       <div *ngSwitchCase="'Array'">
@@ -17,7 +17,7 @@
           *ngIf="schema[schemaKey].schema" 
           [form]="form" 
           [object]="object" 
-          [field]="schemaKey" 
+          [field]="schema[schemaKey].displayName || schemaKey" 
           [schema]="schema[schemaKey].schema">
         </app-formcontrol-array-rel>
       </div>
@@ -30,7 +30,7 @@
           [object]="object" 
           [searchClass]="schema[schemaKey].options.ref" 
           [searchField]="schema[schemaKey].searchField" 
-          [field]="schemaKey" 
+          [field]="schema[schemaKey].displayName || schemaKey" 
           [multiple]="false">  
         </app-formcontrol-select-rel>
       </div>
@@ -43,7 +43,7 @@
           [object]="object" 
           [searchClass]="schema[schemaKey].caster.options.ref"
           [searchField]="schema[schemaKey].searchField"
-          [field]="schemaKey"
+          [field]="schema[schemaKey].displayName || schemaKey"
           [multiple]="true">
         </app-formcontrol-select-rel>
       </div>
@@ -53,7 +53,7 @@
         <app-formcontrol-array
           *ngIf="schema[schemaKey].caster.options && !schema[schemaKey].caster.options.ref"
           [form]="form" 
-          [field]="schemaKey">
+          [field]="schema[schemaKey].displayName || schemaKey">
         </app-formcontrol-array>
       </div>
 
@@ -61,7 +61,7 @@
       <div *ngSwitchCase="'Embedded'">
         <app-formcontrol-group
           [form]="form"
-          [field]="schemaKey" 
+          [field]="schema[schemaKey].displayName || schemaKey" 
           [schema]="schema[schemaKey].schema">
         </app-formcontrol-group>
       </div>
@@ -70,7 +70,7 @@
       <div *ngSwitchCase="'Wysiwyg'">
         <app-formcontrol-tinymce 
           [form]="form" 
-          [field]="schemaKey">
+          [field]="schema[schemaKey].displayName || schemaKey">
         </app-formcontrol-tinymce>
       </div>
 
@@ -78,7 +78,7 @@
       <div *ngSwitchCase="'Image'">
         <app-formcontrol-file-upload
           [isMultiple]="false"
-          [field]="schemaKey"
+          [field]="schema[schemaKey].displayName || schemaKey"
           [object]="object"
           [allowedMimeType]="schema[schemaKey].allowedMimeType"
           [maxFileSize]="schema[schemaKey].maxFileSize"
@@ -90,7 +90,7 @@
       <div *ngSwitchCase="'File'">
         <app-formcontrol-file-upload
           [isMultiple]="false"
-          [field]="schemaKey"
+          [field]="schema[schemaKey].displayName || schemaKey"
           [object]="object"
           [allowedMimeType]="schema[schemaKey].allowedMimeType"
           [maxFileSize]="schema[schemaKey].maxFileSize"
@@ -102,7 +102,7 @@
       <div *ngSwitchCase="'ImageArray'">
         <app-formcontrol-file-upload
           [isMultiple]="true"
-          [field]="schemaKey"
+          [field]="schema[schemaKey].displayName || schemaKey"
           [object]="object"
           [allowedMimeType]="schema[schemaKey].allowedMimeType"
           [maxFileSize]="schema[schemaKey].maxFileSize"
@@ -114,7 +114,7 @@
       <div *ngSwitchCase="'FileArray'">
         <app-formcontrol-file-upload
           [isMultiple]="true"
-          [field]="schemaKey"
+          [field]="schema[schemaKey].displayName || schemaKey"
           [object]="object"
           [allowedMimeType]="schema[schemaKey].allowedMimeType"
           [maxFileSize]="schema[schemaKey].maxFileSize"
@@ -124,7 +124,7 @@
 
       <!-- Default input type -->
       <div *ngSwitchDefault>
-        <app-formcontrol-input [form]="form" [field]="schemaKey" [inputType]="'text'"></app-formcontrol-input>
+        <app-formcontrol-input [form]="form" [field]="schema[schemaKey].displayName || schemaKey" [inputType]="'text'"></app-formcontrol-input>
       </div>
     </div>
 

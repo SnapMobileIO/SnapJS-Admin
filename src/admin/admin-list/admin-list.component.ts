@@ -2,6 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { AdminService } from '../admin.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ConstantsService } from '../constants.service';
 
 @Component({
   selector: 'app-admin-list',
@@ -16,6 +17,10 @@ export class AdminListComponent implements OnInit {
   currentPage = 1;
   selectAll: boolean;
   selectedItems: any[] = [];
+  filterToggle: boolean;
+  toggle: any = {};
+  filters: any[] = [{ field: '', operator: '', value: '' }];
+  filterFunction: Function;
 
   constructor(
     private router: Router,
@@ -23,18 +28,25 @@ export class AdminListComponent implements OnInit {
     public adminService: AdminService,
     private toastr: ToastsManager,
     private vRef: ViewContainerRef,
+    private constants: ConstantsService,
   ) {
     this.toastr.setRootViewContainerRef(vRef);
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
+      // Clear out filter
+      this.resetFilters();
+
       this.adminService.className = params.className;
       this.adminService.loadSchema()
         .then((response) => {
           this.findAll();
         });
     });
+
+    // Bind 'this' since the submit function is a callback
+    this.filterFunction = this.findAll.bind(this);
   }
 
   findAll(params?: any): void {
@@ -121,5 +133,42 @@ export class AdminListComponent implements OnInit {
     index >= 0 ? this.selectedItems.splice(index, 1) : this.selectedItems.push(objectId);
     this.selectAll = this.selectedItems.length === this.objects.length;
   };
+
+  /**
+   * Updates and reruns findAll() to sort objects based on key and asc / desc
+   * The toggle state is tracked so that the UI can be udpated
+   * @param  {String} key The key to sort by
+   */
+  updateSort(key: string) {
+    let isDesc = !!this.params.sort.lastIndexOf('-', 0);
+    this.params.sort = isDesc ? `-${key}` : key;
+    this.toggle[key] = !isDesc;
+    this.findAll(this.params);
+  }
+
+  /**
+   * Direct user to URL that exports data to a CSV file
+   */
+  exportToCsv() {
+    const token = localStorage.getItem('token');
+    let exportUrl = `${this.constants.API_BASE_URL}/admin/${this.adminService.className}?export=true&access_token=${token}&`;
+
+    // Remove limit and skip from the params for a csv export
+    let exportParams = this.params;
+    delete exportParams.skip;
+    delete exportParams.limit;
+
+    // Serialize params
+    exportUrl += this.adminService.serializeParams(this.params).toString();
+    window.open(exportUrl);
+  }
+
+  /**
+   * Clear filter and manage filterToggle
+   */
+  resetFilters() {
+    this.filters = [{ field: '', operator: '', value: '' }];
+    this.filterToggle = false;
+  }
 
 }

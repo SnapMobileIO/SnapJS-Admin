@@ -9,6 +9,10 @@
   width: 100%;
   background: #dbdfe2;
 
+  th {
+    white-space: nowrap;
+  }
+
   .wrapper {
     padding-top: 50px;
     padding-left: 0;

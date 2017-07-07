@@ -1,4 +1,5 @@
 <div class="container-fluid" *ngIf="object">
+
   <div class="row">
     <div class="col-lg-12">
       <div class="panel">
@@ -6,16 +7,15 @@
           <ul class="list-group">
             <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
               <li class="list-group-item"
-                *ngIf="adminService.schema[key].instance !== 'Hidden' && 
-                  adminService.schema[key].instance !== 'Remove'"
-                  [ngSwitch]="adminService.schema[key].instance">
+                *ngIf="adminService.schema[key].instanceOverride !== 'Hidden' && adminService.schema[key].instanceOverride !== 'Remove'"
+                  [ngSwitch]="adminService.schema[key].instanceOverride || adminService.schema[key].instance">
 
                 <!-- Image -->
                 <div *ngSwitchCase="'Image'">
                   <span>
                     <div class="row">
                       <div class="col-sm-1">
-                        <strong class="text-wordwrap">{{key}}:</strong>
+                        <strong class="text-wordwrap">{{adminService.schema[key].displayName || key}}:</strong>
                       </div>
                       <app-display-file
                         *ngIf="object[key]"
@@ -30,7 +30,7 @@
                   <span>
                     <div class="row">
                       <div class="col-sm-1">
-                        <strong class="text-wordwrap">{{key}}:</strong>
+                        <strong class="text-wordwrap">{{adminService.schema[key].displayName || key}}:</strong>
                       </div>
                       <app-display-file
                         *ngIf="object[key]"
@@ -45,7 +45,7 @@
                   <span>
                     <div class="row">
                       <div class="col-sm-1">
-                        <strong class="text-wordwrap">{{key}}:</strong>
+                        <strong class="text-wordwrap">{{adminService.schema[key].displayName || key}}:</strong>
                       </div>
                       <app-display-file
                         *ngIf="object[key]"
@@ -60,7 +60,7 @@
                   <span>
                     <div class="row">
                       <div class="col-sm-1">
-                        <strong class="text-wordwrap">{{key}}:</strong>
+                        <strong class="text-wordwrap">{{adminService.schema[key].displayName || key}}:</strong>
                       </div>
                       <app-display-file
                         [files]="object[key]">
@@ -75,7 +75,7 @@
                     *ngIf="adminService.schema[key].caster.options && !adminService.schema[key].caster.options.ref">
                     <strong>{{key}}: </strong>
                     <app-display-array
-                      [field]="key"
+                      [field]="adminService.schema[key].displayName || key"
                       [value]="object[key]"> 
                     </app-display-array>
                   </span>
@@ -84,8 +84,8 @@
                 <!-- Single string -->
                 <div *ngSwitchCase="'SingleSelect'">
                   <app-display-text
-                    *ngIf="adminService.schema[key].instance !== 'hidden'"
-                    [field]="key"
+                    *ngIf="adminService.schema[key].instanceOverride !== 'Hidden'"
+                    [field]="adminService.schema[key].displayName || key"
                     [value]="object[key]">
                   </app-display-text>
                 </div>
@@ -93,7 +93,7 @@
                 <!-- Multi select of strings -->
                 <div *ngSwitchCase="'MultiSelect'">
                   <span>
-                    <strong>{{key}}: </strong>
+                    <strong>{{adminService.schema[key].displayName || key}}: </strong>
                     <app-display-array
                       [field]="key"
                       [value]="object[key]">
@@ -108,7 +108,7 @@
                             adminService.schema[key].options.ref &&
                             key !== '_id'"
                     [value]="object[key]"
-                    [field]="key"
+                    [field]="adminService.schema[key].displayName || key"
                     [className]="adminService.schema[key].options.ref"
                     [displayKey]="adminService.schema[key].displayKey || adminService.schema[key].searchField"> 
                   </app-display-single-rel>
@@ -120,7 +120,7 @@
                     *ngIf="adminService.schema[key].caster.options && adminService.schema[key].caster.options.ref"
                     [className]="adminService.schema[key].caster.options.ref"
                     [displayKey]="adminService.schema[key].displayKey || adminService.schema[key].searchField"
-                    [field]="key"
+                    [field]="adminService.schema[key].displayName || key"
                     [value]="object[key]">
                   </app-display-array-rel>
                 </div>
@@ -129,7 +129,7 @@
                 <div *ngSwitchCase="'ObjectID'">
                   <app-display-text
                     *ngIf="key === '_id'"
-                    [field]="key"
+                    [field]="adminService.schema[key].displayName || key"
                     [value]="object[key]">
                   </app-display-text>
                 </div>
@@ -137,7 +137,7 @@
                 <!-- Wysiwyg editor -->
                 <div *ngSwitchCase="'Wysiwyg'">
                   <span>
-                    <strong>{{key}}:</strong>
+                    <strong>{{adminService.schema[key].displayName || key}}:</strong>
                     <div [innerHTML]="object[key]"></div>
                   </span>
                 </div>
@@ -146,7 +146,7 @@
                 <div *ngSwitchCase="'Embedded'">
                   <div class="row">
                     <div class="col-sm-2">
-                      <label>{{key}}: </label>
+                      <label>{{adminService.schema[key].displayName || key}}: </label>
                     </div>
                     <app-display-array-embedded
                       *ngIf="object[key]"
@@ -160,7 +160,7 @@
                 <div *ngSwitchCase="'CustomObject'">
                   <div class="row">
                     <div class="col-sm-2">
-                      <label>{{key}}: </label>
+                      <label>{{adminService.schema[key].displayName || key}}: </label>
                     </div>
                     <app-display-array-embedded
                       *ngIf="object[key]"
@@ -174,7 +174,7 @@
                 <div *ngSwitchCase="'Array'">
                   <div class="row" *ngIf="adminService.schema[key].caster._id">
                     <div class="col-sm-2">
-                      <label>{{key}}: </label>
+                      <label>{{adminService.schema[key].displayName || key}}: </label>
                     </div>
                     <app-display-array-embedded [value]="object[key]" [key]="key">
                     </app-display-array-embedded>
@@ -184,8 +184,8 @@
                 <!-- Default type -->
                 <div *ngSwitchDefault>
                   <app-display-text
-                    *ngIf="adminService.schema[key].instance !== 'hidden'"
-                    [field]="key"
+                    *ngIf="adminService.schema[key].instanceOverride !== 'Hidden'"
+                    [field]="adminService.schema[key].displayName || key"
                     [value]="object[key]">
                   </app-display-text>
                 </div>

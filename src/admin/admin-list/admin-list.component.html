@@ -3,6 +3,12 @@
     <h1>{{adminService.className}}</h1>
     <div class="actions">
       <a [routerLink]="['/admin', adminService.className, 'new']" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
+      <a (click)="exportToCsv()" class="btn btn-default"><i class="fa fa-file-o" aria-hidden="true"></i> Export to CSV</a>
+      <a (click)="filterToggle = !filterToggle" class="btn btn-default">
+        <i class="fa fa-filter"></i>
+        <span *ngIf="filterToggle"> Hide Filter</span>
+        <span *ngIf="!filterToggle"> Show Filter</span>
+      </a>
     </div>
   </div>
 
@@ -10,6 +16,15 @@
     <div class="col-lg-12">
       <div class="panel">
         <div class="panel-body table-responsive">
+          <app-filter
+            *ngIf="adminService.schema && filterToggle"
+            [filters]="filters"
+            [schema]="adminService.schema"
+            [findAll]="filterFunction"
+            [itemsPerPage]="itemsPerPage"
+            [skip]="params.skip"
+            [sort]="params.sort">
+          </app-filter>
           <button *ngIf="selectedItems.length" class="btn btn-danger" (click)="deleteMultiple(selectedItems)">Delete ({{selectedItems.length}}) Items</button>
           <table class="table table-hover">
             <thead>
@@ -19,11 +34,11 @@
                 </th>
                 <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
                   <th class="wordwrap-none text-muted"
-                    *ngIf="adminService.schema[key].instance !== 'Hidden' && adminService.schema[key].instance !== 'Wysiwyg' &&
-                    adminService.schema[key].instance !== 'Remove'">
-                    <a *ngIf="adminService.schema[key]" href="#">
-                      {{key}}
-                      <i class="fa fa-caret-down"></i>
+                    *ngIf="adminService.schema[key].instanceOverride !== 'Hidden' && adminService.schema[key].instanceOverride !== 'Wysiwyg' &&
+                    adminService.schema[key].instanceOverride !== 'Remove'">
+                    <a *ngIf="adminService.schema[key]" (click)="updateSort(key)">
+                      {{adminService.schema[key].displayName || key}}
+                      <i [ngClass]="toggle[key] ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
                     </a>
                   </th>
                 </ng-template>
@@ -38,9 +53,9 @@
 
                 <ng-template ngFor let-schemaKey [ngForOf]="adminService.schemaKeys">
                   <td
-                    *ngIf="adminService.schema[schemaKey].instance !== 'Hidden' && adminService.schema[schemaKey].instance !== 'Wysiwyg' && 
-                    adminService.schema[schemaKey].instance !== 'Remove'"
-                    [ngSwitch]="adminService.schema[schemaKey].instance">
+                    *ngIf="adminService.schema[schemaKey].instanceOverride !== 'Hidden' && adminService.schema[schemaKey].instanceOverride !== 'Wysiwyg' && 
+                    adminService.schema[schemaKey].instanceOverride !== 'Remove'"
+                    [ngSwitch]="adminService.schema[schemaKey].instanceOverride || adminService.schema[schemaKey].instance">
 
                     <!-- Image -->
                     <div *ngSwitchCase="'Image'">
