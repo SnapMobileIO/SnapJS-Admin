@@ -7,7 +7,7 @@
           <ul class="list-group">
             <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
               <li class="list-group-item"
-                *ngIf="adminService.schema[key].instanceOverride !== 'Hidden' && adminService.schema[key].instanceOverride !== 'Remove'"
+                *ngIf="adminService.schema[key] && adminService.schema[key].instanceOverride !== 'Hidden' && adminService.schema[key].instanceOverride !== 'Remove'"
                   [ngSwitch]="adminService.schema[key].instanceOverride || adminService.schema[key].instance">
 
                 <!-- Image -->
