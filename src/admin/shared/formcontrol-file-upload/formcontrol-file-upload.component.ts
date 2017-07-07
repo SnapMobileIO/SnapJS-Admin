@@ -13,6 +13,7 @@ export class FormControlFileUploadComponent implements OnInit {
   @Input() isMultiple: boolean;
   @Input() form: any;
   @Input() field: string;
+  @Input() displayName: string;
   @Input() object: {};
   @Input() allowedMimeType?: string[];
   @Input() maxFileSize?: number;

@@ -11,6 +11,7 @@ export class FormcontrolSelectComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() object: {};
   @Input() field: string;
+  @Input() displayName: string;
   @Input() multiple: boolean = false;
   @Input() items: { id: string, text: string}[] = [];
   active: any[];

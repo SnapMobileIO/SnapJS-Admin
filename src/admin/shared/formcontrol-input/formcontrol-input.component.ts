@@ -9,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 export class FormcontrolInputComponent {
   @Input() form: FormGroup;
   @Input() field: string;
+  @Input() displayName: string;
   @Input() inputType: string = 'input';
 
   /**
