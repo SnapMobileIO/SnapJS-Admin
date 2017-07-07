@@ -34,7 +34,8 @@
                 </th>
                 <ng-template ngFor let-key [ngForOf]="adminService.schemaKeys">
                   <th class="wordwrap-none text-muted"
-                    *ngIf="adminService.schema[key].instanceOverride !== 'Hidden' && adminService.schema[key].instanceOverride !== 'Wysiwyg' &&
+                    *ngIf="adminService.schema[key] &&
+                    adminService.schema[key].instanceOverride !== 'Hidden' && adminService.schema[key].instanceOverride !== 'Wysiwyg' &&
                     adminService.schema[key].instanceOverride !== 'Remove'">
                     <a *ngIf="adminService.schema[key]" (click)="updateSort(key)">
                       {{adminService.schema[key].displayName || key}}
