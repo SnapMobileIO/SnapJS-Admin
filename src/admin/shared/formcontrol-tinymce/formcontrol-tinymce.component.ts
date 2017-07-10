@@ -8,6 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class FormcontrolTinymceComponent implements AfterViewInit, OnDestroy {
   @Input() field: string;
+  @Input() displayName: string;
   @Input() form: FormGroup;
   editor: any;
 

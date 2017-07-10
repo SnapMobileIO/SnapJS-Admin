@@ -10,6 +10,7 @@ export class FormcontrolArrayRelComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() object: {};
   @Input() field: string;
+  @Input() displayName: string;
   @Input() schema: any;
   schemaKeys: any[];
 

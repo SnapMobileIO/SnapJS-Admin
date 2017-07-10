@@ -13,6 +13,7 @@ export class FormcontrolSelectRelComponent implements OnInit {
   @Input() searchClass: string;
   @Input() searchField: string = 'displayName';
   @Input() field: string;
+  @Input() displayName: string;
   @Input() multiple: boolean = false;
   items: { id: string, text: string}[] = [];
   active: any[];

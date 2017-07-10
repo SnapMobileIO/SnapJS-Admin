@@ -9,4 +9,5 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 export class FormcontrolArrayComponent {
   @Input() form: FormGroup;
   @Input() field: string;
+  @Input() displayName: string;
 }
