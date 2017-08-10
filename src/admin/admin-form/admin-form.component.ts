@@ -84,6 +84,13 @@ export class AdminFormComponent implements OnInit {
 
   submit() {
     if (this.form.valid && this.submitFunction) {
+      // Remove any blank value if instance is an objectId
+      for (let key in this.adminService.schema) {
+        if (this.adminService.schema[key].instance === 'ObjectID' && key !== '_id') {
+          delete this.form.value[key];
+        }
+      }
+
       this.submitFunction(this.form);
     }
   }
