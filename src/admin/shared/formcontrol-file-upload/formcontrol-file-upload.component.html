@@ -4,14 +4,14 @@
   <div *ngIf="!isMultiple">
     <label class="col-sm-2 control-label">{{displayName}}:</label>
 
-    <div *ngIf="form.value[field]">
-      <div *ngIf="form.value[field].url">
-        <img *ngIf="isImage(form.value[field].type)" src="{{constants.AWS_S3_BASE_URL}}/{{form.value[field].url}}" style="max-width: 200px; max-height: 200px;">
-        <a *ngIf="!isImage(form.value[field].type)" href="{{constants.AWS_S3_BASE_URL}}/{{form.value[field].url}}" target="_blank">{{form.value[field].name}}</a>
+    <div *ngIf="form.controls[field].value">
+      <div *ngIf="form.controls[field].value.url">
+        <img *ngIf="isImage(form.controls[field].value.type)" src="{{constants.AWS_S3_BASE_URL}}/{{form.controls[field].value.url}}" style="max-width: 200px; max-height: 200px;">
+        <a *ngIf="!isImage(form.controls[field].value.type)" href="{{constants.AWS_S3_BASE_URL}}/{{form.controls[field].value.url}}" target="_blank">{{form.controls[field].value.name}}</a>
       </div>
     </div>
 
-    <div class="col-sm-offset-2 col-sm-10">
+    <div class="col-sm-offset-2 col-sm-10" *ngIf="!form.controls[field].disabled">
       <span *ngIf="form.value[field].name" (click)="form.value[field] = {}">Remove</span>
     </div>
   </div>
@@ -36,7 +36,7 @@
   </div>
 
   <!-- Upload form -->
-  <div class="col-sm-offset-2 col-sm-10">
+  <div class="col-sm-offset-2 col-sm-10" *ngIf="!form.controls[field].disabled">
 	 <input type="file" ng2FileSelect [uploader]="uploader" multiple="isMultiple" />
     <p *ngIf="errorMessage">{{errorMessage}}</p>
   </div>
@@ -56,7 +56,7 @@
   </div>
 
   <!-- Upload button -->
-  <div class="col-sm-offset-2 col-sm-10">
+  <div class="col-sm-offset-2 col-sm-10" *ngIf="!form.controls[field].disabled">
     <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
       <span class="glyphicon glyphicon-upload"></span> Upload
     </button>
