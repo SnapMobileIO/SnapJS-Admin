@@ -67,8 +67,9 @@
       <!-- Array of subdocuments -->
       <div *ngSwitchCase="'Array'">
         <app-formcontrol-array-rel
-          *ngIf="schema[schemaKey].schema" 
-          [form]="form" 
+          *ngIf="schema[schemaKey].schema"
+          [disabled]="schema[schemaKey].instanceOptions && schema[schemaKey].instanceOptions.disabled" 
+          [form]="form"
           [object]="object" 
           [field]="schemaKey"
           [displayName]="schema[schemaKey].displayName || schemaKey"
