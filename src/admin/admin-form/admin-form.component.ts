@@ -28,7 +28,8 @@ export class AdminFormComponent implements OnInit {
     // Remove hidden keys
     let i = this.schemaKeys.length;
     while (i--) {
-      if (this.schema[this.schemaKeys[i]].instanceOverride === 'Remove') {
+      if (this.schema[this.schemaKeys[i]].instanceOverride === 'Remove' ||
+        (this.schema[this.schemaKeys[i]].instanceOptions && this.schema[this.schemaKeys[i]].instanceOptions.hidden)) {
         delete this.schema[this.schemaKeys[i]];
         this.schemaKeys.splice(i, 1);
       }
@@ -84,7 +85,7 @@ export class AdminFormComponent implements OnInit {
 
   submit() {
     if (this.form.valid && this.submitFunction) {
-      // Remove any blank value if instance is an objectId
+      // Remove any blank values if instance is an objectId
       for (let key in this.adminService.schema) {
         if (this.adminService.schema[key].instance === 'ObjectID' && key !== '_id') {
           delete this.form.value[key];
