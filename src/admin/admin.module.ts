@@ -26,6 +26,7 @@ import { DisplaySingleRelComponent } from './shared/display-single-rel/display-s
 import { DisplayTextComponent } from './shared/display-text/display-text.component';
 import { DisplayArrayComponent } from './shared/display-array/display-array.component';
 import { DisplayFileComponent } from './shared/display-file/display-file.component';
+import { FormcontrolSubdocumentComponent } from './shared/formcontrol-subdocument/formcontrol-subdocument.component';
 import { FormcontrolInputComponent } from './shared/formcontrol-input/formcontrol-input.component';
 import { FormcontrolSelectRelComponent } from './shared/formcontrol-select-rel/formcontrol-select-rel.component';
 import { FormcontrolSelectComponent } from './shared/formcontrol-select/formcontrol-select.component';
@@ -69,6 +70,7 @@ import { ConstantsService } from './constants.service';
     DisplayArrayComponent,
     DisplayFileComponent,
     FormcontrolInputComponent,
+    FormcontrolSubdocumentComponent,
     FormcontrolSelectRelComponent,
     FormcontrolSelectComponent,
     FormcontrolArrayComponent,

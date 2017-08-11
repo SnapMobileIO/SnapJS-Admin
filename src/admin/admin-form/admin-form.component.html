@@ -187,6 +187,15 @@
         </app-formcontrol-file-upload>
       </div>
 
+      <!-- SubDocument -->
+      <div *ngSwitchCase="'SubDocument'">
+        <app-formcontrol-subdocument
+          *ngIf="object[schemaKey]"
+          [displayName]="schema[schemaKey].displayName"
+          [value]="schema[schemaKey].displayKey ? object[schemaKey][schema[schemaKey].displayKey] : object[schemaKey]">
+        </app-formcontrol-subdocument>
+      </div>
+
       <!-- Default input type -->
       <div *ngSwitchDefault>
         <app-formcontrol-input [form]="form" [field]="schemaKey" [inputType]="'text'" [displayName]="schema[schemaKey].displayName || schemaKey"></app-formcontrol-input>
