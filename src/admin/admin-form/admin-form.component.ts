@@ -28,8 +28,7 @@ export class AdminFormComponent implements OnInit {
     // Remove hidden keys
     let i = this.schemaKeys.length;
     while (i--) {
-      if (this.schema[this.schemaKeys[i]].instanceOverride === 'Remove' ||
-          this.schema[this.schemaKeys[i]].instanceOverride === 'Hidden') {
+      if (this.schema[this.schemaKeys[i]].instanceOverride === 'Remove') {
         delete this.schema[this.schemaKeys[i]];
         this.schemaKeys.splice(i, 1);
       }
