@@ -118,6 +118,7 @@
       <!-- Single embedded document -->
       <div *ngSwitchCase="'Embedded'">
         <app-formcontrol-group
+          [disabled]="schema[schemaKey].instanceOptions && schema[schemaKey].instanceOptions.disabled"
           [form]="form"
           [field]="schemaKey"
           [displayName]="schema[schemaKey].displayName || schemaKey"
