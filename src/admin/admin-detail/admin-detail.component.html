@@ -181,6 +181,14 @@
                   </div>
                 </div>
 
+                <!-- SubDocument -->
+                <div *ngSwitchCase="'SubDocument'">
+                  <app-display-text
+                    [field]="adminService.schema[key].displayName || key"
+                    [value]="object[key] && adminService.schema[key].displayKey ? object[key][adminService.schema[key].displayKey] : object[key]">
+                  </app-display-text>
+                </div>
+
                 <!-- Default type -->
                 <div *ngSwitchDefault>
                   <app-display-text

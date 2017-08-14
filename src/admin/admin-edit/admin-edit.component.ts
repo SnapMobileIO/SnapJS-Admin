@@ -40,6 +40,16 @@ export class AdminEditComponent implements OnInit {
   submit(form: FormGroup) {
     const object = form.value;
     if (object) {
+
+      // Before submitting form we need to delete any blank ObjectID fields
+      // We can't send an empty string as an ObjectID
+      for (let key in this.adminService.schema) {
+        if ((!object[key] || !object[key].length) &&
+          this.adminService.schema[key].instance === 'ObjectID' && key !== '_id') {
+          delete object[key];
+        }
+      }
+
       this.adminService.update(object)
         .then((response) => {
           this.router.navigate([`/admin/${this.adminService.className}`, object._id]);

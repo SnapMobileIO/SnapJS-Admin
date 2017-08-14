@@ -67,7 +67,14 @@ export class AdminFormComponent implements OnInit {
         }
 
         // Set the field to disabled if overwritten in config
-        let disabled = this.schema[key].instanceOverride === 'Disabled' ? true : false;
+        let disabled;
+        if (this.schema[key].instanceOverride === 'Disabled') {
+          disabled = true;
+        } else if (this.schema[key].instanceOptions && this.schema[key].instanceOptions.disabled) {
+          disabled = true;
+        } else {
+          disabled = false;
+        }
 
         // this.form.registerControl(key, new FormControl({value, disabled}, [Validators.required]));
         this.form.registerControl(key, new FormControl({value, disabled}, []));

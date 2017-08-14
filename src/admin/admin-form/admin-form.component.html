@@ -67,8 +67,9 @@
       <!-- Array of subdocuments -->
       <div *ngSwitchCase="'Array'">
         <app-formcontrol-array-rel
-          *ngIf="schema[schemaKey].schema" 
-          [form]="form" 
+          *ngIf="schema[schemaKey].schema"
+          [disabled]="schema[schemaKey].instanceOptions && schema[schemaKey].instanceOptions.disabled" 
+          [form]="form"
           [object]="object" 
           [field]="schemaKey"
           [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -117,6 +118,7 @@
       <!-- Single embedded document -->
       <div *ngSwitchCase="'Embedded'">
         <app-formcontrol-group
+          [disabled]="schema[schemaKey].instanceOptions && schema[schemaKey].instanceOptions.disabled"
           [form]="form"
           [field]="schemaKey"
           [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -183,6 +185,15 @@
           [maxFileSize]="schema[schemaKey].maxFileSize"
           [form]="form">
         </app-formcontrol-file-upload>
+      </div>
+
+      <!-- SubDocument -->
+      <div *ngSwitchCase="'SubDocument'">
+        <app-formcontrol-subdocument
+          *ngIf="object[schemaKey]"
+          [displayName]="schema[schemaKey].displayName"
+          [value]="schema[schemaKey].displayKey ? object[schemaKey][schema[schemaKey].displayKey] : object[schemaKey]">
+        </app-formcontrol-subdocument>
       </div>
 
       <!-- Default input type -->

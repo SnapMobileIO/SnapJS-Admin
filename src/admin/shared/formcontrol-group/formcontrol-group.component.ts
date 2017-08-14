@@ -11,6 +11,7 @@ export class FormcontrolGroupComponent implements OnInit {
   @Input() field: string;
   @Input() displayName: string;
   @Input() schema: any;
+  @Input() disabled: boolean;
   schemaKeys: any[];
 
   constructor(

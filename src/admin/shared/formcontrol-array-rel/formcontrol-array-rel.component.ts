@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-formcontrol-array-rel',
@@ -12,6 +12,7 @@ export class FormcontrolArrayRelComponent implements OnInit {
   @Input() field: string;
   @Input() displayName: string;
   @Input() schema: any;
+  @Input() disabled: boolean;
   schemaKeys: any[];
 
   constructor(
@@ -52,6 +53,37 @@ export class FormcontrolArrayRelComponent implements OnInit {
   removeItem(i: number) {
     const control = <FormArray>this.form.controls[this.field];
     control.removeAt(i);
+  }
+
+  /**
+   * Get the input type based on the subdocument field instance coming back from schema
+   * @param {string} key The field name
+   */
+  getInputType(key: string) {
+    if (this.schema.paths[key].instance === 'Date') {
+      return 'datetime-local';
+    } else if (this.schema.paths[key].instance === 'Number') {
+      return 'number';
+    } else if (this.schema.paths[key].instance === 'Boolean') {
+      return 'checkbox';
+    } else {
+      return 'text';
+    }
+  }
+
+  /**
+   * Update the form value for a boolean instance
+   * @param {boolean} formControlValue The form control value - should be a boolean
+   * @param {string} formControlName The name of the form control
+   * @param {string} inputType The input type
+   * @param {number} index The index of the form group in the form array object
+   */
+  updateFormValue(formControlValue: boolean, formControlName: string, inputType: string, index: number) {
+    if (inputType === 'checkbox') {
+      formControlValue = !formControlValue;
+      const formGroup = this.form.controls['questions']['controls'][index];
+      formGroup.controls[formControlName].patchValue(formControlValue);
+    }
   }
 
 }

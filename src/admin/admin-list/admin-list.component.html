@@ -158,6 +158,13 @@
                       <div class="truncate"><i class="text-muted">Embedded</i></div>
                     </div>
 
+                    <!-- SubDocument -->
+                    <div *ngSwitchCase="'SubDocument'">
+                      <app-display-text
+                        [value]="object[schemaKey] && adminService.schema[schemaKey].displayKey ? object[schemaKey][adminService.schema[schemaKey].displayKey] : object[schemaKey]">
+                      </app-display-text>
+                    </div>
+
                     <!-- Single custom object -->
                     <div *ngSwitchCase="'CustomObject'">
                       <div class="truncate"><i class="text-muted">Embedded</i></div>
@@ -165,7 +172,9 @@
 
                     <!-- Default type -->
                     <div *ngSwitchDefault>
-                      {{object[schemaKey]}}
+                      <app-display-text
+                        [value]="object[schemaKey]">
+                      </app-display-text>
                     </div>
                     
                   </td>
