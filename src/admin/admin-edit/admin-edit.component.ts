@@ -4,6 +4,12 @@ import { FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { AdminService } from '../admin.service';
 import { ValidationService } from '../shared/control-errors/validation.service';
+import * as momentImport from 'moment';
+
+// This is a workaround for an error being thrown when trying to use moment
+// Typically we would just use the imported moment module without this
+const moment = (momentImport as any).default;
+
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -47,6 +53,10 @@ export class AdminEditComponent implements OnInit {
         if ((!object[key] || !object[key].length) &&
           this.adminService.schema[key].instance === 'ObjectID' && key !== '_id') {
           delete object[key];
+        }
+
+        if (this.adminService.schema[key].instance === 'Date' && object[key]) {
+          object[key] = moment(object[key]).subtract(this.adminService.tzOffsetInHours, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
         }
       }
 

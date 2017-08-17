@@ -10,7 +10,7 @@ export class FormcontrolInputComponent {
   @Input() form: FormGroup;
   @Input() field: string;
   @Input() displayName: string;
-  @Input() inputType: string = 'input';
+  @Input() inputType = 'input';
 
   /**
    * Update the form value for a boolean instance
@@ -19,6 +19,7 @@ export class FormcontrolInputComponent {
   updateFormValue(formControlValue: any) {
     if (this.inputType === 'checkbox') {
       formControlValue = !formControlValue
+
 
       this.form.patchValue({
         [this.field]: formControlValue,
