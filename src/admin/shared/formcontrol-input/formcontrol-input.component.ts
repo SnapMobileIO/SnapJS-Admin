@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { AdminService } from '../../admin.service';
 
 @Component({
   selector: 'app-formcontrol-input',
@@ -11,6 +12,10 @@ export class FormcontrolInputComponent {
   @Input() field: string;
   @Input() displayName: string;
   @Input() inputType = 'input';
+
+  constructor(
+    public adminService: AdminService,
+  ) { }
 
   /**
    * Update the form value for a boolean instance
