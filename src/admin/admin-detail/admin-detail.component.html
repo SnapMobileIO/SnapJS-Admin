@@ -189,6 +189,16 @@
                   </app-display-text>
                 </div>
 
+                <!-- Date type -->
+                <div *ngSwitchCase="'Date'">
+                  <app-display-text
+                    *ngIf="adminService.schema[key].instanceOverride !== 'Hidden'"
+                    [field]="adminService.schema[key].displayName || key"
+                    [value]="object[key]"
+                    [isDate]="true">
+                  </app-display-text>
+                </div>
+
                 <!-- Default type -->
                 <div *ngSwitchDefault>
                   <app-display-text

@@ -170,6 +170,14 @@
                       <div class="truncate"><i class="text-muted">Embedded</i></div>
                     </div>
 
+                    <!-- Date type -->
+                    <div *ngSwitchCase="'Date'">
+                      <app-display-text
+                        [value]="object[schemaKey]"
+                        [isDate]="true">
+                      </app-display-text>
+                    </div>
+
                     <!-- Default type -->
                     <div *ngSwitchDefault>
                       <app-display-text
