@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AdminService } from '../../admin.service';
 
@@ -12,10 +12,9 @@ export class FormcontrolInputComponent {
   @Input() field: string;
   @Input() displayName: string;
   @Input() inputType = 'input';
-
   constructor(
     public adminService: AdminService,
-  ) { }
+  ) {}
 
   /**
    * Update the form value for a boolean instance
@@ -23,8 +22,7 @@ export class FormcontrolInputComponent {
    */
   updateFormValue(formControlValue: any) {
     if (this.inputType === 'checkbox') {
-      formControlValue = !formControlValue
-
+      formControlValue = !formControlValue;
 
       this.form.patchValue({
         [this.field]: formControlValue,
