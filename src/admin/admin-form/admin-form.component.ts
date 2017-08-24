@@ -56,9 +56,6 @@ export class AdminFormComponent implements OnInit {
           const value = this.object[key] && this.object[key][schemaPath] ? this.object[key][schemaPath] : '';
           formGroup.registerControl(schemaPath, new FormControl(value));
         });
-      } else if (this.schema[key].instance === 'Date') {
-        const value = moment(this.object[key]).format('YYYY-MM-DDTHH:mm');
-        this.form.registerControl(key, new FormControl(value));
       } else {
         let value = '';
 
@@ -69,7 +66,10 @@ export class AdminFormComponent implements OnInit {
             value = this.object[array[0]][array[1]];
           }
 
-        } else if (this.object[key]) {
+        } else if (this.object[key] && this.schema[key].instance === 'Date') {
+          // If this is a date we need to format it as a string
+          value = moment(this.object[key]).format('YYYY-MM-DDTHH:mm');
+        } else if (this.object[key] && this.schema[key].instance !== 'Date') {
           value = this.object[key];
         }
 
