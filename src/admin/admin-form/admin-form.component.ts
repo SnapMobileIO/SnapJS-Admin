@@ -1,6 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AdminService } from '../admin.service';
+import * as momentImport from 'moment';
+
+// This is a workaround for an error being thrown when trying to use moment
+// Typically we would just use the imported moment module without this
+const moment = (momentImport as any).default;
 
 @Component({
   selector: 'app-admin-form',
@@ -51,7 +56,9 @@ export class AdminFormComponent implements OnInit {
           const value = this.object[key] && this.object[key][schemaPath] ? this.object[key][schemaPath] : '';
           formGroup.registerControl(schemaPath, new FormControl(value));
         });
-
+      } else if (this.schema[key].instance === 'Date') {
+        const value = moment(this.object[key]).format('YYYY-MM-DDTHH:mm');
+        this.form.registerControl(key, new FormControl(value));
       } else {
         let value = '';
 
