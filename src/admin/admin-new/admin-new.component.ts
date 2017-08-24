@@ -43,7 +43,7 @@ export class AdminNewComponent implements OnInit {
 
       // Before submitting form we need to set any blank ObjectID fields to null
       // We can't send an empty string as an ObjectID
-      for (let key in this.adminService.schema) {
+      for (let key of Object.keys(this.adminService.schema)) {
         if ((!object[key] || !object[key].length) &&
           this.adminService.schema[key].instance === 'ObjectID' && key !== '_id') {
           object[key] = null;

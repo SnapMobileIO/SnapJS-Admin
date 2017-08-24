@@ -49,7 +49,7 @@ export class AdminEditComponent implements OnInit {
 
       // Before submitting form we need to delete any blank ObjectID fields
       // We can't send an empty string as an ObjectID
-      for (let key in this.adminService.schema) {
+      for (let key of Object.keys(this.adminService.schema)) {
         if ((!object[key] || !object[key].length) &&
           this.adminService.schema[key].instance === 'ObjectID' && key !== '_id') {
           delete object[key];
