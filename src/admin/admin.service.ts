@@ -10,11 +10,16 @@ export class AdminService {
   className: string;
   schema: any;
   schemaKeys: string[];
+  tzOffsetInHours: any;
 
   constructor(
     private http: Http,
     private constants: ConstantsService,
-  ) { }
+  ) {
+    // Get the user's time zone offset in hours
+    const today = new Date();
+    this.tzOffsetInHours = -today.getTimezoneOffset() / 60;
+  }
 
   loadSchema(): Promise<{}> {
     const queryUrl = `${this.constants.API_BASE_URL}/admin/${this.className}/schema`;

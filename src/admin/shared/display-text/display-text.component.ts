@@ -8,4 +8,5 @@ import { Component, Input } from '@angular/core';
 export class DisplayTextComponent {
   @Input() field: string;
   @Input() value: any;
+  @Input() isDate: boolean;
 }
