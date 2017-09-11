@@ -1,5 +1,8 @@
-import { Component, OnDestroy, AfterViewInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+
+declare var tinyMCE: any;
+declare var tinymce: any;
 
 @Component({
   selector: 'app-formcontrol-tinymce',
@@ -13,31 +16,31 @@ export class FormcontrolTinymceComponent implements AfterViewInit, OnDestroy {
   editor: any;
 
   ngAfterViewInit() {
-    // tinyMCE.baseURL = '/assets/tinymce/';
-    // tinymce.init({
-    //   selector: `#tinymce-${this.field}`,
-    //   menubar: false,
-    //   plugins: ['link', 'paste', 'lists', 'advlist'],
-    //   toolbar: 'styleselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image',
-    //   setup: (editor) => {
-    //     this.editor = editor;
+    tinyMCE.baseURL = '/assets/tinymce/';
+    tinymce.init({
+      selector: `#tinymce-${this.field}`,
+      menubar: false,
+      plugins: ['link', 'paste', 'lists', 'advlist'],
+      toolbar: 'styleselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image',
+      setup: (editor) => {
+        this.editor = editor;
 
-    //     // Update the form as the user makes changes
-    //     editor.on('keyup', () => {
-    //       const content = editor.getContent();
-    //       this.form.controls[this.field].patchValue(content);
-    //     });
+        // Update the form as the user makes changes
+        editor.on('keyup', () => {
+          const content = editor.getContent();
+          this.form.controls[this.field].patchValue(content);
+        });
 
-    //     // Need the blur for events that happen without 'keyup' (e.g. adding a link)
-    //     editor.on('blur', () => {
-    //       const content = editor.getContent();
-    //       this.form.controls[this.field].patchValue(content);
-    //     });
-    //   },
-    // });
+        // Need the blur for events that happen without 'keyup' (e.g. adding a link)
+        editor.on('blur', () => {
+          const content = editor.getContent();
+          this.form.controls[this.field].patchValue(content);
+        });
+      },
+    });
   }
 
   ngOnDestroy() {
-    // tinymce.remove(this.editor);
+    tinymce.remove(this.editor);
   }
 }
