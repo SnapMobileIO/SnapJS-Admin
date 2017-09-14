@@ -55,7 +55,7 @@ export class FormControlFileUploadComponent implements OnInit {
 
       } else {
         // Update the form with the new file
-        this.form.controls[this.field].setValue(file);
+        this.form.get(this.field).setValue(file);
       }
     };
 
@@ -86,7 +86,7 @@ export class FormControlFileUploadComponent implements OnInit {
   }
 
   addItem(item: any = {}) {
-    const control = <FormArray>this.form.controls[this.field];
+    const control = <FormArray>this.form.get(this.field);
     control.push(this.initItem(item));
   }
 
@@ -102,7 +102,7 @@ export class FormControlFileUploadComponent implements OnInit {
   }
 
   removeItem(i: number) {
-    const control = <FormArray>this.form.controls[this.field];
+    const control = <FormArray>this.form.get(this.field);
     control.removeAt(i);
   }
 

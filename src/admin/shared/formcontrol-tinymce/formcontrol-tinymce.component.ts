@@ -28,13 +28,13 @@ export class FormcontrolTinymceComponent implements AfterViewInit, OnDestroy {
         // Update the form as the user makes changes
         editor.on('keyup', () => {
           const content = editor.getContent();
-          this.form.controls[this.field].patchValue(content);
+          this.form.get(this.field).patchValue(content);
         });
 
         // Need the blur for events that happen without 'keyup' (e.g. adding a link)
         editor.on('blur', () => {
           const content = editor.getContent();
-          this.form.controls[this.field].patchValue(content);
+          this.form.get(this.field).patchValue(content);
         });
       },
     });

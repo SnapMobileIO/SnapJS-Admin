@@ -2,11 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AdminService } from '../../admin.service';
 import { FilterService } from './filter.service';
-import * as momentImport from 'moment';
-
-// This is a workaround for an error being thrown when trying to use moment
-// Typically we would just use the imported moment module without this
-const moment = (momentImport as any).default;
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-filter',
