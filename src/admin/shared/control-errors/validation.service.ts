@@ -19,11 +19,11 @@ export class ValidationService {
         const split = error.split('.');
         if (split.length === 3) {
           // Add the error to both the sub control as well as the parent control
-          form.controls[split[0]].controls[split[1]].controls[split[2]].setErrors({ server: serverErrors[error].message });
-          form.controls[split[0]].setErrors({ server: serverErrors[error].message });
+          form.get(split[0]).get(split[1]).get(split[2]).setErrors({ server: serverErrors[error].message });
+          form.get(split[0]).setErrors({ server: serverErrors[error].message });
         } else {
-          if (form.controls[error] && typeof form.controls[error].setErrors === 'function') {
-            form.controls[error].setErrors({ server: serverErrors[error].message });
+          if (form.get(error) && typeof form.get(error).setErrors === 'function') {
+            form.get(error).setErrors({ server: serverErrors[error].message });
           }
         }
       }
@@ -45,7 +45,7 @@ export class ValidationService {
 
   creditCardValidator(control: FormControl) {
     // Visa, MasterCard, American Express, Diners Club, Discover, JCB
-    if (control.value && control.value.match(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/)) {
+    if (control && control.value && control.value.match(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/)) {
       return null;
     } else {
       return { 'invalidCreditCard': true };
@@ -54,7 +54,7 @@ export class ValidationService {
 
   emailValidator(control: FormControl) {
     // RFC 2822 compliant regex
-    if (control.value && control.value.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
+    if (control && control.value && control.value.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
       return null;
     } else {
       return { 'invalidEmailAddress': true };
@@ -64,7 +64,7 @@ export class ValidationService {
   passwordValidator(control: FormControl) {
     // {6,100}           - Assert password is between 6 and 100 characters
     // (?=.*[0-9])       - Assert a string has at least one number
-    if (control.value && control.value.match(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/)) {
+    if (control && control.value && control.value.match(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/)) {
       return null;
     } else {
       return { 'invalidPassword': true };

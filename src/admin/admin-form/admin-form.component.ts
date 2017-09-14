@@ -1,11 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AdminService } from '../admin.service';
-import * as momentImport from 'moment';
-
-// This is a workaround for an error being thrown when trying to use moment
-// Typically we would just use the imported moment module without this
-const moment = (momentImport as any).default;
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-admin-form',
@@ -50,7 +46,7 @@ export class AdminFormComponent implements OnInit {
 
       } else if (this.schema[key].instanceOverride === 'Embedded' || this.schema[key].instance === 'Embedded') {
         this.form.registerControl(key, new FormGroup({}));
-        const formGroup = <FormGroup>this.form.controls[key];
+        const formGroup = <FormGroup>this.form.get(key);
         const schemaPaths = Object.keys(this.schema[key].schema.paths);
         schemaPaths.forEach((schemaPath) => {
           const value = this.object[key] && this.object[key][schemaPath] ? this.object[key][schemaPath] : '';

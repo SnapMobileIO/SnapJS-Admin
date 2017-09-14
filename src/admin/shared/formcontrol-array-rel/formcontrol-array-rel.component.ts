@@ -46,12 +46,12 @@ export class FormcontrolArrayRelComponent implements OnInit {
   }
 
   addItem(item: any = {}) {
-    const control = <FormArray>this.form.controls[this.field];
+    const control = <FormArray>this.form.get(this.field);
     control.push(this.initItem(item));
   }
 
   removeItem(i: number) {
-    const control = <FormArray>this.form.controls[this.field];
+    const control = <FormArray>this.form.get(this.field);
     control.removeAt(i);
   }
 
@@ -81,8 +81,8 @@ export class FormcontrolArrayRelComponent implements OnInit {
   updateFormValue(formControlValue: boolean, formControlName: string, inputType: string, index: number) {
     if (inputType === 'checkbox') {
       formControlValue = !formControlValue;
-      const formGroup = this.form.controls['questions']['controls'][index];
-      formGroup.controls[formControlName].patchValue(formControlValue);
+      const formGroup = this.form.get('questions')['controls'][index];
+      formGroup.get(formControlName).patchValue(formControlValue);
     }
   }
 

@@ -35,9 +35,9 @@ export class FormcontrolSelectComponent implements OnInit {
     if (data) {
       if (data.constructor === Array) {
         const ids = data.map((o) => o.id);
-        this.form.controls[this.field].patchValue(ids);
+        this.form.get(this.field).patchValue(ids);
       } else {
-        this.form.controls[this.field].patchValue(data.id);
+        this.form.get(this.field).patchValue(data.id);
       }
     }
   }
