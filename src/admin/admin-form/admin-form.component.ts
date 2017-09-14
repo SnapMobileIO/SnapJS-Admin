@@ -19,7 +19,7 @@ export class AdminFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public adminService: AdminService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     if (this.schema) {
