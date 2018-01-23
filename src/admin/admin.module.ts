@@ -35,6 +35,7 @@ import { FormcontrolArrayRelComponent } from './shared/formcontrol-array-rel/for
 import { FormcontrolGroupComponent } from './shared/formcontrol-group/formcontrol-group.component';
 import { FormcontrolTinymceComponent } from './shared/formcontrol-tinymce/formcontrol-tinymce.component';
 import { FormControlFileUploadComponent } from './shared/formcontrol-file-upload/formcontrol-file-upload.component';
+import { FileDropComponent } from './shared/file-drop/file-drop.component';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -79,6 +80,7 @@ import { ConstantsService } from './constants.service';
     FormcontrolGroupComponent,
     FormcontrolTinymceComponent,
     FormControlFileUploadComponent,
+    FileDropComponent,    
     ProgressBarComponent,
     AdminLayoutComponent,
   ],
