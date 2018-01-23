@@ -1,0 +1,20 @@
+    <div ng2FileDrop
+      [uploader]="uploader"
+      (fileOver)="fileOverBase($event)"
+      [ngClass]="{'nv-file-over': hasBaseDropZoneOver && !dropDisabled, 'disabled': dropDisabled}"
+      class="well my-drop-zone">
+      Drop file here
+    </div>
+
+  <div *ngFor="let item of uploader.queue" class="col-sm-offset-2 col-sm-10">
+    <div>
+      <p>{{item.file.name}}</p>
+
+      <progress-bar [progress]=item.progress></progress-bar>
+      Progress: {{item.progress}}%
+
+      <p *ngIf="item.isUploading">Uploading</p>
+      <p *ngIf="item.isSuccess">Uploaded</p>
+      <p *ngIf="item.isError">Error</p>
+    </div>
+  </div>
