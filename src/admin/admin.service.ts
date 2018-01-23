@@ -46,6 +46,15 @@ export class AdminService {
       .then((response) => response.json());
   }
 
+  importFromCsv(object) {
+    let queryUrl = `${this.constants.API_BASE_URL}/admin/${this.className}/importFromCsv`;
+    return this.http.post(queryUrl, object)
+      .toPromise()
+      .then((response) => {
+        return response.json();
+      });
+  }
+
   getById(id: string): Promise<any> {
     const queryUrl = `${this.constants.API_BASE_URL}/admin/${this.className}/${id}`;
 
