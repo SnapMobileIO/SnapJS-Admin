@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, Params, ActivatedRoute } from '@angular/router';
+import { FormControl, FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AdminService } from '../admin.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ConstantsService } from '../constants.service';
@@ -19,6 +20,10 @@ export class AdminListComponent implements OnInit {
   selectedItems: any[] = [];
   filterToggle: boolean;
   toggle: any = {};
+  form: FormGroup = new FormGroup({});
+  uploadedFile: '';
+  importLoading: boolean;
+  importToggle: boolean;
   filters: any[] = [{ field: '', operator: '', value: '' }];
   filterFunction: Function;
 
@@ -162,6 +167,61 @@ export class AdminListComponent implements OnInit {
     exportUrl += this.adminService.serializeParams(this.params).toString();
     window.open(exportUrl);
   }
+
+  /**
+   * Listens to the event emitter and sets the uploadedFile
+   * @param event 
+   */
+  updateFile(event: any) {
+    this.uploadedFile = event;
+  }
+
+  /**
+   * Switches the importToggle and resets the uploaded file
+   */
+  toggleImport() {
+    this.uploadedFile = '';
+    if (this.importToggle) {
+      this.importToggle = false;
+    } else {
+      this.importToggle = true;
+    }
+  }
+
+   /**
+   * Imports the csv file.
+   */
+  importFromCsv() {
+    // Checks for existence of a file
+    if (this.uploadedFile !== '') {
+      this.importLoading = true;
+      this.adminService.importFromCsv(this.uploadedFile)
+        .then(response => {
+          this.findAll();
+          this.importLoading = false;
+          this.importToggle = false;
+          this.uploadedFile = '';
+          this.toastr.success('Successfully imported');
+        }, (error) => {
+          this.findAll();
+          this.importLoading = false;
+          this.importToggle = false;
+          this.uploadedFile = '';
+          this.toastr.error('Unable to import');
+        });
+    } else {
+      this.toastr.error('You need to upload a file before importing');
+    }
+  }
+
+  /**
+   * Sets the import toggle to false and resets the uploaded file
+   */
+  cancelImport() {
+    this.importToggle = false;
+    this.uploadedFile = '';
+  }
+
 
   /**
    * Clear filter and manage filterToggle

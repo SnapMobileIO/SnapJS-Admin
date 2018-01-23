@@ -1,0 +1,22 @@
+.my-drop-zone { 
+  border: dashed 5px lightgray;
+  width: 100%;
+  text-align: center;
+  padding: 25px 12px;
+  line-height: auto;
+  height: auto;
+  cursor: pointer;
+}
+.nv-file-over { border: dashed 5px green; }
+.disabled {
+  opacity: 0.5;
+}
+// .drop-box {
+//   background: #F8F8F8;
+//   width: 100%;
+//   text-align: center;
+//   padding: 25px 12px;
+//   line-height: auto;
+//   height: auto;
+//   cursor: pointer;
+// }
