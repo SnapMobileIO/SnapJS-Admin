@@ -54,7 +54,7 @@ Then you can run:
 $ npm publish dist
 ```
 
-`prepublishOnly` script in this case will automatically run project testing and linting in prior in order to check that the library is ready for publishing.
+`prepublishOnly` script in this case will automatically run project testing and linting prior to checking that the library is ready for publishing.
 
 ## Consuming your library
 
