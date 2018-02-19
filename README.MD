@@ -8,6 +8,54 @@ To install this library, make sure you have access, then run:
 $ npm install @snapmobile/snapjs-admin --save
 ```
 
+## Publish library to NPM
+To push to NPM as a private repo (you'll need to get access to publish). Build the dist folder by running:
+
+```bash
+$ npm run build
+```
+
+Update the package.json version number in the root of the project.
+
+Then we have to manually add a package.json file to the dist/ folder with the updated version number. Here is an example:
+
+```
+{
+  "name": "@snapmobile/snapjs-admin",
+  "version": "0.2.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SnapMobileIO/SnapJS-Admin"
+  },
+  "author": {
+    "name": "Brandon Passley",
+    "email": "brandon@snapmobile.io"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SnapMobileIO/SnapJS-Admin/issues"
+  },
+  "module": "snapjs-admin.js",
+  "typings": "snapjs-admin.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^4.0.0",
+    "rxjs": "^5.3.1",
+    "zone.js": "^0.8.10"
+  }
+}
+```
+
+Then you can run:
+
+```bash
+$ npm publish dist
+```
+
+`prepublishOnly` script in this case will automatically run project testing and linting prior to checking that the library is ready for publishing.
+
 ## Consuming your library
 
 Once you have published your library to npm, you can import your library in any Angular application by running:
@@ -67,7 +115,7 @@ angular-library-seed
   |  └─ tick-tock.module.ts       * Example of library module
   |
   ├─ .editorconfig                * Common IDE configuration
-  ├─ .gitignore	                  * List of files that are ignored while publishing to git repo
+  ├─ .gitignore                   * List of files that are ignored while publishing to git repo
   ├─ .npmignore                   * List of files that are ignored while publishing to npm
   ├─ .travis.yml                  * Travic CI configuration
   ├─ LICENSE                      * License details
@@ -113,16 +161,6 @@ You may also build UMD bundle and ESM files separately:
 - `npm version patch` to increase library version. [More on bumping](https://docs.npmjs.com/cli/version).
 
 `preversion` script in this case will automatically run project testing and linting in prior in order to check that the library is ready for publishing.
-
-#### Publish library to NPM
-To push to NPM as a private repo (you'll need to get access to publish)
-update the package.json version number in both the root and dist folder. Then run:
-
-```bash
-$ npm publish dist
-```
-
-`prepublishOnly` script in this case will automatically run project testing and linting in prior in order to check that the library is ready for publishing.
 
 #### Cleaning
 - `npm clean:tmp` command will clean up all temporary files like `docs`, `dist`, `coverage` etc.
