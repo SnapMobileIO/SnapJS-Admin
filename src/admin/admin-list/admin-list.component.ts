@@ -126,7 +126,7 @@ export class AdminListComponent implements OnInit {
       return object._id;
     });
 
-    if (!this.selectAll) { this.selectedItems = []; };
+    if (!this.selectAll) { this.selectedItems = []; }
   }
 
   /**
@@ -137,7 +137,7 @@ export class AdminListComponent implements OnInit {
     let index = this.selectedItems.indexOf(objectId);
     index >= 0 ? this.selectedItems.splice(index, 1) : this.selectedItems.push(objectId);
     this.selectAll = this.selectedItems.length === this.objects.length;
-  };
+  }
 
   /**
    * Updates and reruns findAll() to sort objects based on key and asc / desc
@@ -159,7 +159,7 @@ export class AdminListComponent implements OnInit {
     let exportUrl = `${this.constants.API_BASE_URL}/admin/${this.adminService.className}?export=true&access_token=${token}&`;
 
     // Remove limit and skip from the params for a csv export
-    let exportParams = this.params;
+    const exportParams = this.params;
     delete exportParams.skip;
     delete exportParams.limit;
 
@@ -170,7 +170,7 @@ export class AdminListComponent implements OnInit {
 
   /**
    * Listens to the event emitter and sets the uploadedFile
-   * @param event 
+   * @param event
    */
   updateFile(event: any) {
     this.uploadedFile = event;
@@ -188,7 +188,7 @@ export class AdminListComponent implements OnInit {
     }
   }
 
-   /**
+  /**
    * Imports the csv file.
    */
   importFromCsv() {
@@ -196,7 +196,7 @@ export class AdminListComponent implements OnInit {
     if (this.uploadedFile !== '') {
       this.importLoading = true;
       this.adminService.importFromCsv(this.uploadedFile)
-        .then(response => {
+        .then((response) => {
           this.findAll();
           this.importLoading = false;
           this.importToggle = false;
@@ -207,7 +207,9 @@ export class AdminListComponent implements OnInit {
           this.importLoading = false;
           this.importToggle = false;
           this.uploadedFile = '';
-          this.toastr.error('Unable to import');
+
+          const message = this.buildServerErrors(error) || 'Import Error';
+          this.toastr.error(message, null, { enableHTML: true });
         });
     } else {
       this.toastr.error('You need to upload a file before importing');
@@ -222,13 +224,30 @@ export class AdminListComponent implements OnInit {
     this.uploadedFile = '';
   }
 
-
   /**
    * Clear filter and manage filterToggle
    */
   resetFilters() {
     this.filters = [{ field: '', operator: '', value: '' }];
     this.filterToggle = false;
+  }
+
+  /**
+   * Build error string from server errors
+   * @param {any} error The error object
+   */
+  buildServerErrors(error: any) {
+    let errorMessage = '';
+    const errors = error.json().errors;
+
+    for (const key in errors) {
+      if (errors.hasOwnProperty(key)) {
+        const message = errors[key].message;
+        errorMessage += `${message}</br>`;
+      }
+    }
+
+    return errorMessage;
   }
 
 }
