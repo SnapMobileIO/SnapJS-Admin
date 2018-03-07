@@ -188,7 +188,7 @@ export class AdminListComponent implements OnInit {
     }
   }
 
-   /**
+  /**
    * Imports the csv file.
    */
   importFromCsv() {
@@ -207,7 +207,9 @@ export class AdminListComponent implements OnInit {
           this.importLoading = false;
           this.importToggle = false;
           this.uploadedFile = '';
-          this.toastr.error('Unable to import');
+
+          const message = this.buildServerErrors(error) || 'Import Error';
+          this.toastr.error(message, null, { enableHTML: true });
         });
     } else {
       this.toastr.error('You need to upload a file before importing');
@@ -229,6 +231,24 @@ export class AdminListComponent implements OnInit {
   resetFilters() {
     this.filters = [{ field: '', operator: '', value: '' }];
     this.filterToggle = false;
+  }
+
+  /**
+   * Build error string from server errors
+   * @param {any} error The error object
+   */
+  buildServerErrors(error: any) {
+    let errorMessage = '';
+    const errors = error.json().errors;
+
+    for (const key in errors) {
+      if (errors.hasOwnProperty(key)) {
+        const message = errors[key].message;
+        errorMessage += `${message}</br>`;
+      }
+    }
+
+    return errorMessage;
   }
 
 }
