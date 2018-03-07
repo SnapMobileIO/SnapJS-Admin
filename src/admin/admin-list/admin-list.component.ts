@@ -126,7 +126,7 @@ export class AdminListComponent implements OnInit {
       return object._id;
     });
 
-    if (!this.selectAll) { this.selectedItems = []; };
+    if (!this.selectAll) { this.selectedItems = []; }
   }
 
   /**
@@ -137,7 +137,7 @@ export class AdminListComponent implements OnInit {
     let index = this.selectedItems.indexOf(objectId);
     index >= 0 ? this.selectedItems.splice(index, 1) : this.selectedItems.push(objectId);
     this.selectAll = this.selectedItems.length === this.objects.length;
-  };
+  }
 
   /**
    * Updates and reruns findAll() to sort objects based on key and asc / desc
@@ -159,7 +159,7 @@ export class AdminListComponent implements OnInit {
     let exportUrl = `${this.constants.API_BASE_URL}/admin/${this.adminService.className}?export=true&access_token=${token}&`;
 
     // Remove limit and skip from the params for a csv export
-    let exportParams = this.params;
+    const exportParams = this.params;
     delete exportParams.skip;
     delete exportParams.limit;
 
@@ -170,7 +170,7 @@ export class AdminListComponent implements OnInit {
 
   /**
    * Listens to the event emitter and sets the uploadedFile
-   * @param event 
+   * @param event
    */
   updateFile(event: any) {
     this.uploadedFile = event;
@@ -196,7 +196,7 @@ export class AdminListComponent implements OnInit {
     if (this.uploadedFile !== '') {
       this.importLoading = true;
       this.adminService.importFromCsv(this.uploadedFile)
-        .then(response => {
+        .then((response) => {
           this.findAll();
           this.importLoading = false;
           this.importToggle = false;
@@ -223,7 +223,6 @@ export class AdminListComponent implements OnInit {
     this.importToggle = false;
     this.uploadedFile = '';
   }
-
 
   /**
    * Clear filter and manage filterToggle
