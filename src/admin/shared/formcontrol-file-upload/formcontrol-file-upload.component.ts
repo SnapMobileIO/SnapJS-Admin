@@ -64,7 +64,8 @@ export class FormControlFileUploadComponent implements OnInit {
 
       switch (filter.name) {
         case 'mimeType':
-          this.errorMessage = 'That file is the wrong type.';
+          const allowedMimeTypes = this.allowedMimeType.join(', ');
+          this.errorMessage = `That file is the wrong type. Accepted file types are ${allowedMimeTypes}`;
           break;
         case 'fileSize':
           this.errorMessage = 'That file is too big.';
