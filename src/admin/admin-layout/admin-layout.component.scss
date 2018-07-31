@@ -278,4 +278,25 @@
       display: none;
     }
   }
+
+  @media (max-width: 580px) {
+    .page-header {
+      width: 100%;
+      padding-right: 0px;
+
+      h1 {
+        width: 100%;
+      }
+
+      .actions {
+        width: 100%;
+
+        a {
+          display: block;
+          width: 100%;
+          margin: 0 auto 9px auto;
+        }
+      }
+    }
+  }
 }
