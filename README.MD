@@ -64,6 +64,8 @@ Once you have published your library to npm, you can import your library in any 
 $ npm install @snapmobile/snapjs-admin
 ```
 
+If you get a 404 error, double check that the auth token your .npmrc matches the auth token in the Web seed project.
+
 and then from your Angular `AppModule`:
 
 ```typescript
