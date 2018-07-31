@@ -4,7 +4,8 @@
 
 /deep/ .admin-layout {
   position: fixed;
-  overflow-y: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   height: 100%;
   width: 100%;
   background: #dbdfe2;
