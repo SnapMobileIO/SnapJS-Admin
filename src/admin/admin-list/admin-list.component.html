@@ -205,9 +205,13 @@
                     </div>
 
                     <!-- Default type -->
+                    <!-- Leave the value blank if it's a password -->
                     <div *ngSwitchDefault>
-                      <app-display-text
+                      <app-display-text *ngIf="schemaKey !== 'password'"
                         [value]="object[schemaKey]">
+                      </app-display-text>
+                      <app-display-text *ngIf="schemaKey === 'password'"
+                        [value]="">
                       </app-display-text>
                     </div>
                     
