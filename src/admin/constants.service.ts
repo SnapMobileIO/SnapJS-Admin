@@ -88,9 +88,6 @@ export class ConstantsService {
         instance: 'Image',
         allowedMimeType: ['image/jpeg', 'image/jpg', 'image/png'],
       },
-      password: {
-        instance: 'Remove',
-      },
     },
   };
 
