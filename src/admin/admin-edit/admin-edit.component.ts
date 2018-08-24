@@ -47,7 +47,8 @@ export class AdminEditComponent implements OnInit {
       // We can't send an empty string as an ObjectID
       for (let key of Object.keys(this.adminService.schema)) {
         if ((!object[key] || !object[key].length) &&
-          this.adminService.schema[key].instance === 'ObjectID' && key !== '_id') {
+          ((this.adminService.schema[key].instance === 'ObjectID' && key !== '_id') ||
+          key === 'password')) {
           delete object[key];
         }
 
