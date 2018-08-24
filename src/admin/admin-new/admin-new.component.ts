@@ -45,6 +45,17 @@ export class AdminNewComponent implements OnInit {
           object[key] = null;
         }
 
+        if (key === 'password' && !object[key].match(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/)) {
+          const errors = { errors: {
+            password: {
+              message: 'Password must be at least 6 characters long, and contain a number.',
+            },
+          }};
+          this.toastr.error('There was an issue creating this.', 'Whoops!');
+          this.validationService.buildServerErrors(form, errors);
+          return;
+        }
+
         if (this.adminService.schema[key].instance === 'Date' && object[key]) {
           object[key] = moment(object[key]).subtract(this.adminService.tzOffsetInHours, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
         }

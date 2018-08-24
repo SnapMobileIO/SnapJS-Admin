@@ -1,6 +1,6 @@
 {
   "name": "@snapmobile/snapjs-admin",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "SnapJS Admin",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.js",
