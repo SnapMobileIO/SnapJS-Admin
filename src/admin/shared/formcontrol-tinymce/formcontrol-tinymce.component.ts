@@ -1,5 +1,6 @@
 import { Component, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ConstantsService } from '../../../providers/constants.service';
 
 declare var tinyMCE: any;
 declare var tinymce: any;
@@ -15,9 +16,13 @@ export class FormcontrolTinymceComponent implements AfterViewInit, OnDestroy {
   @Input() form: FormGroup;
   editor: any;
 
+  constructor(
+    private constants: ConstantsService,
+  ) { }
+
   ngAfterViewInit() {
     tinyMCE.baseURL = '/assets/tinymce/';
-    tinymce.init({
+    let initOptions: object = {
       selector: `#tinymce-${this.field}`,
       menubar: false,
       plugins: ['link', 'paste', 'lists', 'advlist'],
@@ -37,7 +42,12 @@ export class FormcontrolTinymceComponent implements AfterViewInit, OnDestroy {
           this.form.get(this.field).patchValue(content);
         });
       },
-    });
+    };
+    // Merge in custom settings from Constants if present
+    if (this.constants.ADMIN_WYSIWYG_OPTIONS) {
+      initOptions = { ...initOptions, ...this.constants.ADMIN_WYSIWYG_OPTIONS };
+    }
+    tinymce.init(initOptions);
   }
 
   ngOnDestroy() {
