@@ -1,6 +1,6 @@
 import { Component, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ConstantsService } from './../../../providers/constants.service';
+import { ConstantsService } from './../../../../../../client/app/providers/constants.service';
 
 declare var tinyMCE: any;
 declare var tinymce: any;
