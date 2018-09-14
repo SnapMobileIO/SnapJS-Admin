@@ -1,5 +1,7 @@
 # snapjs-admin
 
+# WARNING updating this module to 1.0.0+ is dependant on updating your snapjs-aws to 2.0.0+
+
 ## Installation
 
 To install this library, make sure you have access, then run:
@@ -9,6 +11,7 @@ $ npm install @snapmobile/snapjs-admin --save
 ```
 
 ## Publish library to NPM
+
 To push to NPM as a private repo (you'll need to get access to publish). Build the dist folder by running:
 
 ```bash
@@ -69,43 +72,40 @@ If you get a 404 error, double check that the auth token your .npmrc matches the
 and then from your Angular `AppModule`:
 
 ```typescript
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { ConstantsService } from './providers/constants.service';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { ConstantsService } from "./providers/constants.service";
 
-import { AppComponent } from './app.component';
+import { AppComponent } from "./app.component";
 
 // Import your library
-import { SampleModule } from '@snapmobile/snapjs-admin';
+import { SampleModule } from "@snapmobile/snapjs-admin";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
 
     // Specify your library as an import
-    SnapJSAdminModule.forRoot(ConstantsService),
+    SnapJSAdminModule.forRoot(ConstantsService)
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
 ```
 
 ## Config Service
 
 You need to add the admin constants to your `ConstantsService`. Technically this is optional, but it won't get you far. Reference the required properties in the [`ConstantsService` included in the module](https://github.com/SnapMobileIO/SnapJS-Admin/blob/master/src/admin/constants.service.ts).
 
-If you don't already have a ConstantsService in your app, you can copy the one from the admin module. 
-
+If you don't already have a ConstantsService in your app, you can copy the one from the admin module.
 
 ## File Structure
 
 ```
 angular-library-seed
-  ├─ demo                         * Folder for demo applications (MAY BE DELETED if not required) 
+  ├─ demo                         * Folder for demo applications (MAY BE DELETED if not required)
   |  ├─ esm                       * AOT/JIT demo project
   |  ├─ umd                       * UMD demo project
   |  └─ ...                       * More details about this folder may be found in demo folder README file.
@@ -134,10 +134,12 @@ angular-library-seed
 ```
 
 ## Build the library
+
 - `npm build` for building the library once (both ESM and AOT versions).
 - `npm build:watch` for building the library (both ESM and AOT versions) and watch for file changes.
 
 You may also build UMD bundle and ESM files separately:
+
 - `npm build:esm` - for building AOT/JIT compatible versions of files.
 - `npm build:esm:watch` - the same as previous command but in watch-mode.
 - `npm build:umd` - for building UMD bundle only.
@@ -146,26 +148,32 @@ You may also build UMD bundle and ESM files separately:
 ## Other commands
 
 #### Lint the code
+
 - `npm lint` for performing static code analysis.
 
 #### Test the library
+
 - `npm test` for running all your `*.spec.ts` tests once. Generated code coverage report may be found in `coverage` folder.
 - `npm test:watch` for running all you `*.spec.ts` and watch for file changes.
 
 #### Generate documentation
+
 - `npm docs` for generating documentation locally.
 - `npm gh-pages` for generating documentation and uploading it to GitHub Pages. [Documentation example](https://trekhleb.github.io/angular-library-seed/).
 
 #### Explore the bundle
+
 - `npm explorer` to find out where all your code in bundle is coming from.
 
 #### Bump library version
+
 - `npm version patch` to increase library version. [More on bumping](https://docs.npmjs.com/cli/version).
 
 `preversion` script in this case will automatically run project testing and linting in prior in order to check that the library is ready for publishing.
 
 #### Cleaning
+
 - `npm clean:tmp` command will clean up all temporary files like `docs`, `dist`, `coverage` etc.
-- `npm clean:all` command will clean up all temporary files along with `node_modules` folder. 
+- `npm clean:all` command will clean up all temporary files along with `node_modules` folder.
 
 Built using [https://github.com/trekhleb/angular-library-seed.git](angular-library-seed).

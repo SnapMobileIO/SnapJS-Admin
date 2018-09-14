@@ -10,16 +10,17 @@ import { ConstantsService } from '../../constants.service';
   styleUrls: ['./formcontrol-file-upload.component.scss'],
 })
 export class FormControlFileUploadComponent implements OnInit {
-  @Input() isMultiple: boolean;
-  @Input() form: any;
-  @Input() field: string;
-  @Input() displayName: string;
-  @Input() object: {};
-  @Input() allowedMimeType?: string[];
-  @Input() maxFileSize?: number;
-  files: File[] = [];
-  errorMessage: string;
-  uploader: FileUploader;
+  @Input() public isMultiple: boolean;
+  @Input() public form: any;
+  @Input() public field: string;
+  @Input() public displayName: string;
+  @Input() public object: {};
+  @Input() public allowedMimeType?: string[];
+  @Input() public maxFileSize?: number;
+  public files: File[] = [];
+  public errorMessage: string;
+  public uploader: FileUploader;
+  public directUpload: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,18 +28,27 @@ export class FormControlFileUploadComponent implements OnInit {
     private constants: ConstantsService,
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Create uploader instance with options
     // Options are here...
+    // tslint:disable-next-line:max-line-length
     // https://github.com/valor-software/ng2-file-upload/blob/master/components/file-upload/file-uploader.class.ts
     this.uploader = new FileUploader({
       url: `${this.constants.API_BASE_URL}/aws/uploadToAws`,
-      allowedMimeType: this.allowedMimeType || this.constants.FILE_UPLOAD_DEFAULT_ALLOWED_MIME_TYPES,
+      method: 'PUT',
+      allowedMimeType: this.allowedMimeType ||
+       this.constants.FILE_UPLOAD_DEFAULT_ALLOWED_MIME_TYPES,
       maxFileSize: this.maxFileSize || this.constants.FILE_UPLOAD_DEFAULT_MAX_FILE_SIZE,
     });
 
-    // Add withCredentials = false to avoid CORS issues
-    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file) => {
+      // here we are checking if the file size is larger than 200 Mb = 100000000
+      if (file.file.size > 100000000) {
+        this.directUpload = true;
+      }
+      // Add withCredentials = false to avoid CORS issues
+      file.withCredentials = false;
+     };
 
     // Trigger change detection on progress update to update UI
     this.uploader.onProgressItem = (item, progress) => {
@@ -47,16 +57,27 @@ export class FormControlFileUploadComponent implements OnInit {
 
     // Returns the file object once it's been uploaded
     this.uploader.onCompleteItem = (item: any, response: any, status: any) => {
-      let file = JSON.parse(response);
 
-      if (this.isMultiple) {
-        // Add item to the FormArray
-        this.addItem(file);
-
+      if (this.directUpload) {
+        const fileObject = {
+          name: item.file.name,
+          type: item.file.type,
+          size: item.file.size,
+          url: item.url
+        };
+        this.form.get(this.field).setValue(fileObject);
       } else {
-        // Update the form with the new file
-        this.form.get(this.field).setValue(file);
+        const file = JSON.parse(response);
+        if (this.isMultiple) {
+          // Add item to the FormArray
+          this.addItem(file);
+
+        } else {
+          // Update the form with the new file
+          this.form.get(this.field).setValue(file);
+        }
       }
+
     };
 
     this.uploader.onWhenAddingFileFailed = (item: any, filter: any, options: any) => {
@@ -65,7 +86,8 @@ export class FormControlFileUploadComponent implements OnInit {
       switch (filter.name) {
         case 'mimeType':
           const allowedMimeTypes = this.allowedMimeType.join(', ');
-          this.errorMessage = `That file is the wrong type. Accepted file types are ${allowedMimeTypes}`;
+          this.errorMessage =
+            `That file is the wrong type. Accepted file types are ${allowedMimeTypes}`;
           break;
         case 'fileSize':
           this.errorMessage = 'That file is too big.';
@@ -86,12 +108,57 @@ export class FormControlFileUploadComponent implements OnInit {
     }
   }
 
-  addItem(item: any = {}) {
-    const control = <FormArray>this.form.get(this.field);
+  public upload() {
+    if (this.directUpload) {
+
+      this.getSignedRequest(this.uploader.getNotUploadedItems()[0]);
+    } else {
+      this.uploader.uploadAll();
+    }
+  }
+
+  public getSignedRequest(fileLikeObject) {
+    fileLikeObject.file.name = fileLikeObject.file.name
+      .replace(/[^a-zA-Z0-9. ]/g, '')
+      .replace(/\s+/g, ' ')
+      .replace(/[ ]/g, '-');
+    const xhr = new XMLHttpRequest();
+    // include localhost:3000 when using locally
+    // tslint:disable-next-line:max-line-length
+    xhr.open('GET', `/api/aws/s3Signature?fileName=${fileLikeObject.file.name}&fileType=${fileLikeObject.file.type}`);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          this.uploadFile(fileLikeObject, response.s3Signature, response.url);
+        } else {
+          alert('Could not get signed URL.');
+        }
+      }
+    };
+    xhr.send();
+  }
+
+  public uploadFile(fileLikeObject, s3Signature, url) {
+    this.uploader.setOptions({
+      disableMultipart: true,
+      url: s3Signature,
+      allowedMimeType: this.allowedMimeType ||
+       this.constants.FILE_UPLOAD_DEFAULT_ALLOWED_MIME_TYPES,
+      maxFileSize: this.maxFileSize || this.constants.FILE_UPLOAD_DEFAULT_MAX_FILE_SIZE,
+    });
+    this.uploader.uploadItem(fileLikeObject);
+    // setting the url to the returned url so we can set it in the db
+    fileLikeObject.url = url;
+
+  }
+
+  public addItem(item: any = {}) {
+    const control = this.form.get(this.field) as FormArray;
     control.push(this.initItem(item));
   }
 
-  initItem(item: any = {}) {
+  public initItem(item: any = {}) {
     const formGroup = this.formBuilder.group({});
     const fileKeys = Object.keys(item);
 
@@ -102,12 +169,12 @@ export class FormControlFileUploadComponent implements OnInit {
     return formGroup;
   }
 
-  removeItem(i: number) {
-    const control = <FormArray>this.form.get(this.field);
+  public removeItem(i: number) {
+    const control = this.form.get(this.field) as FormArray;
     control.removeAt(i);
   }
 
-  isImage(mimeType: string) {
+  public isImage(mimeType: string) {
     return this.constants.IMAGE_MIME_TYPES.indexOf(mimeType) >= 0;
   }
 
