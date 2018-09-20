@@ -6,11 +6,15 @@
     </div>
 
     <div *ngIf="!isImage(file.type)">
-      <span *ngIf="file.name && file.url" class="text-wordwrap"><strong>Name:</strong> <a href="{{constants.AWS_S3_BASE_URL}}/{{file.url}}" target="_blank">{{file.name}}</a></span>
+      <span *ngIf="file.name && file.url" class="text-wordwrap"><strong>Name:</strong> <a href="{{constants.AWS_S3_BASE_URL}}/{{file.url}}"
+          target="_blank">{{file.name}}</a></span>
       <br>
       <span *ngIf="file.type" class="text-wordwrap"><strong>Type:</strong> {{file.type}}</span>
       <br>
       <span *ngIf="file.size" class="text-wordwrap"><strong>size: </strong> {{file.size}}</span>
+      <br>
+      <br>
+      <span *ngIf="file.status" class="text-wordwrap"><strong>status: </strong> {{file.status}}</span>
     </div>
   </div>
 </div>
