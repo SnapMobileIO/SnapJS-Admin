@@ -1,6 +1,7 @@
 import { Component, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ConstantsService } from './../../../../../../client/app/providers/constants.service';
+import { AdminService } from './../../admin.service';
+
 
 declare var tinyMCE: any;
 declare var tinymce: any;
@@ -17,7 +18,7 @@ export class FormcontrolTinymceComponent implements AfterViewInit, OnDestroy {
   editor: any;
 
   constructor(
-    private constants: ConstantsService,
+    private adminService: AdminService,
   ) { }
 
   ngAfterViewInit() {
@@ -44,9 +45,7 @@ export class FormcontrolTinymceComponent implements AfterViewInit, OnDestroy {
       },
     };
     // Merge in custom settings from Constants if present
-    if (this.constants.ADMIN_WYSIWYG_OPTIONS) {
-      initOptions = { ...initOptions, ...this.constants.ADMIN_WYSIWYG_OPTIONS };
-    }
+    initOptions = { ...initOptions, ...this.adminService.wysiwygSettings };
     tinymce.init(initOptions);
   }
 
