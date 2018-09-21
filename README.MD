@@ -98,8 +98,42 @@ export class AppModule { }
 
 You need to add the admin constants to your `ConstantsService`. Technically this is optional, but it won't get you far. Reference the required properties in the [`ConstantsService` included in the module](https://github.com/SnapMobileIO/SnapJS-Admin/blob/master/src/admin/constants.service.ts).
 
-If you don't already have a ConstantsService in your app, you can copy the one from the admin module. 
+If you don't already have a ConstantsService in your app, you can copy the one from the admin module.
 
+### WYSIWYG Editor Configuration
+
+To enable portal users to edit string-type fields with a what-you-see-is-what-you-get text editor, you can add an override to your project's `DEFAULT_SCHEMA_OVERWRITES` as follows:
+
+```
+  DEFAULT_SCHEMA_OVERWRITES: object = {
+    yourModelName: {
+      yourFieldName: {
+        instanceOverride: 'Wysiwyg',
+      },
+    },
+```
+
+This WYSIWYG editor, powered by [tinymce](https://github.com/tinymce/tinymce), replaces the single-line field for text entry in the admin portal's Create/Edit views with a robust in-browser interface akin to that of typical word processor software. The editor outputs validly-tagged HTML that appears in a view the same way it did when it was edited.
+
+The editor has been configured to work "out of the box", with dropdowns to select named format types (e.g. "Header 1") and buttons to style highlighted text in a variety of ways (e.g. bold, italicized, numbered bullets, center-justified text). The default configuration may enable modifications to styling that venture outside your client's needs, or leave out options that the client has requested.
+
+With that in mind, SnapJS-Admin enables configuration of the WYSIWYG editor from the `constants.service` file in your project's (web) source code. Use `ADMIN_WYSIWYG_OPTIONS` to set a config object, which will be called on when SnapJS-Admin initializes the tinymce editor.
+
+Here is a sample config setup that restricts the toolbar to a style select dropdown (with selectable formats that appear as "Page Header" and "Section Header"), and buttons to make text bold, italic, bulleted, numbered, and/or linked:
+
+```
+  ADMIN_WYSIWYG_OPTIONS: object = {
+      toolbar: 'styleselect | bold italic | bullist numlist | link',
+      style_formats: [
+        { title: 'Page Header', format: 'h1' },
+        { title: 'Section Header', format: 'h3' },
+      ],
+    };
+```
+
+The `ADMIN_WYSIWYG_OPTIONS` object is merged with the object passed into `tinymce.init()`, overwriting any shared keys with the custom config values.
+
+Tinymce has extensive documentation on properties that can be passed into their `init()` function. [The editor appearance docs](https://www.tiny.cloud/docs/configure/editor-appearance/) are a great place to start looking if you want to figure out how to make a specific change not outlined here.
 
 ## File Structure
 
