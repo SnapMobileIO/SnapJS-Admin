@@ -91,4 +91,6 @@ export class ConstantsService {
     },
   };
 
+  ADMIN_WYSIWYG_OPTIONS: object = {};
+
 }

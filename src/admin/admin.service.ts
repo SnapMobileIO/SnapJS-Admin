@@ -11,6 +11,7 @@ export class AdminService {
   schema: any;
   schemaKeys: string[];
   tzOffsetInHours: any;
+  wysiwygSettings: any;
 
   constructor(
     private http: Http,
@@ -19,6 +20,7 @@ export class AdminService {
     // Get the user's time zone offset in hours
     const today = new Date();
     this.tzOffsetInHours = -today.getTimezoneOffset() / 60;
+    this.wysiwygSettings = this.constants.ADMIN_WYSIWYG_OPTIONS;
   }
 
   loadSchema(): Promise<{}> {
