@@ -71,6 +71,7 @@
     "@angular/core": "^4.0.0"
   },
   "devDependencies": {
+    "snapjs-aws": "1.1.0",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/compiler-cli": "^4.0.0",

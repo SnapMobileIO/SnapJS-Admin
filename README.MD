@@ -1,6 +1,6 @@
 # snapjs-admin
 
-# WARNING updating this module to 1.0.0+ is dependant on updating your snapjs-aws to 2.0.0+
+# WARNING updating this module to 0.3.12+ is dependant on updating your snapjs-aws to 1.1.0+
 
 ## Installation
 
