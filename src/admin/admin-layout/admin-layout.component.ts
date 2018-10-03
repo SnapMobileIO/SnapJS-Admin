@@ -11,10 +11,7 @@ export class AdminLayoutComponent {
 
   constructor(
     public constants: ConstantsService,
-  ) { 
-
-    console.log("LARGE UPLOAD MODULE")
-  }
+  ) { }
 
   /**
    * Checks if the user is logged in

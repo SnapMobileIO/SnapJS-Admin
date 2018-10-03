@@ -1,6 +1,6 @@
 {
   "name": "@snapmobile/snapjs-admin",
-  "version": "0.3.12-largeuploadsWithStatus",
+  "version": "0.3.13",
   "description": "SnapJS Admin",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.js",
