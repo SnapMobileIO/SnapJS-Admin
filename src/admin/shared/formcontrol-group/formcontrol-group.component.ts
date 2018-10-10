@@ -11,6 +11,8 @@ export class FormcontrolGroupComponent implements OnInit {
   @Input() field: string;
   @Input() displayName: string;
   @Input() schema: any;
+  @Input() object: any;
+  @Input() submitFunction: Function;
   @Input() disabled: boolean;
   schemaKeys: any[];
 
@@ -19,7 +21,7 @@ export class FormcontrolGroupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.schemaKeys = Object.keys(this.schema.paths);
+    console.log('**** On init in formcontrol group component')
   }
 
 }
