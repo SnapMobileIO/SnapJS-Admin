@@ -117,7 +117,7 @@
           [form]="form"
           [field]="schemaKey"
           [displayName]="schema[schemaKey].displayName || schemaKey"
-          [schema]="schema[schemaKey].schema"
+          [schema]="schema[schemaKey].schema.paths"
           [submitFunction]="submitFunction"
           [object]="object">
         </app-formcontrol-group>
