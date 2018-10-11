@@ -69,7 +69,7 @@
           [form]="form" 
           [object]="object" 
           [searchClass]="schema[schemaKey].options.ref" 
-          [searchField]="schema[schemaKey].searchField" 
+          [searchField]="schema[schemaKey].searchField || schema[schemaKey].options.searchBy" 
           [field]="schemaKey"
           [displayName]="schema[schemaKey].displayName || schemaKey" 
           [multiple]="false">  
@@ -95,7 +95,7 @@
           [form]="form" 
           [object]="object" 
           [searchClass]="schema[schemaKey].caster.options.ref"
-          [searchField]="schema[schemaKey].searchField"
+          [searchField]="schema[schemaKey].searchField || schema[schemaKey].options.searchBy"
           [field]="schemaKey"
           [displayName]="schema[schemaKey].displayName || schemaKey"
           [multiple]="true">
