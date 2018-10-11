@@ -71,7 +71,7 @@
     "@angular/core": "^4.0.0"
   },
   "devDependencies": {
-    "snapjs-aws": "1.1.0",
+    "snapjs-aws": "git+https://37327d5496e19922f3042f023495176af24ba924:x-oauth-basic@github.com/SnapMobileIO/SnapJS-Aws.git",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/compiler-cli": "^4.0.0",
