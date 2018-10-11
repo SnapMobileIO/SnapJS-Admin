@@ -1,8 +1,8 @@
 <form novalidate [formGroup]="form" (ngSubmit)="submit()" class="form-horizontal">
   <div *ngFor="let schemaKey of schemaKeys">
-    <div [ngSwitch]="schema[schemaKey].instanceOverride || schema[schemaKey].instance">
+    <div>
       <app-formcontrol-input
-        *ngSwitchCase="'Boolean'"
+        *ngIf="schema[schemaKey].instanceOverride === 'Boolean' || schema[schemaKey].instance === 'Boolean'"
         [form]="form"
         [field]="schemaKey"
         [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -10,15 +10,15 @@
       </app-formcontrol-input>
 
       <app-formcontrol-input
-        *ngSwitchCase="'Number'"
+        *ngIf="schema[schemaKey].instanceOverride === 'Number' || schema[schemaKey].instance === 'Number'"
         [form]="form"
         [field]="schemaKey"
         [displayName]="schema[schemaKey].displayName || schemaKey"
         [inputType]="'number'">
       </app-formcontrol-input>
 
-      <app-formcontrol-input
-        *ngSwitchCase="'Date'"
+     <app-formcontrol-input
+        *ngIf="schema[schemaKey].instanceOverride === 'Date' || schema[schemaKey].instance === 'Date'"
         [form]="form"
         [field]="schemaKey"
         [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -26,7 +26,7 @@
       </app-formcontrol-input>
 
       <app-formcontrol-input
-        *ngSwitchCase="'Hidden'"
+        *ngIf="schema[schemaKey].instanceOverride === 'Hidden' || schema[schemaKey].instance === 'Hidden'"
         [form]="form"
         [field]="schemaKey"
         [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -34,7 +34,7 @@
       </app-formcontrol-input>
 
       <app-formcontrol-input
-        *ngSwitchCase="'Disabled'"
+        *ngIf="schema[schemaKey].instanceOverride === 'Disabled' || schema[schemaKey].instance === 'Disabled'"
         [form]="form"
         [field]="schemaKey"
         [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -42,7 +42,7 @@
       </app-formcontrol-input>
 
       <app-formcontrol-select
-        *ngSwitchCase="'SingleSelect'"
+        *ngIf="schema[schemaKey].instanceOverride === 'SingleSelect' || schema[schemaKey].instance === 'SingleSelect'"
         [form]="form"
         [object]="object"
         [field]="schemaKey"
@@ -53,7 +53,7 @@
       </app-formcontrol-select>
 
       <app-formcontrol-select
-        *ngSwitchCase="'MultiSelect'"
+        *ngIf="schema[schemaKey].instanceOverride === 'MultiSelect' || schema[schemaKey].instance === 'MultiSelect'"
         [form]="form"
         [object]="object"
         [field]="schemaKey"
@@ -63,23 +63,9 @@
         [displayName]="schema[schemaKey].displayName || schemaKey">
       </app-formcontrol-select>
 
-      <!-- Array of subdocuments -->
-      <div *ngSwitchCase="'Array'">
-        <app-formcontrol-array-rel
-          *ngIf="schema[schemaKey].schema"
-          [disabled]="schema[schemaKey].instanceOptions && schema[schemaKey].instanceOptions.disabled" 
-          [form]="form"
-          [object]="object" 
-          [field]="schemaKey"
-          [displayName]="schema[schemaKey].displayName || schemaKey"
-          [schema]="schema[schemaKey].schema">
-        </app-formcontrol-array-rel>
-      </div>
-
       <!-- Single select for relationship (searches for matches) -->
-      <div *ngSwitchCase="'ObjectID'">
+      <div *ngIf="(schema[schemaKey].instanceOverride === 'ObjectID' || schema[schemaKey].instance === 'ObjectID') && (schema[schemaKey].options && schema[schemaKey].options.ref)">
         <app-formcontrol-select-rel 
-          *ngIf="schema[schemaKey].options && schema[schemaKey].options.ref" 
           [form]="form" 
           [object]="object" 
           [searchClass]="schema[schemaKey].options.ref" 
@@ -90,10 +76,22 @@
         </app-formcontrol-select-rel>
       </div>
 
-      <!-- Select array of relationships (searches for matches) -->
-      <div *ngSwitchCase="'Array'">
-        <app-formcontrol-select-rel 
-          *ngIf="schema[schemaKey].caster.options && schema[schemaKey].caster.options.ref"
+      <!-- Arrays -->
+      <div *ngIf="schema[schemaKey].instanceOverride === 'Array' || schema[schemaKey].instance === 'Array'">
+        <!-- Array of subdocuments -->
+        <app-formcontrol-array-rel
+          *ngIf="schema[schemaKey].schema"
+          [disabled]="schema[schemaKey].instanceOptions && schema[schemaKey].instanceOptions.disabled" 
+          [form]="form"
+          [object]="object" 
+          [field]="schemaKey"
+          [displayName]="schema[schemaKey].displayName || schemaKey"
+          [schema]="schema[schemaKey].schema">
+        </app-formcontrol-array-rel>
+
+        <!-- Select array of relationships (searches for matches) -->
+        <app-formcontrol-select-rel
+          *ngIf="schema[schemaKey].caster.options && schema[schemaKey].caster.options.ref" 
           [form]="form" 
           [object]="object" 
           [searchClass]="schema[schemaKey].caster.options.ref"
@@ -102,10 +100,8 @@
           [displayName]="schema[schemaKey].displayName || schemaKey"
           [multiple]="true">
         </app-formcontrol-select-rel>
-      </div>
 
-      <!-- Select array of strings -->
-      <div *ngSwitchCase="'Array'">
+        <!-- Select array of strings -->
         <app-formcontrol-array
           *ngIf="schema[schemaKey].caster.options && !schema[schemaKey].caster.options.ref"
           [form]="form" 
@@ -115,20 +111,20 @@
       </div>
 
       <!-- Single embedded document -->
-      <div *ngSwitchCase="'Embedded'">
+      <div *ngIf="schema[schemaKey].instanceOverride === 'Embedded' || schema[schemaKey].instance === 'Embedded'">
         <app-formcontrol-group
           [disabled]="schema[schemaKey].instanceOptions && schema[schemaKey].instanceOptions.disabled"
           [form]="form"
           [field]="schemaKey"
           [displayName]="schema[schemaKey].displayName || schemaKey"
-          [schema]="schema[schemaKey].schema.obj"
+          [schema]="schema[schemaKey].schema"
           [submitFunction]="submitFunction"
           [object]="object">
         </app-formcontrol-group>
       </div>
 
       <!-- Wysiwyg editor -->
-      <div *ngSwitchCase="'Wysiwyg'">
+      <div *ngIf="schema[schemaKey].instanceOverride === 'Wysiwyg' || schema[schemaKey].instance === 'Wysiwyg'">
         <app-formcontrol-tinymce 
           [form]="form" 
           [field]="schemaKey"
@@ -137,7 +133,7 @@
       </div>
 
       <!-- Images -->
-      <div *ngSwitchCase="'Image'">
+      <div *ngIf="schema[schemaKey].instanceOverride === 'Image' || schema[schemaKey].instance === 'Image'">
         <app-formcontrol-file-upload
           [isMultiple]="false"
           [field]="schemaKey"
@@ -150,7 +146,7 @@
       </div>
 
       <!-- File -->
-      <div *ngSwitchCase="'File'">
+      <div *ngIf="schema[schemaKey].instanceOverride === 'File' || schema[schemaKey].instance === 'File'">
         <app-formcontrol-file-upload
           [isMultiple]="false"
           [field]="schemaKey"
@@ -163,7 +159,7 @@
       </div>
 
       <!-- Multiple images -->
-      <div *ngSwitchCase="'ImageArray'">
+      <div *ngIf="schema[schemaKey].instanceOverride === 'ImageArray' || schema[schemaKey].instance === 'ImageArray'">
         <app-formcontrol-file-upload
           [isMultiple]="true"
           [field]="schemaKey"
@@ -176,7 +172,7 @@
       </div>
 
       <!-- Multiple files -->
-      <div *ngSwitchCase="'FileArray'">
+      <div *ngIf="schema[schemaKey].instanceOverride === 'FileArray' || schema[schemaKey].instance === 'FileArray'">
         <app-formcontrol-file-upload
           [isMultiple]="true"
           [field]="schemaKey"
@@ -189,7 +185,7 @@
       </div>
 
       <!-- SubDocument -->
-      <div *ngSwitchCase="'SubDocument'">
+      <div *ngIf="schema[schemaKey].instanceOverride === 'SubDocument' || schema[schemaKey].instance === 'SubDocument'">
         <app-formcontrol-subdocument
           *ngIf="object[schemaKey]"
           [displayName]="schema[schemaKey].displayName"
@@ -198,7 +194,23 @@
       </div>
 
       <!-- Default input type -->
-      <div *ngSwitchDefault>
+      <div *ngIf="schema[schemaKey].instanceOverride !== 'SubDocument' && schema[schemaKey].instance !== 'SubDocument' &&
+      schema[schemaKey].instanceOverride !== 'FileArray' && schema[schemaKey].instance !== 'FileArray' &&
+      schema[schemaKey].instanceOverride !== 'ImageArray' && schema[schemaKey].instance !== 'ImageArray' &&
+      schema[schemaKey].instanceOverride !== 'File' && schema[schemaKey].instance !== 'File' &&
+      schema[schemaKey].instanceOverride !== 'Image' && schema[schemaKey].instance !== 'Image' &&
+      schema[schemaKey].instanceOverride !== 'Wysiwyg' && schema[schemaKey].instance !== 'Wysiwyg' &&
+      schema[schemaKey].instanceOverride !== 'Embedded' && schema[schemaKey].instance !== 'Embedded' &&
+      schema[schemaKey].instanceOverride !== 'Array' && schema[schemaKey].instance !== 'Array' &&
+      schema[schemaKey].instanceOverride !== 'ObjectID' && schema[schemaKey].instance !== 'ObjectID' &&
+      schema[schemaKey].instanceOverride !== 'MultiSelect' && schema[schemaKey].instance !== 'MultiSelect' &&
+      schema[schemaKey].instanceOverride !== 'SingleSelect' && schema[schemaKey].instance !== 'SingleSelect' &&
+      schema[schemaKey].instanceOverride !== 'Disabled' && schema[schemaKey].instance !== 'Disabled' &&
+      schema[schemaKey].instanceOverride !== 'Hidden' && schema[schemaKey].instance !== 'Hidden' &&
+      schema[schemaKey].instanceOverride !== 'Date' && schema[schemaKey].instance !== 'Date' &&
+      schema[schemaKey].instanceOverride !== 'Number' && schema[schemaKey].instance !== 'Number' &&
+      schema[schemaKey].instanceOverride !== 'Boolean' && schema[schemaKey].instance !== 'Boolean'
+      ">
         <app-formcontrol-input [form]="form" [field]="schemaKey" [inputType]="'text'" [displayName]="schema[schemaKey].displayName || schemaKey"></app-formcontrol-input>
       </div>
     </div>
