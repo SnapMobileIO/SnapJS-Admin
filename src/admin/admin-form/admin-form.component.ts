@@ -9,22 +9,34 @@ import * as moment from 'moment';
   styleUrls: ['./admin-form.component.scss'],
 })
 export class AdminFormComponent implements OnInit {
-  form: FormGroup = new FormGroup({});
+  form: any;
   formSubmitted: boolean = false;
   schemaKeys: any[] = [];
   @Input() object: any = {};
   @Input() schema: any = {};
   @Input() submitFunction: Function;
+  @Input() embeddedGroupName: string;
+  @Input() originalForm: any;
 
   constructor(
     private formBuilder: FormBuilder,
     public adminService: AdminService,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
+    // if (this.originalForm) {
+    //   console.log('*** use original form')
+    //   this.form = this.originalForm;
+    // } else {
+    //   console.log('*** new blank form')
+    //   this.form = new FormGroup({});
+    // }
+
     if (this.schema) {
       this.schemaKeys = Object.keys(this.schema);
     }
+    this.form = new FormGroup({});
 
     // Remove hidden keys
     let i = this.schemaKeys.length;
@@ -37,6 +49,7 @@ export class AdminFormComponent implements OnInit {
 
     // Build Form
     this.schemaKeys.forEach((key) => {
+      console.log('*** this.schema[key]', this.schema[key])
       if ((this.schema[key].instanceOverride === 'Array' || this.schema[key].instance === 'Array') && this.schema[key].schema) {
         this.form.registerControl(key, this.formBuilder.array([]));
 
@@ -46,11 +59,22 @@ export class AdminFormComponent implements OnInit {
 
       } else if (this.schema[key].instanceOverride === 'Embedded' || this.schema[key].instance === 'Embedded') {
         this.form.registerControl(key, new FormGroup({}));
-        const formGroup = <FormGroup>this.form.get(key);
+        const parentFormGroup = <FormGroup> this.form.get(key);
         const schemaPaths = Object.keys(this.schema[key].schema.paths);
         schemaPaths.forEach((schemaPath) => {
-          const value = this.object[key] && this.object[key][schemaPath] ? this.object[key][schemaPath] : '';
-          formGroup.registerControl(schemaPath, new FormControl(value));
+
+          if (this.schema[key].schema.obj[schemaPath] && this.schema[key].schema.obj[schemaPath].obj) {
+            parentFormGroup.registerControl(schemaPath, new FormGroup({}));
+            const formGroup = <FormGroup> parentFormGroup.get(schemaPath);
+            const childschemaPaths = Object.keys(this.schema[key].schema.obj[schemaPath].obj);
+            childschemaPaths.forEach((childschemaPath) => {
+              const value = this.object[key] && this.object[key][childschemaPath] ? this.object[key][childschemaPath] : '';
+              formGroup.registerControl(childschemaPath, new FormControl(value));
+            });
+          } else {
+            const value = this.object[key] && this.object[key][schemaPath] ? this.object[key][schemaPath] : '';
+            parentFormGroup.registerControl(schemaPath, new FormControl(value));
+          }
         });
       } else {
         let value = '';
@@ -83,9 +107,12 @@ export class AdminFormComponent implements OnInit {
         this.form.registerControl(key, new FormControl({value, disabled}, []));
       }
     });
+
+    console.log("*** this.form", this.form)
   }
 
   submit() {
+    console.log('**** this.form', this.form)
     if (this.form.valid && this.submitFunction) {
       this.submitFunction(this.form);
     }
