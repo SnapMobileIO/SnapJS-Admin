@@ -49,7 +49,6 @@ export class AdminFormComponent implements OnInit {
 
     // Build Form
     this.schemaKeys.forEach((key) => {
-      console.log('*** this.schema[key]', this.schema[key])
       if ((this.schema[key].instanceOverride === 'Array' || this.schema[key].instance === 'Array') && this.schema[key].schema) {
         this.form.registerControl(key, this.formBuilder.array([]));
 
@@ -58,23 +57,15 @@ export class AdminFormComponent implements OnInit {
         this.form.registerControl(key, this.formBuilder.array([]));
 
       } else if (this.schema[key].instanceOverride === 'Embedded' || this.schema[key].instance === 'Embedded') {
+        // Create a form group
         this.form.registerControl(key, new FormGroup({}));
         const parentFormGroup = <FormGroup> this.form.get(key);
         const schemaPaths = Object.keys(this.schema[key].schema.paths);
-        schemaPaths.forEach((schemaPath) => {
 
-          if (this.schema[key].schema.obj[schemaPath] && this.schema[key].schema.obj[schemaPath].obj) {
-            parentFormGroup.registerControl(schemaPath, new FormGroup({}));
-            const formGroup = <FormGroup> parentFormGroup.get(schemaPath);
-            const childschemaPaths = Object.keys(this.schema[key].schema.obj[schemaPath].obj);
-            childschemaPaths.forEach((childschemaPath) => {
-              const value = this.object[key] && this.object[key][childschemaPath] ? this.object[key][childschemaPath] : '';
-              formGroup.registerControl(childschemaPath, new FormControl(value));
-            });
-          } else {
-            const value = this.object[key] && this.object[key][schemaPath] ? this.object[key][schemaPath] : '';
-            parentFormGroup.registerControl(schemaPath, new FormControl(value));
-          }
+        // Create a control for each schema path
+        schemaPaths.forEach((schemaPath) => {
+          // For each path, set the value in the form or create another subgroupe if it's embedded
+          this.buildEmbeddedGroup(parentFormGroup, schemaPath, this.schema[key].schema.obj[schemaPath])
         });
       } else {
         let value = '';
@@ -103,16 +94,34 @@ export class AdminFormComponent implements OnInit {
           disabled = false;
         }
 
-        // this.form.registerControl(key, new FormControl({value, disabled}, [Validators.required]));
         this.form.registerControl(key, new FormControl({value, disabled}, []));
       }
     });
+  }
 
-    console.log("*** this.form", this.form)
+  /**
+   * Check if the schema is an embedded schema
+   * If it is, call this function again to build out recursive form groups
+   * @param {any}    parentFormGroup The parent form group
+   * @param {string} schemaPath      The name of the property we're adding to the form
+   * @param {[type]} schema  The embedded schema we are adding to the form
+   */
+  buildEmbeddedGroup(parentFormGroup: FormGroup, schemaPath: string, schema: any) {
+    if (schema && schema.obj) {
+      // pull this out to make it recursive
+      parentFormGroup.registerControl(schemaPath, new FormGroup({}));
+      const formGroup = <FormGroup> parentFormGroup.get(schemaPath);
+      const childschemaPaths = Object.keys(schema.obj);
+      childschemaPaths.forEach((childschemaPath) => {
+        this.buildEmbeddedGroup(formGroup, childschemaPath, schema.obj[childschemaPath]);
+      });
+    } else {
+      const value = '';
+      parentFormGroup.registerControl(schemaPath, new FormControl(value));
+    }
   }
 
   submit() {
-    console.log('**** this.form', this.form)
     if (this.form.valid && this.submitFunction) {
       this.submitFunction(this.form);
     }
