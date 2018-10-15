@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AdminFormComponent } from '../admin-form/admin-form.component';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -12,6 +13,7 @@ import * as moment from 'moment';
   styleUrls: ['./admin-new.component.scss'],
 })
 export class AdminNewComponent implements OnInit {
+  @ViewChild(AdminFormComponent) private adminFormComponent: AdminFormComponent;
   object: {} = {};
   submitFunction: Function;
 
@@ -22,6 +24,10 @@ export class AdminNewComponent implements OnInit {
     public adminService: AdminService,
     private validationService: ValidationService,
   ) { }
+
+  ngAfterViewInit() {
+    console.log(this.adminFormComponent);
+  }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -34,6 +40,7 @@ export class AdminNewComponent implements OnInit {
   }
 
   submit(form: FormGroup) {
+    console.log('*** form', form)
     const object = form.value;
     if (object) {
 

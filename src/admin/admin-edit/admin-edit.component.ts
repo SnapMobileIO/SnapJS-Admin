@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AdminFormComponent } from '../admin-form/admin-form.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -14,6 +15,7 @@ import * as moment from 'moment';
   styleUrls: ['./admin-edit.component.scss'],
 })
 export class AdminEditComponent implements OnInit {
+  @ViewChild(AdminFormComponent) private adminFormComponent: AdminFormComponent;
   object: any;
   submitFunction: Function;
 

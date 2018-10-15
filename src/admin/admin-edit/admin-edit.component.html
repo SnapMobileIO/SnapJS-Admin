@@ -13,6 +13,7 @@
         <div class="panel">
           <div class="panel-body">
             <app-admin-form [object]="object" [schema]="adminService.schema" [submitFunction]="submitFunction"></app-admin-form>
+            <button (click)="submit(adminFormComponent.form)">Save</button>
           </div>
         </div>
       </div>
