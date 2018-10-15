@@ -37,6 +37,9 @@ export class AdminFormComponent implements OnInit {
 
     // Build Form
     this.schemaKeys.forEach((key) => {
+      // console.log("KEYYYY", key);
+      // console.log(this.schema[key]);
+      // console.log(this.schema[key].instance,this.schema[key].instanceOverride);
       if ((this.schema[key].instanceOverride === 'Array' || this.schema[key].instance === 'Array') && this.schema[key].schema) {
         this.form.registerControl(key, this.formBuilder.array([]));
 
@@ -45,12 +48,17 @@ export class AdminFormComponent implements OnInit {
         this.form.registerControl(key, this.formBuilder.array([]));
 
       } else if (this.schema[key].instanceOverride === 'Embedded' || this.schema[key].instance === 'Embedded') {
+        console.log("GOT IN EMBEDDED");
+        console.log(this.schema[key]);
         this.form.registerControl(key, new FormGroup({}));
         const formGroup = <FormGroup>this.form.get(key);
         const schemaPaths = Object.keys(this.schema[key].schema.paths);
         schemaPaths.forEach((schemaPath) => {
+          console.log("SCHEMA PATH", schemaPath);
           const value = this.object[key] && this.object[key][schemaPath] ? this.object[key][schemaPath] : '';
+          console.log("VALUE", value);
           formGroup.registerControl(schemaPath, new FormControl(value));
+          console.log(formGroup);
         });
       } else {
         let value = '';

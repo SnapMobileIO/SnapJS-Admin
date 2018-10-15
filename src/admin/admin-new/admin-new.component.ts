@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { AdminService } from '../admin.service';
 import { ValidationService } from '../shared/control-errors/validation.service';
+import { AdminFormComponent } from '../admin-form/admin-form.component';
 import * as moment from 'moment';
 
 @Component({
@@ -12,6 +13,8 @@ import * as moment from 'moment';
   styleUrls: ['./admin-new.component.scss'],
 })
 export class AdminNewComponent implements OnInit {
+  @ViewChild(AdminFormComponent) adminFormComponent: AdminFormComponent;
+
   object: {} = {};
   submitFunction: Function;
 
@@ -31,6 +34,10 @@ export class AdminNewComponent implements OnInit {
 
     // Bind 'this' since the submit function is a callback
     this.submitFunction = this.submit.bind(this);
+  }
+
+  submitty(){
+    this.adminFormComponent.submit();
   }
 
   submit(form: FormGroup) {
@@ -67,6 +74,7 @@ export class AdminNewComponent implements OnInit {
         })
         .catch((err) => {
           const errors = err.json();
+          console.log(errors);
           this.toastr.error('There was an issue creating this.', 'Whoops!');
           this.validationService.buildServerErrors(form, errors);
         });
