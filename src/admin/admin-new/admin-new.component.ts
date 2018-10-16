@@ -25,10 +25,6 @@ export class AdminNewComponent implements OnInit {
     private validationService: ValidationService,
   ) { }
 
-  ngAfterViewInit() {
-    console.log(this.adminFormComponent);
-  }
-
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.adminService.className = params.className;
@@ -40,7 +36,7 @@ export class AdminNewComponent implements OnInit {
   }
 
   submit(form: FormGroup) {
-    console.log('*** form', form)
+    console.log('*** parent form', this.adminService.parentForm)
     const object = form.value;
     if (object) {
 

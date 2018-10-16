@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AdminService } from '../../admin.service';
 
@@ -7,14 +7,22 @@ import { AdminService } from '../../admin.service';
   templateUrl: './formcontrol-input.component.html',
   styleUrls: ['./formcontrol-input.component.scss'],
 })
-export class FormcontrolInputComponent {
+export class FormcontrolInputComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() field: string;
   @Input() displayName: string;
   @Input() inputType = 'input';
+  @Input() forEmbedded: boolean;
+  @Input() embeddedGroupName: string;
+
   constructor(
     public adminService: AdminService,
   ) {}
+
+  ngOnInit() {
+    // console.log('*** field: ', this.field)
+    // console.log('*** FORM IN FORMCONTROL-INPUT COMPONENT', this.adminService.parentForm)
+  }
 
   /**
    * Update the form value for a boolean instance

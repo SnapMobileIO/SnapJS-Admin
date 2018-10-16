@@ -1,7 +1,9 @@
-<form novalidate [formGroup]="adminService.parentForm" (ngSubmit)="submit()" class="form-horizontal">
+<form *ngIf="!forEmbedded" novalidate [formGroup]="form" (ngSubmit)="submit()" class="form-horizontal">
   <div *ngFor="let schemaKey of schemaKeys">
     <app-formcontrol-input
       *ngIf="schema[schemaKey].instanceOverride === 'Boolean' || schema[schemaKey].instance === 'Boolean'"
+      [embeddedGroupName]="embeddedGroupName"
+      [forEmbedded]="forEmbedded"
       [form]="form"
       [field]="schemaKey"
       [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -10,6 +12,8 @@
 
     <app-formcontrol-input
       *ngIf="schema[schemaKey].instanceOverride === 'Number' || schema[schemaKey].instance === 'Number'"
+      [embeddedGroupName]="embeddedGroupName"
+      [forEmbedded]="forEmbedded"
       [form]="form"
       [field]="schemaKey"
       [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -18,6 +22,8 @@
 
    <app-formcontrol-input
       *ngIf="schema[schemaKey].instanceOverride === 'Date' || schema[schemaKey].instance === 'Date'"
+      [forEmbedded]="forEmbedded"
+      [embeddedGroupName]="embeddedGroupName"
       [form]="form"
       [field]="schemaKey"
       [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -26,6 +32,8 @@
 
     <app-formcontrol-input
       *ngIf="schema[schemaKey].instanceOverride === 'Hidden' || schema[schemaKey].instance === 'Hidden'"
+      [embeddedGroupName]="embeddedGroupName"
+      [forEmbedded]="forEmbedded"
       [form]="form"
       [field]="schemaKey"
       [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -34,6 +42,8 @@
 
     <app-formcontrol-input
       *ngIf="schema[schemaKey].instanceOverride === 'Disabled' || schema[schemaKey].instance === 'Disabled'"
+      [forEmbedded]="forEmbedded"
+      [embeddedGroupName]="embeddedGroupName"
       [form]="form"
       [field]="schemaKey"
       [displayName]="schema[schemaKey].displayName || schemaKey"
@@ -65,7 +75,7 @@
     <!-- Single select for relationship (searches for matches) -->
     <div *ngIf="(schema[schemaKey].instanceOverride === 'ObjectID' || schema[schemaKey].instance === 'ObjectID') && (schema[schemaKey].options && schema[schemaKey].options.ref)">
       <app-formcontrol-select-rel 
-        [form]="form" 
+        [form]="form"
         [object]="object" 
         [searchClass]="schema[schemaKey].options.ref" 
         [searchField]="schema[schemaKey].searchField || schema[schemaKey].options.searchBy" 
@@ -210,10 +220,241 @@
     schema[schemaKey].instanceOverride !== 'Number' && schema[schemaKey].instance !== 'Number' &&
     schema[schemaKey].instanceOverride !== 'Boolean' && schema[schemaKey].instance !== 'Boolean'
     ">
-      <app-formcontrol-input [form]="form" [field]="schemaKey" [inputType]="'text'" [displayName]="schema[schemaKey].displayName || schemaKey"></app-formcontrol-input>
+      <app-formcontrol-input [embeddedGroupName]="embeddedGroupName" [forEmbedded]="forEmbedded" [form]="form" [field]="schemaKey" [inputType]="'text'" [displayName]="schema[schemaKey].displayName || schemaKey"></app-formcontrol-input>
     </div>
 
     <!-- Display validation errors -->
     <control-errors [control]="form.controls[schemaKey]"></control-errors>
   </div>
 </form>
+
+<div *ngIf="forEmbedded" class="form-horizontal">
+  <p>Test2 embeddedGroupName: {{embeddedGroupName}}</p>
+  <div *ngFor="let schemaKey of schemaKeys">
+    <app-formcontrol-input
+      *ngIf="schema[schemaKey].instanceOverride === 'Boolean' || schema[schemaKey].instance === 'Boolean'"
+      [embeddedGroupName]="embeddedGroupName"
+      [forEmbedded]="forEmbedded"
+      [form]="form"
+      [field]="schemaKey"
+      [displayName]="schema[schemaKey].displayName || schemaKey"
+      [inputType]="'checkbox'">
+    </app-formcontrol-input>
+
+    <app-formcontrol-input
+      *ngIf="schema[schemaKey].instanceOverride === 'Number' || schema[schemaKey].instance === 'Number'"
+      [embeddedGroupName]="embeddedGroupName"
+      [forEmbedded]="forEmbedded"
+      [form]="form"
+      [field]="schemaKey"
+      [displayName]="schema[schemaKey].displayName || schemaKey"
+      [inputType]="'number'">
+    </app-formcontrol-input>
+
+   <app-formcontrol-input
+      *ngIf="schema[schemaKey].instanceOverride === 'Date' || schema[schemaKey].instance === 'Date'"
+      [forEmbedded]="forEmbedded"
+      [embeddedGroupName]="embeddedGroupName"
+      [form]="form"
+      [field]="schemaKey"
+      [displayName]="schema[schemaKey].displayName || schemaKey"
+      [inputType]="'datetime-local'">
+    </app-formcontrol-input>
+
+    <app-formcontrol-input
+      *ngIf="schema[schemaKey].instanceOverride === 'Hidden' || schema[schemaKey].instance === 'Hidden'"
+      [embeddedGroupName]="embeddedGroupName"
+      [forEmbedded]="forEmbedded"
+      [form]="form"
+      [field]="schemaKey"
+      [displayName]="schema[schemaKey].displayName || schemaKey"
+      [inputType]="'hidden'">
+    </app-formcontrol-input>
+
+    <app-formcontrol-input
+      *ngIf="schema[schemaKey].instanceOverride === 'Disabled' || schema[schemaKey].instance === 'Disabled'"
+      [forEmbedded]="forEmbedded"
+      [embeddedGroupName]="embeddedGroupName"
+      [form]="form"
+      [field]="schemaKey"
+      [displayName]="schema[schemaKey].displayName || schemaKey"
+      [inputType]="'text'">
+    </app-formcontrol-input>
+
+    <app-formcontrol-select
+      *ngIf="schema[schemaKey].instanceOverride === 'SingleSelect' || schema[schemaKey].instance === 'SingleSelect'"
+      [form]="form"
+      [object]="object"
+      [field]="schemaKey"
+      [displayName]="schema[schemaKey].displayName || schemaKey"
+      [multiple]="false"
+      [items]="schema[schemaKey].options"
+      [displayName]="schema[schemaKey].displayName || schemaKey">
+    </app-formcontrol-select>
+
+    <app-formcontrol-select
+      *ngIf="schema[schemaKey].instanceOverride === 'MultiSelect' || schema[schemaKey].instance === 'MultiSelect'"
+      [form]="form"
+      [object]="object"
+      [field]="schemaKey"
+      [displayName]="schema[schemaKey].displayName || schemaKey"
+      [multiple]="true"
+      [items]="schema[schemaKey].options"
+      [displayName]="schema[schemaKey].displayName || schemaKey">
+    </app-formcontrol-select>
+
+    <!-- Single select for relationship (searches for matches) -->
+    <div *ngIf="(schema[schemaKey].instanceOverride === 'ObjectID' || schema[schemaKey].instance === 'ObjectID') && (schema[schemaKey].options && schema[schemaKey].options.ref)">
+      <app-formcontrol-select-rel 
+        [form]="form"
+        [object]="object" 
+        [searchClass]="schema[schemaKey].options.ref" 
+        [searchField]="schema[schemaKey].searchField || schema[schemaKey].options.searchBy" 
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey" 
+        [multiple]="false">  
+      </app-formcontrol-select-rel>
+    </div>
+
+    <!-- Arrays -->
+    <div *ngIf="schema[schemaKey].instanceOverride === 'Array' || schema[schemaKey].instance === 'Array'">
+      <!-- Array of subdocuments -->
+      <app-formcontrol-array-rel
+        *ngIf="schema[schemaKey].schema"
+        [disabled]="schema[schemaKey].instanceOptions && schema[schemaKey].instanceOptions.disabled" 
+        [form]="form"
+        [object]="object" 
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey"
+        [schema]="schema[schemaKey].schema">
+      </app-formcontrol-array-rel>
+
+      <!-- Select array of relationships (searches for matches) -->
+      <app-formcontrol-select-rel
+        *ngIf="schema[schemaKey].caster.options && schema[schemaKey].caster.options.ref" 
+        [form]="form" 
+        [object]="object" 
+        [searchClass]="schema[schemaKey].caster.options.ref"
+        [searchField]="schema[schemaKey].searchField || schema[schemaKey].options.searchBy"
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey"
+        [multiple]="true">
+      </app-formcontrol-select-rel>
+
+      <!-- Select array of strings -->
+      <app-formcontrol-array
+        *ngIf="schema[schemaKey].caster.options && !schema[schemaKey].caster.options.ref"
+        [form]="form" 
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey">
+      </app-formcontrol-array>
+    </div>
+
+    <!-- Single embedded document -->
+    <div *ngIf="schema[schemaKey].instanceOverride === 'Embedded' || schema[schemaKey].instance === 'Embedded'">
+      <app-formcontrol-group
+        [disabled]="schema[schemaKey].instanceOptions && schema[schemaKey].instanceOptions.disabled"
+        [form]="form"
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey"
+        [schema]="schema[schemaKey].schema.paths"
+        [submitFunction]="submitFunction"
+        [object]="object">
+      </app-formcontrol-group>
+    </div>
+
+    <!-- Wysiwyg editor -->
+    <div *ngIf="schema[schemaKey].instanceOverride === 'Wysiwyg' || schema[schemaKey].instance === 'Wysiwyg'">
+      <app-formcontrol-tinymce 
+        [form]="form" 
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey">
+      </app-formcontrol-tinymce>
+    </div>
+
+    <!-- Images -->
+    <div *ngIf="schema[schemaKey].instanceOverride === 'Image' || schema[schemaKey].instance === 'Image'">
+      <app-formcontrol-file-upload
+        [isMultiple]="false"
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey"
+        [object]="object"
+        [allowedMimeType]="schema[schemaKey].allowedMimeType"
+        [maxFileSize]="schema[schemaKey].maxFileSize"
+        [form]="form">
+      </app-formcontrol-file-upload>
+    </div>
+
+    <!-- File -->
+    <div *ngIf="schema[schemaKey].instanceOverride === 'File' || schema[schemaKey].instance === 'File'">
+      <app-formcontrol-file-upload
+        [isMultiple]="false"
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey"
+        [object]="object"
+        [allowedMimeType]="schema[schemaKey].allowedMimeType"
+        [maxFileSize]="schema[schemaKey].maxFileSize"
+        [form]="form">
+      </app-formcontrol-file-upload>
+    </div>
+
+    <!-- Multiple images -->
+    <div *ngIf="schema[schemaKey].instanceOverride === 'ImageArray' || schema[schemaKey].instance === 'ImageArray'">
+      <app-formcontrol-file-upload
+        [isMultiple]="true"
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey"
+        [object]="object"
+        [allowedMimeType]="schema[schemaKey].allowedMimeType"
+        [maxFileSize]="schema[schemaKey].maxFileSize"
+        [form]="form">
+      </app-formcontrol-file-upload>
+    </div>
+
+    <!-- Multiple files -->
+    <div *ngIf="schema[schemaKey].instanceOverride === 'FileArray' || schema[schemaKey].instance === 'FileArray'">
+      <app-formcontrol-file-upload
+        [isMultiple]="true"
+        [field]="schemaKey"
+        [displayName]="schema[schemaKey].displayName || schemaKey"
+        [object]="object"
+        [allowedMimeType]="schema[schemaKey].allowedMimeType"
+        [maxFileSize]="schema[schemaKey].maxFileSize"
+        [form]="form">
+      </app-formcontrol-file-upload>
+    </div>
+
+    <!-- SubDocument -->
+    <div *ngIf="schema[schemaKey].instanceOverride === 'SubDocument' || schema[schemaKey].instance === 'SubDocument'">
+      <app-formcontrol-subdocument
+        *ngIf="object[schemaKey]"
+        [displayName]="schema[schemaKey].displayName"
+        [value]="schema[schemaKey].displayKey ? object[schemaKey][schema[schemaKey].displayKey] : object[schemaKey]">
+      </app-formcontrol-subdocument>
+    </div>
+
+    <!-- Default input type -->
+    <div *ngIf="schema[schemaKey].instanceOverride !== 'SubDocument' && schema[schemaKey].instance !== 'SubDocument' &&
+    schema[schemaKey].instanceOverride !== 'FileArray' && schema[schemaKey].instance !== 'FileArray' &&
+    schema[schemaKey].instanceOverride !== 'ImageArray' && schema[schemaKey].instance !== 'ImageArray' &&
+    schema[schemaKey].instanceOverride !== 'File' && schema[schemaKey].instance !== 'File' &&
+    schema[schemaKey].instanceOverride !== 'Image' && schema[schemaKey].instance !== 'Image' &&
+    schema[schemaKey].instanceOverride !== 'Wysiwyg' && schema[schemaKey].instance !== 'Wysiwyg' &&
+    schema[schemaKey].instanceOverride !== 'Embedded' && schema[schemaKey].instance !== 'Embedded' &&
+    schema[schemaKey].instanceOverride !== 'Array' && schema[schemaKey].instance !== 'Array' &&
+    schema[schemaKey].instanceOverride !== 'ObjectID' && schema[schemaKey].instance !== 'ObjectID' &&
+    schema[schemaKey].instanceOverride !== 'MultiSelect' && schema[schemaKey].instance !== 'MultiSelect' &&
+    schema[schemaKey].instanceOverride !== 'SingleSelect' && schema[schemaKey].instance !== 'SingleSelect' &&
+    schema[schemaKey].instanceOverride !== 'Disabled' && schema[schemaKey].instance !== 'Disabled' &&
+    schema[schemaKey].instanceOverride !== 'Hidden' && schema[schemaKey].instance !== 'Hidden' &&
+    schema[schemaKey].instanceOverride !== 'Date' && schema[schemaKey].instance !== 'Date' &&
+    schema[schemaKey].instanceOverride !== 'Number' && schema[schemaKey].instance !== 'Number' &&
+    schema[schemaKey].instanceOverride !== 'Boolean' && schema[schemaKey].instance !== 'Boolean'
+    ">
+      <app-formcontrol-input [embeddedGroupName]="embeddedGroupName" [forEmbedded]="forEmbedded" [form]="form" [field]="schemaKey" [inputType]="'text'" [displayName]="schema[schemaKey].displayName || schemaKey"></app-formcontrol-input>
+    </div>
+
+    <!-- Display validation errors -->
+    <control-errors [control]="form.controls[schemaKey]"></control-errors>
+  </div>
+</div>
