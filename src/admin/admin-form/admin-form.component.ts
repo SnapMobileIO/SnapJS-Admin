@@ -16,7 +16,7 @@ export class AdminFormComponent implements OnInit {
   @Input() schema: any = {};
   @Input() submitFunction: Function;
   @Input() embeddedGroupName: string;
-  @Input() originalForm: any;
+  @Input() forEmbedded: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,18 +25,19 @@ export class AdminFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.originalForm) {
-    //   console.log('*** use original form')
-    //   this.form = this.originalForm;
-    // } else {
-    //   console.log('*** new blank form')
-    //   this.form = new FormGroup({});
-    // }
+    if (!this.forEmbedded) {
+      console.log('**** this is NOT for an embedded schema')
+      this.form = new FormGroup({});
+      this.adminService.parentForm = this.form;
+    } else {
+      console.log('**** this IS for an embedded schema')
+      this.form = new FormGroup({});
+    }
 
+    // Set the schema keys
     if (this.schema) {
       this.schemaKeys = Object.keys(this.schema);
     }
-    this.form = new FormGroup({});
 
     // Remove hidden keys
     let i = this.schemaKeys.length;
@@ -97,6 +98,7 @@ export class AdminFormComponent implements OnInit {
         this.form.registerControl(key, new FormControl({value, disabled}, []));
       }
     });
+    console.log('*** this.form', this.form)
   }
 
   /**
@@ -108,7 +110,6 @@ export class AdminFormComponent implements OnInit {
    */
   buildEmbeddedGroup(parentFormGroup: FormGroup, schemaPath: string, schema: any) {
     if (schema && schema.obj) {
-      // pull this out to make it recursive
       parentFormGroup.registerControl(schemaPath, new FormGroup({}));
       const formGroup = <FormGroup> parentFormGroup.get(schemaPath);
       const childschemaPaths = Object.keys(schema.obj);
