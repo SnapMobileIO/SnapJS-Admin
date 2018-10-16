@@ -8,25 +8,14 @@ import { AdminService } from '../../admin.service';
   styleUrls: ['./formcontrol-input.component.scss'],
 })
 export class FormcontrolInputComponent {
-  @Input() form: FormGroup;
   @Input() field: string;
   @Input() displayName: string;
   @Input() inputType = 'input';
+  @Input() embeddedGroupName: string;
+  @Input() forEmbedded: boolean;
+  @Input() modelPath: string;
+
   constructor(
     public adminService: AdminService,
   ) {}
-
-  /**
-   * Update the form value for a boolean instance
-   * @param {any} formControlValue the form control value - should be a boolean or blank string
-   */
-  updateFormValue(formControlValue: any) {
-    if (this.inputType === 'checkbox') {
-      formControlValue = !formControlValue;
-
-      this.form.patchValue({
-        [this.field]: formControlValue,
-      });
-    }
-  }
 }

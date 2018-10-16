@@ -19,7 +19,6 @@ export class FormcontrolGroupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.schemaKeys = Object.keys(this.schema.paths);
   }
 
 }

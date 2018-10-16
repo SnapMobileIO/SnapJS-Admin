@@ -12,6 +12,7 @@ export class AdminService {
   schemaKeys: string[];
   tzOffsetInHours: any;
   wysiwygSettings: any;
+  object: any = {};
 
   constructor(
     private http: Http,

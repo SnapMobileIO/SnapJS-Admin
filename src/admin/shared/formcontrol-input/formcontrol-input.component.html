@@ -1,7 +1,10 @@
-<div [formGroup]="form" class="form-group">
+<div class="form-group">
   <label *ngIf="inputType !== 'hidden'" for="{{field}}" class="col-sm-2 control-label">{{displayName}}</label>
   <div class="col-sm-10">
-  <input [formControlName]="field" type="{{inputType}}" class="form-control" [checked]=form.controls[field].value (change)="updateFormValue(form.controls[field].value)">
+  <!-- <input *ngIf="!forEmbedded" type="{{inputType}}" class="form-control" [(ngModel)]="adminService.object[field]">
+  <input *ngIf="forEmbedded" type="{{inputType}}" class="form-control" [(ngModel)]="adminService.object[embeddedGroupName][field]"> -->
   <p class="text-muted" *ngIf="inputType === 'datetime-local'">timezone offset: {{adminService.tzOffsetInHours}}</p>
   </div>
+  <pre>{{adminService.object | json}}</pre>
+  <p>modelPath: {{modelPath}}</p>
 </div>
