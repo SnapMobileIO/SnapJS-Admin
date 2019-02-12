@@ -175,7 +175,7 @@
                     <!-- Array of embedded schemas or custom objects -->
                     <div *ngSwitchCase="'Array'">
                       <div class="truncate">
-                        <i class="text-muted" *ngIf="adminService.schema[schemaKey].caster._id">Embedded</i>
+                        <i class="text-muted" *ngIf="adminService.schema[schemaKey].schema.tree._id">Embedded</i>
                       </div>
                     </div>
 

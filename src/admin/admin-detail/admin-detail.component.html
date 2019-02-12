@@ -172,7 +172,7 @@
 
                 <!-- Array of embedded schemas or custom objects -->
                 <div *ngSwitchCase="'Array'">
-                  <div class="row" *ngIf="adminService.schema[key].caster._id">
+                  <div class="row" *ngIf="adminService.schema[key].schema.tree._id">
                     <div class="col-sm-2">
                       <label>{{adminService.schema[key].displayName || key}}: </label>
                     </div>
