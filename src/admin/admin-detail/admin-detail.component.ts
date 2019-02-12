@@ -18,7 +18,6 @@ export class AdminDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('hey hey hey');
     this.route.params
       .switchMap((params: Params) => {
         this.adminService.className = params.className;

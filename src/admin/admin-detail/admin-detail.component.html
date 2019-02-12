@@ -72,7 +72,7 @@
                 <!-- Select array of strings -->
                 <div *ngSwitchCase="'Array'">
                   <span 
-                    *ngIf="adminService.schema[key].caster.options && !adminService.schema[key].caster.options.ref">
+                    *ngIf="adminService.schema[key].caster && adminService.schema[key].caster.options && !adminService.schema[key].caster.options.ref">
                     <strong>{{key}}: </strong>
                     <app-display-array
                       [field]="adminService.schema[key].displayName || key"
@@ -117,7 +117,7 @@
                 <!-- Select array of relationships -->
                 <div *ngSwitchCase="'Array'">
                   <app-display-array-rel 
-                    *ngIf="adminService.schema[key].caster.options && adminService.schema[key].caster.options.ref"
+                    *ngIf="adminService.schema[key].caster && adminService.schema[key].caster.options && adminService.schema[key].caster.options.ref"
                     [className]="adminService.schema[key].caster.options.ref"
                     [displayKey]="adminService.schema[key].displayKey || adminService.schema[key].searchField"
                     [field]="adminService.schema[key].displayName || key"
@@ -172,7 +172,7 @@
 
                 <!-- Array of embedded schemas or custom objects -->
                 <div *ngSwitchCase="'Array'">
-                  <div class="row" *ngIf="adminService.schema[key].schema.tree._id">
+                  <div class="row" *ngIf="!adminService.schema[key].caster && adminService.schema[key].schema.tree.id">
                     <div class="col-sm-2">
                       <label>{{adminService.schema[key].displayName || key}}: </label>
                     </div>
