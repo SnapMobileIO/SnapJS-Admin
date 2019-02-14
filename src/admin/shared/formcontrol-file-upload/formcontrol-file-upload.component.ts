@@ -45,7 +45,7 @@ export class FormControlFileUploadComponent implements OnInit {
 
     this.uploader.onAfterAddingFile = (file) => {
       // here we are checking if the file size is larger than 100 Mb = 100000000
-      if (file.file.size > 100_000_000) {
+      if (file.file.size > 100000000) {
         this.directUpload = true;
       }
       // Add withCredentials = false to avoid CORS issues

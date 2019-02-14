@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { FormControl, FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AdminService } from '../admin.service';
@@ -34,6 +34,7 @@ export class AdminListComponent implements OnInit {
     private toastr: ToastsManager,
     private vRef: ViewContainerRef,
     private constants: ConstantsService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.toastr.setRootViewContainerRef(vRef);
   }
@@ -46,6 +47,7 @@ export class AdminListComponent implements OnInit {
       this.adminService.className = params.className;
       this.adminService.loadSchema()
         .then((response) => {
+          this.changeDetectorRef.markForCheck();
           this.findAll();
         });
     });

@@ -80,7 +80,7 @@ import { ConstantsService } from './constants.service';
     FormcontrolGroupComponent,
     FormcontrolTinymceComponent,
     FormControlFileUploadComponent,
-    FileDropComponent,    
+    FileDropComponent,
     ProgressBarComponent,
     AdminLayoutComponent,
   ],

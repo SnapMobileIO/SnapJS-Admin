@@ -133,7 +133,7 @@
                     <!-- Select array of strings -->
                     <div *ngSwitchCase="'Array'">
                       <app-display-array
-                        *ngIf="adminService.schema[schemaKey].caster.options && !adminService.schema[schemaKey].caster.options.ref && object[schemaKey]"
+                        *ngIf="adminService.schema[schemaKey].caster && adminService.schema[schemaKey].caster.options && !adminService.schema[schemaKey].caster.options.ref && object[schemaKey]"
                         [value]="object[schemaKey]"> 
                       </app-display-array>
                     </div>
@@ -160,7 +160,7 @@
                     <!-- Select array of relationships -->
                     <div *ngSwitchCase="'Array'">
                       <app-display-array-rel 
-                        *ngIf="adminService.schema[schemaKey].caster.options && adminService.schema[schemaKey].caster.options.ref"
+                        *ngIf="adminService.schema[schemaKey].caster && adminService.schema[schemaKey].caster.options && adminService.schema[schemaKey].caster.options.ref"
                         [className]="adminService.schema[schemaKey].caster.options.ref"
                         [displayKey]="adminService.schema[schemaKey].displayKey || adminService.schema[schemaKey].searchField"
                         [value]="object[schemaKey]">
@@ -174,8 +174,8 @@
 
                     <!-- Array of embedded schemas or custom objects -->
                     <div *ngSwitchCase="'Array'">
-                      <div class="truncate">
-                        <i class="text-muted" *ngIf="adminService.schema[schemaKey].caster._id">Embedded</i>
+                      <div class="truncate" *ngIf="!adminService.schema[schemaKey].caster && adminService.schema[schemaKey].schema.tree.id">
+                        <i class="text-muted">Embedded</i>
                       </div>
                     </div>
 
